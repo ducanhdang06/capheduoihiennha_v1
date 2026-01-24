@@ -8,6 +8,12 @@ The current version assumes **one size per drink**.
 
 ---
 
+### Overall Design
+
+![alt text](../images/database.png)
+
+---
+
 ### Tables Overview
 
 - categories
