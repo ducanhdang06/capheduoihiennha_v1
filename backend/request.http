@@ -1,0 +1,37 @@
+### Get all the drinks
+GET http://localhost:8080/api/drinks
+
+
+### Create a drink
+POST http://localhost:8080/api/drinks
+Content-Type: application/json
+
+{
+  "name": "Vanilla Latte",
+  "description": "Espresso with vanilla syrup and milk",
+  "price": 550,
+  "categoryId": 1,
+  "tags": ["hot", "sweet"],
+  "images": ["vanilla_latte_main.jpg"]
+}
+
+###
+
+### Update a drink
+PUT http://localhost:8080/api/drinks/1
+Content-Type: application/json
+
+{
+  "name": "Vanilla Iced Latte",
+  "description": "Chilled espresso with vanilla syrup",
+  "price": 575,
+  "categoryId": 1,
+  "tags": ["iced", "sweet"],
+  "images": ["vanilla_iced_latte.jpg"]
+}
+
+###
+
+### Delete a drink (soft delete)
+DELETE http://localhost:8080/api/drinks/1
+

@@ -21,6 +21,11 @@ public class Tag {
     @ManyToMany(mappedBy = "tags")
     private Set<Drink> drinks = new HashSet<>();
 
+
+    protected Tag() {
+
+    }
+
     public Tag(String name) {
         this.name = name;
     }

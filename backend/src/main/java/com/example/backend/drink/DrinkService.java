@@ -2,15 +2,23 @@ package com.example.backend.drink;
 
 import com.example.backend.category.Category;
 import com.example.backend.category.CategoryRepository;
+import com.example.backend.dto.DrinkRequest;
+import com.example.backend.dto.DrinkResponse;
 import com.example.backend.image.DrinkImage;
 import com.example.backend.tag.Tag;
 import com.example.backend.tag.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
+@Transactional
+// Transactional: keeps everything inside succeed / fail together
+// keep the db session open while it runs
 public class DrinkService {
 
     // need to have access to all tables to be able to create a drink
@@ -55,6 +63,7 @@ public class DrinkService {
      * @return DrinkResponse DTO
      * @throws EntityNotFoundException if drink doesn't exist
      */
+    @Transactional(readOnly = true)
     public DrinkResponse getDrinkById(Integer id) {
         // Fetch drink from database or throw exception if not found
         Drink drink = drinkRepository.findById(id)

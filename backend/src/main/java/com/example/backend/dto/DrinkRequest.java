@@ -1,4 +1,4 @@
-package com.example.backend.drink;
+package com.example.backend.dto;
 
 
 // this is and input DTO - input from client to the server

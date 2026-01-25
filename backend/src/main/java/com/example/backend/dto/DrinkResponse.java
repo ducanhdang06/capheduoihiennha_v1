@@ -1,4 +1,4 @@
-package com.example.backend.drink;
+package com.example.backend.dto;
 
 import java.util.List;
 

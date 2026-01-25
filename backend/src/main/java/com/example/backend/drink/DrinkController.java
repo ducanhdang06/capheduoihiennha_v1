@@ -1,5 +1,7 @@
 package com.example.backend.drink;
 
+import com.example.backend.dto.DrinkRequest;
+import com.example.backend.dto.DrinkResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,13 @@ public class DrinkController {
 
     @GetMapping("/{id}")
     public DrinkResponse getDrinkById(@PathVariable Integer id) {
-        return drinkService.getDrinkById(id);
+        try {
+            return drinkService.getDrinkById(id);
+        } catch (Exception e) {
+            // This will print the error in your console
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // -------------------- ADMIN --------------------
