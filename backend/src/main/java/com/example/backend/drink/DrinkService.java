@@ -190,6 +190,37 @@ public class DrinkService {
         drinkRepository.save(drink);
     }
 
+    // -------------------- SEARCH --------------------
+    @Transactional(readOnly = true)
+    public List<DrinkResponse> searchDrinks(
+            String name,
+            Integer categoryId,
+            String tag
+    ) {
+        List<Drink> drinks = drinkRepository.findAll(); // admin sees all
+
+        return drinks.stream()
+                // name search (partial, case-insensitive)
+                .filter(d ->
+                        name == null ||
+                                d.getName().toLowerCase().contains(name.toLowerCase())
+                )
+                // category filter
+                .filter(d ->
+                        categoryId == null ||
+                                d.getCategory().getId().equals(categoryId)
+                )
+                // tag filter
+                .filter(d ->
+                        tag == null ||
+                                d.getTags().stream()
+                                        .anyMatch(t -> t.getName().equalsIgnoreCase(tag))
+                )
+                .map(this::toResponse)
+                .toList();
+    }
+
+
     // -------------------- HELPERS --------------------
 
     /**
