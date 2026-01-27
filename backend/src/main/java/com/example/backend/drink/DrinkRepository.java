@@ -10,4 +10,6 @@ public interface DrinkRepository extends JpaRepository<Drink, Integer> {
     @Query("SELECT d FROM Drink d WHERE d.active = true")
     List<Drink> findAllActive();
 
+    boolean existsByNameIgnoreCase(String name);
+
 }

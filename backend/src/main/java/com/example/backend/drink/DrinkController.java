@@ -30,13 +30,7 @@ public class DrinkController {
 
     @GetMapping("/{id}")
     public DrinkResponse getDrinkById(@PathVariable Integer id) {
-        try {
-            return drinkService.getDrinkById(id);
-        } catch (Exception e) {
-            // This will print the error in your console
-            e.printStackTrace();
-            throw e;
-        }
+        return drinkService.getDrinkById(id);
     }
 
     // -------------------- ADMIN --------------------

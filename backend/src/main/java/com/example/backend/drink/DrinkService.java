@@ -4,6 +4,9 @@ import com.example.backend.category.Category;
 import com.example.backend.category.CategoryRepository;
 import com.example.backend.dto.DrinkRequest;
 import com.example.backend.dto.DrinkResponse;
+import com.example.backend.exception.BusinessException;
+import com.example.backend.exception.ErrorCodes;
+import com.example.backend.exception.NotFoundException;
 import com.example.backend.image.DrinkImage;
 import com.example.backend.tag.Tag;
 import com.example.backend.tag.TagRepository;
@@ -67,7 +70,7 @@ public class DrinkService {
     public DrinkResponse getDrinkById(Integer id) {
         // Fetch drink from database or throw exception if not found
         Drink drink = drinkRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
+                .orElseThrow(() -> new NotFoundException("Drink not found with id " + id, ErrorCodes.DRINK_NOT_FOUND));
 
         // Convert entity to DTO and return
         return toResponse(drink);
@@ -82,9 +85,19 @@ public class DrinkService {
      * @throws EntityNotFoundException if category doesn't exist
      */
     public DrinkResponse createDrink(DrinkRequest request) {
+
+        // prevent drink with similar names
+        if (drinkRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new BusinessException(
+                    "Drink already exists",
+                    ErrorCodes.DRINK_DUPLICATE
+            );
+        }
+
         // Step 1: Verify the category exists in the database
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Category not found"));
+                .orElseThrow(() -> new NotFoundException("Category not found with id " + request.getCategoryId(),
+                        ErrorCodes.CATEGORY_NOT_FOUND));
 
         // Step 2: Create new Drink entity and set basic fields
         Drink drink = new Drink();
@@ -116,11 +129,17 @@ public class DrinkService {
     public DrinkResponse updateDrink(Integer id, DrinkRequest request) {
         // Step 1: Fetch the existing drink from database
         Drink drink = drinkRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
+                .orElseThrow(() -> new NotFoundException(
+                        "Drink not found with id " + id,
+                        ErrorCodes.DRINK_NOT_FOUND
+                ));
 
         // Step 2: Verify the new category exists
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Category not found"));
+                .orElseThrow(() -> new NotFoundException(
+                        "Category not found with id " + request.getCategoryId(),
+                        ErrorCodes.CATEGORY_NOT_FOUND
+                ));
 
         // Step 3: Update basic fields with new values
         drink.setName(request.getName());
@@ -149,9 +168,20 @@ public class DrinkService {
      * @throws EntityNotFoundException if drink not found
      */
     public void deleteDrink(Integer id) {
+
         // Step 1: Fetch the drink to delete
         Drink drink = drinkRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
+                .orElseThrow(() -> new NotFoundException(
+                        "Drink not found with id " + id,
+                        ErrorCodes.DRINK_NOT_FOUND
+                ));
+
+        if (!drink.isActive()) {
+            throw new BusinessException(
+                    "Drink already inactive",
+                    ErrorCodes.DRINK_ALREADY_INACTIVE
+            );
+        }
 
         // Step 2: Mark as inactive (sets is_active = false)
         drink.deactivate();

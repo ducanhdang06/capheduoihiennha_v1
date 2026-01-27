@@ -35,3 +35,100 @@ Content-Type: application/json
 ### Delete a drink (soft delete)
 DELETE http://localhost:8080/api/drinks/1
 
+### =========================================
+### BASE URL
+### =========================================
+@baseUrl = http://localhost:8080
+
+
+### =========================================
+### 1️⃣ NOT FOUND → Get non-existent drink
+### =========================================
+GET {{baseUrl}}/api/drinks/99999
+
+
+### =========================================
+### 2️⃣ VALIDATION ERROR → Create drink (bad input)
+### =========================================
+POST {{baseUrl}}/api/drinks
+Content-Type: application/json
+
+{
+  "name": "",
+  "price": -5,
+  "categoryId": null
+}
+
+
+### =========================================
+### 3️⃣ CREATE A VALID DRINK (SETUP)
+### =========================================
+POST {{baseUrl}}/api/drinks
+Content-Type: application/json
+
+{
+  "name": "Iced Latte",
+  "price": 500,
+  "categoryId": 1
+}
+
+
+### =========================================
+### 4️⃣ BUSINESS RULE → Duplicate drink
+### =========================================
+POST {{baseUrl}}/api/drinks
+Content-Type: application/json
+
+{
+  "name": "iced latte",
+  "price": 500,
+  "categoryId": 1
+}
+
+
+### =========================================
+### 5️⃣ NOT FOUND → Invalid category
+### =========================================
+POST {{baseUrl}}/api/drinks
+Content-Type: application/json
+
+{
+  "name": "Cold Brew",
+  "price": 600,
+  "categoryId": 999
+}
+
+
+### =========================================
+### 6️⃣ UPDATE → Non-existent drink
+### =========================================
+PUT {{baseUrl}}/api/drinks/999
+Content-Type: application/json
+
+{
+  "name": "Espresso",
+  "price": 400,
+  "categoryId": 1
+}
+
+
+### =========================================
+### 7️⃣ DELETE → Non-existent drink
+### =========================================
+DELETE {{baseUrl}}/api/drinks/999
+
+
+### =========================================
+### 8️⃣ DELETE → Already inactive drink (optional)
+### Run twice to trigger 409 on second call
+### =========================================
+DELETE {{baseUrl}}/api/drinks/1
+
+
+### =========================================
+### 9️⃣ UNEXPECTED ERROR → 500 (DEV ONLY)
+### Temporarily throw RuntimeException in service
+### =========================================
+GET {{baseUrl}}/api/drinks/1
+
+
