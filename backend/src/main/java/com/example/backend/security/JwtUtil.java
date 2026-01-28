@@ -3,6 +3,7 @@ package com.example.backend.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +14,20 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET =
-            "change-this-secret-to-env-var-32chars-min";
+    private final byte[] secret;
+    private final long expirationMs;
 
-    private static final long EXPIRATION_MS = 15 * 60 * 1000;
+    public JwtUtil(
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.expiration-ms}") long expirationMs
+    ) {
+        this.secret = secret.getBytes(StandardCharsets.UTF_8);
+        this.expirationMs = expirationMs;
+    }
 
     public String generateToken(UserDetails user) {
 
-        SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+        SecretKey key = Keys.hmacShaKeyFor(secret);
         return Jwts.builder()
                 .subject(user.getUsername())
                 .claim(
@@ -32,17 +39,16 @@ public class JwtUtil {
                 )
                 .issuedAt(new Date())
                 .expiration(
-                        new Date(System.currentTimeMillis() + EXPIRATION_MS)
+                        new Date(System.currentTimeMillis() + expirationMs)
                 )
                 .signWith(key)
                 .compact();
     }
 
     public Claims parseToken(String token) {
-        SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.parser()
-                .verifyWith(key)  // Use verifyWith instead of setSigningKey
+                .verifyWith(Keys.hmacShaKeyFor(secret))  // Use verifyWith instead of setSigningKey
                 .build()
                 .parseSignedClaims(token)  // Use parseSignedClaims instead of parseClaimsJws
                 .getPayload();  // Use getPayload instead of getBody

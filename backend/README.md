@@ -121,3 +121,8 @@ The following resources are managed internally and do not have standalone APIs:
 - **Tags and images are managed through drinks** — no separate endpoints
 - **Soft deletes are used** — data is never permanently removed
 - **DTOs are used** — clear separation between request/response and domain models
+
+
+POST   /api/admin/users              → create MANAGER
+PATCH  /api/admin/users/{id}/password → reset password
+PATCH  /api/admin/users/{id}/disable  → disable / enable
