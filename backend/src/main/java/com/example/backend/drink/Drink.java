@@ -4,6 +4,7 @@ import com.example.backend.category.Category;
 import com.example.backend.image.DrinkImage;
 import com.example.backend.tag.Tag;
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class Drink {
     // orphan removal: if an image is removed from the list, delete from the database
     @OneToMany(mappedBy = "drink", cascade = CascadeType.ALL, orphanRemoval = true)
     // use a list because order matters
+    @BatchSize(size = 20)
     private List<DrinkImage> images = new ArrayList<>();
 
     // PrePersist: run when a new drink is added

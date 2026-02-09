@@ -5,13 +5,17 @@ import com.example.backend.drink.Drink;
 public record DrinkMenuResponse(
         Integer id,
         String name,
-        Integer price
+        Integer price,
+        String imageUrl
 ) {
     public DrinkMenuResponse(Drink drink) {
         this(
                 drink.getId(),
                 drink.getName(),
-                drink.getPrice()
+                drink.getPrice(),
+                drink.getImages().isEmpty()
+                        ? null
+                        : drink.getImages().getFirst().getImageUrl()
         );
     }
 }
