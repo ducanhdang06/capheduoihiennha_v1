@@ -1,16 +1,16 @@
 import React from "react";
 import testImg from "../../assets/drinkTestImg.png";
-import "./DrinkCard.css";
+import "../../styles/MenuPage.css";
 
 export default function DrinkCard({ data }) {
   return (
-    <div class="drink-card">
-      <div class="drink-img-container">
-        <img src={data.images[0]} alt="Cappuccino" class="drink-img" />
+    <div className="drink-card">
+      <div className="drink-card__img-container">
+        <img src={data.imageUrl} alt="Cappuccino" className="drink-card__img"/>
       </div>
-      <div class="drink-info">
-        <h3 class="drink-name">{data.name}</h3>
-        <p class="drink-price">{data.price}đ</p>
+      <div className="drink-card__info">
+        <h3 className="drink-card__name">{data.name}</h3>
+        <p className="drink-card__price">{data.price}đ</p>
       </div>
     </div>
   );
