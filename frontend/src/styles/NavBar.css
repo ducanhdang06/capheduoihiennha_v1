@@ -1,0 +1,225 @@
+/* Navbar Container */
+.navbar {
+  background-color: #fef7e1;
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;          /* Add this */
+  box-sizing: border-box;  /* Add this - important! */
+}
+
+/* Logo Styling */
+.navbar .logo {
+  height: 50px;
+  width: auto;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Hamburger Menu Button - Hidden on Desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background-color: #4a4a4a;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger Animation when Active */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(10.5px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-10.5px) rotate(-45deg);
+}
+
+/* Navigation Links Container */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+/* Navigation Links */
+.nav-links a {
+  text-decoration: none;
+  color: #4a4a4a;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect for Links */
+.nav-links a:hover {
+  color: #6f4e37; /* Coffee brown color */
+  background-color: #e5e7eb;
+}
+
+/* Special Styling for Login Button */
+.nav-links a[href="/login"] {
+  background-color: #6f4e37; /* Coffee brown */
+  color: #ffffff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+}
+
+.nav-links a[href="/login"]:hover {
+  background-color: #5a3d2b; /* Darker coffee brown */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(111, 78, 55, 0.3);
+}
+
+/* Tablet Screens (768px - 1024px) */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 1rem 2rem;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  .nav-links a {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Mobile Screens (up to 768px) */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 1.5rem;
+  }
+
+  .navbar .logo {
+    height: 40px;
+  }
+
+  /* Show Hamburger Menu */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Hide Navigation Links by Default on Mobile */
+  .nav-links {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    flex-direction: column;
+    background-color: #fef7e1;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    padding-top: 5rem;
+    gap: 0;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Show Navigation Links when Active */
+  .nav-links.active {
+    left: 0;
+  }
+
+  /* Mobile Navigation Links Styling */
+  .nav-links a {
+    width: 100%;
+    padding: 1.2rem 0rem;
+    border-radius: 0;
+    font-size: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .nav-links a:hover {
+    background-color: #f5e6c3;
+  }
+
+  /* Login Button Mobile Styling */
+  .nav-links a[href="/login"] {
+    background-color: #6f4e37;
+    color: #ffffff;
+    margin: 1.5rem 2rem;
+    width: calc(100% - 4rem);
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    border-bottom: none;
+  }
+
+  .nav-links a[href="/login"]:hover {
+    transform: none;
+    background-color: #5a3d2b;
+  }
+}
+
+/* Add Overlay when Menu is Open on Mobile */
+@media (max-width: 768px) {
+  /* Remove the ::before overlay approach */
+  
+  /* Instead, make sure nav-links has proper z-index */
+  .nav-links {
+    z-index: 1002; /* Add this to the existing .nav-links rule in mobile section */
+  }
+}
+
+/* Small Mobile Screens (up to 480px) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar .logo {
+    height: 35px;
+  }
+
+  .nav-links {
+    width: 80%;
+  }
+}
+
+/* Overlay - add this as a separate element in your JSX */
+@media (max-width: 768px) {
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+  
+  .menu-overlay.active {
+    display: block;
+  }
+}
