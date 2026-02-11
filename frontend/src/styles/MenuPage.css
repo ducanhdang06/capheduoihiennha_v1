@@ -3,7 +3,7 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
-  background-color: #fef8e2;
+  background: linear-gradient(135deg, #fef7e1 0%, #f5e6c3 100%);
 }
 
 .menu-page {

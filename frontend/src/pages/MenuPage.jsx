@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { getDrinks } from "../api/drink.api";
 import { getAllDrinks } from "../api/drink.api";
 import { getCategoryDrinksMenu } from "../api/drink.api";
-import DrinkCard from "../components/DrinkCard/DrinkCard";
+import DrinkCard from "../components/MenuPage/DrinkCard";
 import "../styles/MenuPage.css";
-import CategoryCard from "../components/CategoryCard/Category";
-import MenuHero from "../components/MenuHero/MenuHero";
+import CategoryCard from "../components/MenuPage/Category";
+import MenuHero from "../components/MenuPage/MenuHero";
 
 export default function MenuPage() {
   const [categories, setCategories] = useState([]);

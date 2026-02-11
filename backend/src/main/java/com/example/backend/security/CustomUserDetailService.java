@@ -32,10 +32,6 @@ public class CustomUserDetailService implements UserDetailsService {
             throw new DisabledException("User account disabled");
         }
 
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword()) // BCrypt hash
-                .roles(user.getRole().name())
-                .build();
+        return user;
     }
 }

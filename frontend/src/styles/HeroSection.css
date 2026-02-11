@@ -1,0 +1,151 @@
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero {
+  position: relative;
+  height: 100vh;
+
+  /* Desktop image */
+  background-image: url("../assets/hero-big.webp");
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
+  padding: 18vh 8% 0 8%;
+  justify-content: flex-start;
+
+  padding: 0 8%;
+}
+
+/* Mobile image switch */
+@media (max-width: 768px) {
+  .hero {
+    background-image: url("src/assets/hero-small.webp");
+    height: 90vh;
+    background-position: center 40%;
+    padding: 0 6%;
+  }
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  /* Light cinematic overlay */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.28),
+    rgba(0, 0, 0, 0.18)
+  );
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  color: white;
+  text-align: left;
+  transform: translateY(-5%);
+}
+
+.hero-content h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4vw, 4.2rem);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.hero-content p {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 300;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* Primary CTA */
+.btn-primary {
+  font-family: var(--font-body);
+  padding: 12px 28px;
+
+  background: #fef7e1; /* warm latte tone */
+  color: #2c1e12;
+
+  border-radius: 2px;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #6f4e37;
+  color: white;
+  /* transform: translateY(-2px); */
+}
+
+/* Secondary CTA */
+.btn-secondary {
+  font-family: var(--font-body);
+  padding: 12px 28px;
+
+  border: 1px solid white;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: white;
+  color: #2c1e12;
+}
+
+/* Mobile button stacking */
+@media (max-width: 768px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.hero-tagline {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  font-style: italic;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.hero-tagline span {
+  font-weight: 600;
+}

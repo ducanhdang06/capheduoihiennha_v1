@@ -1,24 +1,30 @@
 /* Navbar Container */
 .navbar {
   background-color: #fef7e1;
-  padding: 1rem 3rem;
+  padding: 0.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(111, 78, 55, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
-  width: 100%;          /* Add this */
-  box-sizing: border-box;  /* Add this - important! */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Logo Styling */
 .navbar .logo {
-  height: 50px;
+  height: 45px;
   width: auto;
   cursor: pointer;
-  z-index: 1001;
+  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 999;
+}
+
+.navbar .logo:hover {
+  transform: scale(1.05);
 }
 
 /* Hamburger Menu Button - Hidden on Desktop */
@@ -26,26 +32,27 @@
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 30px;
-  height: 24px;
+  width: 28px;
+  height: 22px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1001;
+  z-index: 1002;
+  position: relative;
 }
 
 .hamburger span {
   width: 100%;
   height: 3px;
-  background-color: #4a4a4a;
+  background-color: #6f4e37;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
 
 /* Hamburger Animation when Active */
 .hamburger.active span:nth-child(1) {
-  transform: translateY(10.5px) rotate(45deg);
+  transform: translateY(9.5px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -53,14 +60,14 @@
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: translateY(-10.5px) rotate(-45deg);
+  transform: translateY(-9.5px) rotate(-45deg);
 }
 
 /* Navigation Links Container */
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   align-items: center;
@@ -70,54 +77,87 @@
 .nav-links a {
   text-decoration: none;
   color: #4a4a4a;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 /* Hover Effect for Links */
 .nav-links a:hover {
-  color: #6f4e37; /* Coffee brown color */
-  background-color: #e5e7eb;
+  color: #6f4e37;
+  background-color: rgba(111, 78, 55, 0.08);
 }
 
 /* Special Styling for Login Button */
 .nav-links a[href="/login"] {
-  background-color: #6f4e37; /* Coffee brown */
+  background-color: #6f4e37;
   color: #ffffff;
-  padding: 0.6rem 1.5rem;
-  border-radius: 25px;
+  padding: 0.55rem 1.3rem;
+  border-radius: 20px;
   font-weight: 600;
+  margin-left: 0.5rem;
 }
 
 .nav-links a[href="/login"]:hover {
-  background-color: #5a3d2b; /* Darker coffee brown */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(111, 78, 55, 0.3);
+  background-color: #5a3d2b;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(111, 78, 55, 0.25);
+}
+
+/* Logout Button Styling */
+.logout-btn {
+  background-color: transparent;
+  color: #4a4a4a;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 2px solid #6f4e37;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+
+.logout-btn:hover {
+  background-color: #6f4e37;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(111, 78, 55, 0.25);
 }
 
 /* Tablet Screens (768px - 1024px) */
 @media (max-width: 1024px) {
   .navbar {
-    padding: 1rem 2rem;
+    padding: 0.75rem 1.5rem;
   }
 
   .nav-links {
-    gap: 1.5rem;
+    gap: 0.3rem;
   }
 
   .nav-links a {
-    font-size: 0.95rem;
-    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    padding: 0.45rem 0.85rem;
+  }
+
+  .nav-links a[href="/login"] {
+    padding: 0.5rem 1.1rem;
+  }
+
+  .logout-btn {
+    font-size: 0.9rem;
+    padding: 0.45rem 0.9rem;
   }
 }
 
 /* Mobile Screens (up to 768px) */
 @media (max-width: 768px) {
   .navbar {
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1.25rem;
   }
 
   .navbar .logo {
@@ -136,13 +176,15 @@
     top: 0;
     flex-direction: column;
     background-color: #fef7e1;
-    width: 70%;
-    max-width: 300px;
+    width: 75%;
+    max-width: 320px;
     height: 100vh;
-    padding-top: 5rem;
+    padding: 5rem 0 2rem 0;
     gap: 0;
     transition: left 0.3s ease;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 0 15px rgba(111, 78, 55, 0.15);
+    z-index: 1001;
+    overflow-y: auto;
   }
 
   /* Show Navigation Links when Active */
@@ -151,75 +193,106 @@
   }
 
   /* Mobile Navigation Links Styling */
-  .nav-links a {
+  .nav-links li {
     width: 100%;
-    padding: 1.2rem 0rem;
+    padding: 0;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 1.1rem 2rem;
     border-radius: 0;
     font-size: 1rem;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgba(111, 78, 55, 0.1);
+    margin: 0;
+    text-align: left;
+    box-sizing: border-box;
   }
 
   .nav-links a:hover {
-    background-color: #f5e6c3;
+    background-color: rgba(111, 78, 55, 0.12);
+    color: #6f4e37;
   }
 
   /* Login Button Mobile Styling */
   .nav-links a[href="/login"] {
     background-color: #6f4e37;
     color: #ffffff;
-    margin: 1.5rem 2rem;
-    width: calc(100% - 4rem);
+    margin: 1.5rem 1.5rem 0.5rem 1.5rem;
+    width: calc(100% - 3rem);
     text-align: center;
-    padding: 0.8rem 1.5rem;
+    padding: 1rem 1.5rem;
     border-radius: 25px;
     border-bottom: none;
+    box-sizing: border-box;
   }
 
   .nav-links a[href="/login"]:hover {
     transform: none;
     background-color: #5a3d2b;
   }
+
+  /* Logout Button Mobile Styling */
+  .logout-btn {
+    width: calc(100% - 3rem);
+    padding: 1rem 1.5rem;
+    margin: 0.5rem 1.5rem 1rem 1.5rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .logout-btn:hover {
+    transform: none;
+  }
 }
 
-/* Add Overlay when Menu is Open on Mobile */
-@media (max-width: 768px) {
-  /* Remove the ::before overlay approach */
-  
-  /* Instead, make sure nav-links has proper z-index */
-  .nav-links {
-    z-index: 1002; /* Add this to the existing .nav-links rule in mobile section */
-  }
+/* Overlay when Menu is Open on Mobile */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+.menu-overlay.active {
+  display: block;
 }
 
 /* Small Mobile Screens (up to 480px) */
 @media (max-width: 480px) {
   .navbar {
-    padding: 0.8rem 1rem;
+    padding: 0.65rem 1rem;
   }
 
   .navbar .logo {
-    height: 35px;
+    height: 36px;
   }
 
   .nav-links {
-    width: 80%;
+    width: 85%;
+    max-width: 280px;
   }
 }
 
-/* Overlay - add this as a separate element in your JSX */
-@media (max-width: 768px) {
-  .menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none;
+/* Extra Small Screens (up to 375px) */
+@media (max-width: 375px) {
+  .navbar {
+    padding: 0.6rem 0.85rem;
   }
-  
-  .menu-overlay.active {
-    display: block;
+
+  .navbar .logo {
+    height: 34px;
+  }
+
+  .nav-links {
+    width: 90%;
   }
 }

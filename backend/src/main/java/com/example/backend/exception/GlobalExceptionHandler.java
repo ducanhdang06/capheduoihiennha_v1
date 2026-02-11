@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
     // handle when everything else crashed and not handled above
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleUnexpected(Exception ex) {
+        ex.printStackTrace();
         ApiError error = new ApiError (
                 500,
                 "INTERNAL_ERROR",

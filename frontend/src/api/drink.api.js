@@ -7,6 +7,6 @@ export async function getAllDrinks () {
     return res.data;
 }
 
-export const getCategoryDrinksMenu = () => {
+export async function getCategoryDrinksMenu () {
   return api.get("/menu").then(res => res.data);
 };
