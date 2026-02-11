@@ -23,7 +23,7 @@ export default function MenuPage() {
 
   return (
     <main className="menu">
-      <div className="menu-hero">
+      <div className="menu_hero">
         <MenuHero />
       </div>
       <div className="menu__category-list">

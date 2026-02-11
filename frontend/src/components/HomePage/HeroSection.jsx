@@ -8,12 +8,19 @@ export default function HeroSection() {
 
       <div className="hero-content">
         <h1>Tiệm Cà Phê Dưới Hiên Nhà</h1>
-        <p className="hero-tagline" >Một góc <span>Đà Lạt</span> giữa lòng <span>Cửa Lò</span></p>
+        <p className="hero-tagline">
+          Một góc <span>Đà Lạt</span> giữa lòng <span>Cửa Lò</span>
+        </p>
 
         <div className="hero-actions">
-          <Link to="/visit" className="btn-primary">
+          <a
+            href="https://www.google.com/maps/place/..."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
             Ghé Quán
-          </Link>
+          </a>
 
           <Link to="/menu" className="btn-secondary">
             Xem Menu

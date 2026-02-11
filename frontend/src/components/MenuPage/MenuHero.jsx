@@ -1,6 +1,6 @@
 import React from "react";
 import testImg from "../../assets/drinkTestImg.png";
-import "../../styles/MenuPage.css";
+import "../../styles/MenuHero.css";
 
 export default function MenuHero() {
   return (
