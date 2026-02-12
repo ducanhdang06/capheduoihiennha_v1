@@ -89,7 +89,7 @@ body {
   flex-direction: column;
   overflow: hidden;
 
-  border-radius: 12px;
+  border-radius: 6px;
   background-color: #ffffff;
 
   transition: box-shadow 0.2s ease, transform 0.2s ease;

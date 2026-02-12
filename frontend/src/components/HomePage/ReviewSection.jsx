@@ -4,7 +4,7 @@ import "../../styles/ReviewSection.css";
 export default function ReviewSection() {
   return (
     <section className="reviews">
-      <h2 className="reviews-title">Khách Hàng Nói Gì</h2>
+      <h2 className="home-section-title">Reviews</h2>
 
       <div className="marquee">
         <div className="marquee-track">

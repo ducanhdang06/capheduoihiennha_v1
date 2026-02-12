@@ -1,0 +1,331 @@
+/* ═══════════════════════════════════════════════════════════════
+   SIGNATURE DRINKS SECTION - EDITORIAL STYLE
+   Uses your existing site fonts: Playfair Display & Inter
+   ═══════════════════════════════════════════════════════════════ */
+
+.signature-drinks-section {
+  font-family: var(--font-body);
+  background: #f7f4ef;
+  color: #2a2420;
+  padding: clamp(3rem, 8vw, 2rem) clamp(1rem, 4vw, 2rem);
+  min-height: 100vh;
+}
+
+.signature-drinks-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════════ */
+
+.signature-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+/* .signature-header h1 {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 400;
+  color: #2a2420;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+} */
+
+.signature-header p {
+  font-size: 1.1rem;
+  color: #6b5d52;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DRINKS GRID - 3 PORTRAIT IMAGES SIDE-BY-SIDE
+   ═══════════════════════════════════════════════════════════════
+   
+   Desktop Layout:
+   ┌─────────┬─────────┬─────────┐
+   │         │         │         │
+   │ DRINK 1 │ DRINK 2 │ DRINK 3 │
+   │         │         │         │
+   └─────────┴─────────┴─────────┘
+   
+   Mobile: Stacks vertically
+   
+   ═══════════════════════════════════════════════════════════════ */
+
+.drinks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.drink-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 650px;
+}
+
+.drink-card:hover {
+  transform: scale(0.98);
+}
+
+/* All drinks display equally side-by-side */
+.drink-1,
+.drink-2,
+.drink-3 {
+  grid-column: auto;
+  grid-row: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DRINK IMAGES
+   ═══════════════════════════════════════════════════════════════ */
+
+.drink-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+
+.drink-card:hover .drink-image {
+  transform: scale(1.05);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TEXT OVERLAY
+   ═══════════════════════════════════════════════════════════════ */
+
+.drink-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem;
+  background: linear-gradient(
+    to top,
+    rgba(42, 36, 32, 0.95) 0%,
+    rgba(42, 36, 32, 0.7) 60%,
+    transparent 100%
+  );
+  color: white;
+  transform: translateY(0);
+  transition: transform 0.4s ease;
+}
+
+.drink-card:hover .drink-overlay {
+  transform: translateY(-10px);
+}
+
+.drink-number {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.drink-title {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.drink-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: 0.95;
+  max-width: 500px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CTA BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+
+.cta-container {
+  text-align: center;
+}
+
+.cta-button {
+  display: inline-block;
+  margin-top: 3rem;
+  padding: 1.2rem 3rem;
+  background: #2a2420;
+  color: #f9f7f4;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #2a2420;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button:hover {
+  background: transparent;
+  color: #2a2420;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(42, 36, 32, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE - TABLET
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .drinks-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .drink-card {
+    height: 550px;
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE - MOBILE (PHONES & SMALL TABLETS)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .drinks-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .drink-card {
+    height: 500px;
+  }
+
+  .signature-header h1 {
+    font-size: 3rem;
+  }
+
+  .signature-header p {
+    font-size: 1rem;
+  }
+
+  /* MOBILE TEXT OVERLAY OPTIMIZATION */
+  .drink-overlay {
+    padding: 1.5rem;
+    background: linear-gradient(
+      to top,
+      rgba(42, 36, 32, 0.92) 0%,
+      rgba(42, 36, 32, 0.5) 50%,
+      transparent 100%
+    );
+  }
+
+  .drink-number {
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.3rem;
+  }
+
+  .drink-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+
+  .drink-description {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
+  .drink-card {
+    min-height: 450px;
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE - EXTRA SMALL PHONES
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  .drink-card {
+    height: 450px;
+  }
+
+  .signature-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .signature-header p {
+    font-size: 0.95rem;
+  }
+
+  .drink-overlay {
+    padding: 1.25rem;
+    background: linear-gradient(
+      to top,
+      rgba(42, 36, 32, 0.9) 0%,
+      rgba(42, 36, 32, 0.4) 45%,
+      transparent 100%
+    );
+  }
+
+  .drink-number {
+    font-size: 0.6rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .drink-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .drink-description {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .cta-button {
+    padding: 0.9rem 1.8rem;
+    font-size: 0.8rem;
+  }
+}

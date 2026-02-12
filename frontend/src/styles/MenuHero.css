@@ -7,7 +7,7 @@
   height: 80vh; /* smaller than homepage hero */
   background-image: url("../assets/hero_menu.jpg");
   background-size: cover;
-  background-position: center center;
+  background-position: center 40%;
   width: 100%;
   display: flex;
   justify-content: flex-start;

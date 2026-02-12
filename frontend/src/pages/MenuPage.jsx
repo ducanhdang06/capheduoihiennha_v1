@@ -22,15 +22,15 @@ export default function MenuPage() {
   }, []);
 
   return (
-    <main className="menu">
-      <div className="menu_hero">
-        <MenuHero />
-      </div>
-      <div className="menu__category-list">
-        {categories.map((category) => (
-          <CategoryCard key={category.id} data={category} />
-        ))}
-      </div>
-    </main>
+    <>
+      <MenuHero />
+      <main className="menu">
+        <div className="menu__category-list">
+          {categories.map((category) => (
+            <CategoryCard key={category.id} data={category} />
+          ))}
+        </div>
+      </main>
+    </>
   );
 }

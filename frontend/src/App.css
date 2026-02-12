@@ -36,3 +36,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.home-section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  text-align: center;
+  color: #2a2420;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+

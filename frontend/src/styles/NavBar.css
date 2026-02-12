@@ -82,7 +82,7 @@
   font-size: 0.95rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
@@ -98,7 +98,7 @@
   background-color: #6f4e37;
   color: #ffffff;
   padding: 0.55rem 1.3rem;
-  border-radius: 20px;
+  border-radius: 6px;
   font-weight: 600;
   margin-left: 0.5rem;
 }
@@ -117,7 +117,7 @@
   font-weight: 500;
   padding: 0.5rem 1rem;
   border: 2px solid #6f4e37;
-  border-radius: 20px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -225,7 +225,7 @@
     width: calc(100% - 3rem);
     text-align: center;
     padding: 1rem 1.5rem;
-    border-radius: 25px;
+    border-radius: 6px;
     border-bottom: none;
     box-sizing: border-box;
   }
@@ -240,7 +240,7 @@
     width: calc(100% - 3rem);
     padding: 1rem 1.5rem;
     margin: 0.5rem 1.5rem 1rem 1.5rem;
-    border-radius: 25px;
+    border-radius: 6px;
     font-size: 1rem;
     text-align: center;
     box-sizing: border-box;

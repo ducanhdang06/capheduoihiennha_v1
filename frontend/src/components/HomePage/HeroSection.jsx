@@ -14,7 +14,7 @@ export default function HeroSection() {
 
         <div className="hero-actions">
           <a
-            href="https://www.google.com/maps/place/..."
+            href="https://maps.app.goo.gl/2katF9EBMjM2Agwe9"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary"
