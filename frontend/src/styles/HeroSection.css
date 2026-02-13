@@ -22,7 +22,7 @@
 /* Mobile image switch */
 @media (max-width: 768px) {
   .hero {
-    background-image: url("src/assets/hero-small.webp");
+    background-image: url("../assets/hero-small.webp");
     height: 90vh;
     background-position: center 40%;
     padding: 0 6%;
