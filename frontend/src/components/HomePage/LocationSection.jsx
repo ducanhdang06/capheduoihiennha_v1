@@ -2,7 +2,7 @@ import "../../styles/LocationSection.css";
 
 export default function LocationSection() {
   return (
-    <section className="location">
+    <section className="location" id="location">
       {/* Section Title */}
       <h2 className="home-section-title">Địa Chỉ & Giờ Mở Cửa</h2>
 

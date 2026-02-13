@@ -23,7 +23,9 @@ export default function NavBar() {
 
   return (
     <div className="navbar">
-      <img src={logo} alt="Logo" className="logo" />
+      <Link to="/">
+        <img src={logo} alt="Logo" className="logo" />
+      </Link>
 
       <button
         className={`hamburger ${isMenuOpen ? "active" : ""}`}

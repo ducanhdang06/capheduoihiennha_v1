@@ -83,7 +83,7 @@ body {
    DRINK CARD
 ====================================================== */
 
-.drink-card {
+.menu-drink-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -95,7 +95,7 @@ body {
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.drink-card:hover {
+.menu-drink-card:hover {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 

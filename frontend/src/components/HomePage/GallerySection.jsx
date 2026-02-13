@@ -7,12 +7,16 @@ import gallery5 from "../../assets/gallery/gallery-5.webp";
 import gallery6 from "../../assets/gallery/gallery-6.webp";
 import gallery7 from "../../assets/gallery/gallery-7.webp";
 import gallery8 from "../../assets/gallery/gallery-8.webp";
-import "../../styles/GallerySection.css"
+import "../../styles/GallerySection.css";
 
 export default function GallerySection() {
+  // Reference to the gallery container (used for scrolling)
   const galleryRef = useRef(null);
+  // check if the user is dragging or not
   const [isDragging, setIsDragging] = useState(false);
+  // Store the initial mouse X position when drag starts
   const [startX, setStartX] = useState(0);
+  // Store the scroll position of the container before dragging
   const [scrollLeft, setScrollLeft] = useState(0);
 
   // Array of your gallery images
@@ -29,20 +33,38 @@ export default function GallerySection() {
 
   // Mouse drag functionality for desktop
   const handleMouseDown = (e) => {
-    if (window.innerWidth >= 1024) return; // Disable dragging on desktop grid
+    // Disable dragging if screen is desktop (>=1024px)
+    if (window.innerWidth >= 1024) return;
+
+    // Set dragging state to true
     setIsDragging(true);
+
+    // Record where the mouse started
     setStartX(e.pageX - galleryRef.current.offsetLeft);
+
+    // Record the scroll position before dragging starts
     setScrollLeft(galleryRef.current.scrollLeft);
   };
 
+  // When mouse moves
   const handleMouseMove = (e) => {
+    // only move when the user is dragging
     if (!isDragging) return;
+
+    // prevent default behaviour
     e.preventDefault();
+
+    // current mouse position
     const x = e.pageX - galleryRef.current.offsetLeft;
+
+    // calculate how far the user drag
     const walk = (x - startX) * 2;
+
+    // scroll the gallery container
     galleryRef.current.scrollLeft = scrollLeft - walk;
   };
 
+  // when the mouse is released
   const handleMouseUp = () => {
     setIsDragging(false);
   };
@@ -50,17 +72,20 @@ export default function GallerySection() {
   useEffect(() => {
     const gallery = galleryRef.current;
     if (gallery) {
+      // Add mouse event listeners directly to container
       gallery.addEventListener("mousemove", handleMouseMove);
       gallery.addEventListener("mouseup", handleMouseUp);
       gallery.addEventListener("mouseleave", handleMouseUp);
 
       return () => {
+        // Cleanup when component unmounts or dependencies change
         gallery.removeEventListener("mousemove", handleMouseMove);
         gallery.removeEventListener("mouseup", handleMouseUp);
         gallery.removeEventListener("mouseleave", handleMouseUp);
       };
     }
   }, [isDragging, startX, scrollLeft]);
+  // Re-run effect when dragging state or positions change
 
   return (
     <section className="gallery-section">

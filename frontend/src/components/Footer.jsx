@@ -42,7 +42,7 @@ export default function Footer() {
             <a href="https://www.facebook.com/p/Ti%E1%BB%87m-C%C3%A0-Ph%C3%AA-D%C6%B0%E1%BB%9Bi-Hi%C3%AAn-Nh%C3%A0-61577960040967/" target="_blank" rel="noopener noreferrer">
               <FaFacebookF />
             </a>
-            <a href="https://www.facebook.com/p/Ti%E1%BB%87m-C%C3%A0-Ph%C3%AA-D%C6%B0%E1%BB%9Bi-Hi%C3%AAn-Nh%C3%A0-61577960040967/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.tiktok.com/@cafeduoihiennha" target="_blank" rel="noopener noreferrer">
               <FaTiktok />
             </a>
           </div>

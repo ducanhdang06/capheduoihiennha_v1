@@ -4,7 +4,7 @@ import "../../styles/MenuPage.css";
 
 export default function DrinkCard({ data }) {
   return (
-    <div className="drink-card">
+    <div className="menu-drink-card">
       <div className="drink-card__img-container">
         <img src={data.imageUrl} alt="Cappuccino" className="drink-card__img"/>
       </div>
