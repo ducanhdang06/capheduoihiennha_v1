@@ -1,3 +1,8 @@
+import drink1 from "../assets/feat-drink-1-small.jpg"
+import drink2 from "../assets/feat-drink-2.jpg"
+import drink3 from "../assets/feat-drink-3.png"
+
+
 export const featuredDrinks = [
   {
     id: 1,
@@ -5,7 +10,7 @@ export const featuredDrinks = [
     title: "Matcha Latte",
     description:
       "Matcha thượng hạng được đánh mịn cùng bạc hà tươi, phủ lớp kem dừa nhẹ bồng.",
-    image: "src/assets/feat-drink-1-small.jpg", 
+    image: drink1, 
     alt: "Matcha Latte",
   },
   {
@@ -14,7 +19,7 @@ export const featuredDrinks = [
     title: "Brewed Coffee",
     description:
       "Cà phê pha thủ công, chiết xuất chậm để giữ trọn hương thơm sâu lắng và vị đậm đà nguyên bản.",
-    image: "src/assets/feat-drink-2.jpg", 
+    image: drink2, 
     alt: "Brewed Coffee",
   },
   {
@@ -23,7 +28,7 @@ export const featuredDrinks = [
     title: "Bánh Dứa",
     description:
       "Bánh dứa nướng vàng nhẹ, lớp vỏ mềm mịn ôm trọn phần nhân dứa chua ngọt thanh dịu.",
-    image: "src/assets/feat-drink-3.png", 
+    image: drink3, 
     alt: "Bánh Dứa",
   },
 ];
