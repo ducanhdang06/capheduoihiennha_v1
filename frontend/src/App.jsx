@@ -7,9 +7,11 @@ import NavBar from "./components/NavBar";
 import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/Footer";
 import ScrollToTop from "./routes/ScrollToTop";
+import ProtectedApp from "./routes/ProtectedApp";
 
 export default function App() {
   return (
+    <ProtectedApp>
     <BrowserRouter>
       <ScrollToTop />
       <AuthProvider>
@@ -18,5 +20,6 @@ export default function App() {
         <Footer />
       </AuthProvider>
     </BrowserRouter>
+    </ProtectedApp>
   );
 }
