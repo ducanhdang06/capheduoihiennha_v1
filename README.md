@@ -27,5 +27,5 @@ The website also allows the manager to oversee and make changes to their menu an
 - CSS (Custom styling)
 - Vercel (Deployment & Analytics)
 - Porkbun (Domain Management)
-- Spring (Backend)
+- Spring (Backend) For backend documentation, read more [here](./backend/README.md).
 - PostgreSQL (Database)
