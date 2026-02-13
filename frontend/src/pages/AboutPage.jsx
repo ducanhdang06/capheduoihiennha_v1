@@ -1,7 +1,9 @@
+import "../styles/AboutPage.css"
+
 export default function AboutPage () {
     return (
-        <div>
-            <h1>About Page: Coming soon</h1>
+        <div className="placeholder">
+            <h1 className="home-section-title">Coming soon</h1>
         </div>
     )
 }

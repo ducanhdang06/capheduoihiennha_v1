@@ -8,10 +8,10 @@ import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/Footer";
 import ScrollToTop from "./routes/ScrollToTop";
 import ProtectedApp from "./routes/ProtectedApp";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App() {
   return (
-    <ProtectedApp>
     <BrowserRouter>
       <ScrollToTop />
       <AuthProvider>
@@ -19,7 +19,8 @@ export default function App() {
         <AppRoutes />
         <Footer />
       </AuthProvider>
+
+      <Analytics />
     </BrowserRouter>
-    </ProtectedApp>
   );
 }

@@ -29,13 +29,18 @@
   display: flex;
   gap: 30px;
   width: max-content;
-
   animation: scroll 75s linear infinite;
 }
 
-/* Pause on hover */
-.marquee:hover .marquee-track {
+.marquee.paused .marquee-track {
   animation-play-state: paused;
+}
+
+/* Pause on hover */
+@media (hover: hover) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 /* Smooth infinite scroll */

@@ -1,5 +1,6 @@
 import { featuredDrinks } from "../../constants/FeaturedDrinks";
-import "../../styles/FeaturedSection.css"
+import "../../styles/FeaturedSection.css";
+import { Link } from "react-router";
 /**
  * Showcase the signature drinks from the
  */
@@ -11,7 +12,8 @@ export default function FeaturedSection() {
         <div className="signature-header">
           <h1 className="home-section-title"> Signature Collection</h1>
           <p>
-            Đồ uống đặc biệt, được chế tác với sự tinh chuẩn và nét tinh tế riêng.
+            Đồ uống đặc biệt, được chế tác với sự tinh chuẩn và nét tinh tế
+            riêng.
           </p>
         </div>
 
@@ -31,9 +33,9 @@ export default function FeaturedSection() {
 
         {/* CTA Button */}
         <div className="cta-container">
-          <a href="/menu" className="cta-button">
+          <Link to="/menu" className="cta-button">
             Xem Menu
-          </a>
+          </Link>
         </div>
       </div>
     </section>

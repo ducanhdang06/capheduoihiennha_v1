@@ -1,4 +1,5 @@
 import "../../styles/AboutSection.css";
+import { Link } from "react-router";
 
 export default function AboutSection() {
   return (
@@ -18,7 +19,9 @@ export default function AboutSection() {
             chăm chút. Ở đây, mọi chi tiết đều hướng đến sự giản đơn và tinh tế.
           </p>
           <div className="cta-container">
-            <button className="cta-button">Đọc Thêm</button>
+            <Link to="/about-us" className="cta-button">
+              Đọc Thêm
+            </Link>
           </div>
         </div>
       </div>
