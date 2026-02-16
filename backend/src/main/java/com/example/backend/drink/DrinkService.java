@@ -2,6 +2,7 @@ package com.example.backend.drink;
 
 import com.example.backend.category.Category;
 import com.example.backend.category.CategoryRepository;
+import com.example.backend.dto.AdminDrinkListDTO;
 import com.example.backend.dto.DrinkRequest;
 import com.example.backend.dto.DrinkResponse;
 import com.example.backend.exception.BusinessException;
@@ -36,7 +37,22 @@ public class DrinkService {
     }
 
     // -------------------- READ --------------------
+    public List<AdminDrinkListDTO> getAllForAdmin(String name, Boolean active) {
 
+        if ((name == null || name.isBlank()) && active == null) {
+            return drinkRepository.findAllForAdmin();
+        }
+
+        if (name != null && !name.isBlank() && active == null) {
+            return drinkRepository.searchByName(name);
+        }
+
+        if ((name == null || name.isBlank()) && active != null) {
+            return drinkRepository.findByActive(active);
+        }
+
+        return drinkRepository.searchByNameAndActive(name, active);
+    }
     /**
      * Get all active drinks with optional filtering by category and/or tag
      * @param categoryId - filter by category (optional, can be null)

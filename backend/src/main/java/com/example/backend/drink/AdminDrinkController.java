@@ -1,6 +1,6 @@
 package com.example.backend.drink;
 
-import com.example.backend.dto.DrinkResponse;
+import com.example.backend.dto.AdminDrinkListDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,13 +17,27 @@ public class AdminDrinkController {
     public AdminDrinkController(DrinkService drinkService) {
         this.drinkService = drinkService;
     }
+//
+//    @GetMapping
+//    public List<DrinkResponse> searchDrinks(
+//            @RequestParam(required = false) String name,
+//            @RequestParam(required = false) Integer categoryId,
+//            @RequestParam(required = false) String tag
+//    ) {
+//        return drinkService.searchDrinks(name, categoryId, tag);
+//    }
+
+//    @GetMapping
+//    public List<AdminDrinkListDTO> getAllDrinks() {
+//        return drinkService.getAllForAdmin();
+//    }
 
     @GetMapping
-    public List<DrinkResponse> searchDrinks(
+    public List<AdminDrinkListDTO> getAllDrinks(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Integer categoryId,
-            @RequestParam(required = false) String tag
+            @RequestParam(required = false) Boolean active
     ) {
-        return drinkService.searchDrinks(name, categoryId, tag);
+        return drinkService.getAllForAdmin(name, active);
     }
 }
+
