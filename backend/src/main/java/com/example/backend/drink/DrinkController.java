@@ -1,15 +1,16 @@
 package com.example.backend.drink;
 
-import com.example.backend.dto.DrinkRequest;
-import com.example.backend.dto.DrinkResponse;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import com.example.backend.dto.CategoryMenuResponse;
+import com.example.backend.dto.PublicDrinkResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/drinks")
+@RequestMapping("/api/drinks")
 public class DrinkController {
 
     private final DrinkService drinkService;
@@ -18,44 +19,13 @@ public class DrinkController {
         this.drinkService = drinkService;
     }
 
-    // -------------------- PUBLIC --------------------
-
     @GetMapping
-    public List<DrinkResponse> getAllDrinks(
-            @RequestParam(required = false) Integer categoryId,
-            @RequestParam(required = false) String tag
-    ) {
-        return drinkService.getAllDrinks(categoryId, tag);
+    public List<CategoryMenuResponse> getPublicMenu() {
+        return drinkService.getPublicMenu();
     }
 
     @GetMapping("/{id}")
-    public DrinkResponse getDrinkById(@PathVariable Integer id) {
-        return drinkService.getDrinkById(id);
+    public PublicDrinkResponse getDrink(@PathVariable Integer id) {
+        return drinkService.getPublicDrink(id);
     }
-
-    // -------------------- ADMIN --------------------
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public DrinkResponse createDrink(
-            @Valid @RequestBody DrinkRequest request
-    ) {
-        return drinkService.createDrink(request);
-    }
-
-    @PutMapping("/{id}")
-    public DrinkResponse updateDrink(
-            @PathVariable Integer id,
-            @Valid @RequestBody DrinkRequest request
-    ) {
-        return drinkService.updateDrink(id, request);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteDrink(@PathVariable Integer id) {
-        drinkService.deleteDrink(id);
-    }
-
-
 }

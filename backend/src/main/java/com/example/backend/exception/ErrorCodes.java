@@ -9,4 +9,5 @@ public final class ErrorCodes {
     public static final String INVALID_INPUT = "INVALID_INPUT";
     public static final String CATEGORY_NOT_FOUND = "CATEGORY_NOT_FOUND";
     public static final String DRINK_ALREADY_INACTIVE = "DRINK_ALREADY_INACTIVE";
+    public static final String CATEGORY_DUPLICATE = "CATEGORY_DUPLICATE";
 }

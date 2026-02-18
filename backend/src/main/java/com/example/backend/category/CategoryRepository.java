@@ -1,16 +1,10 @@
 package com.example.backend.category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
-    @Query("""
-        SELECT DISTINCT c
-        FROM Category c
-        JOIN FETCH c.drinks
-    """)
-    List<Category> findAllWithDrinks();
+    // check if a category exists with given name
+    boolean existsByNameIgnoreCase(String name);
+
 }

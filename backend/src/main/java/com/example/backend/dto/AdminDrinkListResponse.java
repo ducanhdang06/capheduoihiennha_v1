@@ -2,12 +2,11 @@ package com.example.backend.dto;
 
 import java.time.LocalDateTime;
 
-public record AdminDrinkListDTO(
+public record AdminDrinkListResponse(
         Integer id,
         String name,
-        Integer price,
         String categoryName,
-        boolean active,
+        Integer price,
+        Boolean active,
         LocalDateTime updatedAt
-) {}
-
+) { }

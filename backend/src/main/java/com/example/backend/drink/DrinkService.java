@@ -2,21 +2,17 @@ package com.example.backend.drink;
 
 import com.example.backend.category.Category;
 import com.example.backend.category.CategoryRepository;
-import com.example.backend.dto.AdminDrinkListDTO;
-import com.example.backend.dto.DrinkRequest;
-import com.example.backend.dto.DrinkResponse;
-import com.example.backend.exception.BusinessException;
+import com.example.backend.dto.*;
 import com.example.backend.exception.ErrorCodes;
 import com.example.backend.exception.NotFoundException;
-import com.example.backend.image.DrinkImage;
-import com.example.backend.tag.Tag;
-import com.example.backend.tag.TagRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,301 +24,248 @@ public class DrinkService {
     // need to have access to all tables to be able to create a drink
     private final DrinkRepository drinkRepository;
     private final CategoryRepository categoryRepository;
-    private final TagRepository tagRepository;
 
-    public DrinkService(DrinkRepository drinkRepository, CategoryRepository categoryRepository, TagRepository tagRepository) {
+    public DrinkService(DrinkRepository drinkRepository, CategoryRepository categoryRepository) {
         this.drinkRepository = drinkRepository;
         this.categoryRepository = categoryRepository;
-        this.tagRepository = tagRepository;
     }
 
-    // -------------------- READ --------------------
-    public List<AdminDrinkListDTO> getAllForAdmin(String name, Boolean active) {
+    // ============================ PUBLIC =====================================
 
-        if ((name == null || name.isBlank()) && active == null) {
-            return drinkRepository.findAllForAdmin();
-        }
-
-        if (name != null && !name.isBlank() && active == null) {
-            return drinkRepository.searchByName(name);
-        }
-
-        if ((name == null || name.isBlank()) && active != null) {
-            return drinkRepository.findByActive(active);
-        }
-
-        return drinkRepository.searchByNameAndActive(name, active);
-    }
     /**
-     * Get all active drinks with optional filtering by category and/or tag
-     * @param categoryId - filter by category (optional, can be null)
-     * @param tag - filter by tag name (optional, can be null)
-     * @return List of DrinkResponse DTOs
+     * Builds the public menu grouped by category, including only active drinks
+     * @return clean, frontend ready list of categories with list of drinks
      */
-    public List<DrinkResponse> getAllDrinks(Integer categoryId, String tag) {
-        // Step 1: Fetch all active drinks from database
-        List<Drink> drinks = drinkRepository.findAllActive();
+    public List<CategoryMenuResponse> getPublicMenu() {
+        // fetch all categories from the database
+        List<Category> categories = categoryRepository.findAll();
+        // fetch all active drinks with their category
+        List<Drink> drinks = drinkRepository.findActiveDrinksWithCategory();
 
-        // Step 2: Apply filters and convert to response DTOs
+        // create a map with key = categoryID and value = list of drink in that id
+        Map<Integer, List<Drink>> drinksByCategory =
+                drinks.stream()
+                        .collect(Collectors.groupingBy(d -> d.getCategory().getId()));
+
+        // prepare the return list
+        List<CategoryMenuResponse> result = new ArrayList<>();
+
+        // for each category, attach the drink
+        for (Category category : categories) {
+            List<PublicDrinkResponse> drinkDTOs =
+                    drinksByCategory.getOrDefault(category.getId(), List.of())
+                            .stream()
+                            .map(this::mapToPublicDrinkResponse)
+                            .toList();
+
+            result.add(new CategoryMenuResponse(
+                    category.getId(),
+                    category.getName(),
+                    drinkDTOs
+            ));
+        }
+
+        // return result
+        return result;
+
+    }
+
+    /**
+     * Get a drink detail for public user
+     * @param id drink id
+     * @return the dto to send back
+     */
+    public PublicDrinkResponse getPublicDrink(Integer id) {
+        Drink drink = drinkRepository
+                .findActiveByIdWithCategory(id)
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Drink not found",
+                                ErrorCodes.DRINK_NOT_FOUND
+                        ));
+
+        return mapToPublicDrinkResponse(drink);
+    }
+
+    // ============================ ADMIN ======================================
+
+    /**
+     * Get all drinks for admin dashboard
+     * @return list of admin drink dto
+     */
+    public List<AdminDrinkListResponse> getAllForAdmin() {
+        List<Drink> drinks = drinkRepository.findAllWithCategory();
+
         return drinks.stream()
-                // Filter by categoryId if provided (null means "show all categories")
-                .filter(d -> categoryId == null || d.getCategory().getId().equals(categoryId))
-                // Filter by tag if provided (null means "show all tags")
-                // anyMatch checks if the drink has at least one tag matching the name
-                .filter(d -> tag == null || d.getTags().stream().anyMatch(t -> t.getName().equalsIgnoreCase(tag)))
-                // Convert each Drink entity to DrinkResponse DTO
-                .map(this::toResponse)
-                // Collect results into a List
+                .map(this::mapToAdminListResponse)
                 .toList();
     }
 
     /**
-     * Get a single drink by its ID
-     * @param id - the drink ID
-     * @return DrinkResponse DTO
-     * @throws EntityNotFoundException if drink doesn't exist
+     * Create a new drink
+     * @param request dto receives from frontend
+     * @return the dto of the successful created object
      */
-    @Transactional(readOnly = true)
-    public DrinkResponse getDrinkById(Integer id) {
-        // Fetch drink from database or throw exception if not found
-        Drink drink = drinkRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Drink not found with id " + id, ErrorCodes.DRINK_NOT_FOUND));
-
-        // Convert entity to DTO and return
-        return toResponse(drink);
-    }
-
-    // -------------------- CREATE --------------------
-
-    /**
-     * Create a new drink with tags and images
-     * @param request - DTO containing drink data from client
-     * @return DrinkResponse DTO of the created drink
-     * @throws EntityNotFoundException if category doesn't exist
-     */
-    public DrinkResponse createDrink(DrinkRequest request) {
-
-        // prevent drink with similar names
-        if (drinkRepository.existsByNameIgnoreCase(request.getName())) {
-            throw new BusinessException(
-                    "Drink already exists",
-                    ErrorCodes.DRINK_DUPLICATE
-            );
-        }
-
-        // Step 1: Verify the category exists in the database
+    public AdminDrinkDetailResponse createDrink(AdminDrinkRequest request) {
+        // find category
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found with id " + request.getCategoryId(),
-                        ErrorCodes.CATEGORY_NOT_FOUND));
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                "Category not found"
+                        )
+                );
 
-        // Step 2: Create new Drink entity and set basic fields
+        // create new Drink entity
         Drink drink = new Drink();
         drink.setName(request.getName());
         drink.setDescription(request.getDescription());
         drink.setPrice(request.getPrice());
-        drink.setCategory(category); // Associate with the category
+        drink.setCategory(category);
+        drink.setImageUrl(request.getImageUrl());
 
-        // Step 3: Handle many-to-many tags (create new tags if needed)
-        attachTags(drink, request.getTags());
+        // Optional: default active to true if null
+        if (request.getActive() != null) {
+            drink.setActive(request.getActive());
+        }
 
-        // Step 4: Handle one-to-many images (create new image records)
-        attachImages(drink, request.getImages());
+        // save
+        Drink saved = drinkRepository.save(drink);
 
-        // Step 5: Save drink to database (cascade saves tags and images too)
-        // Then convert to DTO and return
-        return toResponse(drinkRepository.save(drink));
+        // map to response
+        return mapToAdminDetailResponse(saved);
     }
 
-    // -------------------- UPDATE --------------------
-
     /**
-     * Update an existing drink completely (replaces all fields)
-     * @param id - the drink ID to update
-     * @param request - new drink data
-     * @return DrinkResponse DTO of updated drink
-     * @throws EntityNotFoundException if drink or category not found
+     * Update the current drinks information
+     * @param id id of the current drink
+     * @param request dto from the frontend
+     * @return the successful change drinks
      */
-    public DrinkResponse updateDrink(Integer id, DrinkRequest request) {
-        // Step 1: Fetch the existing drink from database
+    public AdminDrinkDetailResponse updateDrink(Integer id, AdminDrinkRequest request) {
+        // find existing drink
         Drink drink = drinkRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(
-                        "Drink not found with id " + id,
-                        ErrorCodes.DRINK_NOT_FOUND
-                ));
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Drink not found",
+                                ErrorCodes.DRINK_NOT_FOUND
+                        )
+                );
 
-        // Step 2: Verify the new category exists
+        // validate category
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException(
-                        "Category not found with id " + request.getCategoryId(),
-                        ErrorCodes.CATEGORY_NOT_FOUND
-                ));
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                "Category not found"
+                        )
+                );
 
-        // Step 3: Update basic fields with new values
+        // update fields
         drink.setName(request.getName());
         drink.setDescription(request.getDescription());
         drink.setPrice(request.getPrice());
         drink.setCategory(category);
+        drink.setImageUrl(request.getImageUrl());
 
-        // Step 4: Clear existing tags and images
-        // This removes the old relationships from the join tables
-        drink.getTags().clear();
-        drink.getImages().clear();
-
-        // Step 5: Add new tags and images from the request
-        attachTags(drink, request.getTags());
-        attachImages(drink, request.getImages());
-
-        // Step 6: Save updated drink and return as DTO
-        return toResponse(drinkRepository.save(drink));
-    }
-
-    // -------------------- DELETE (SOFT) --------------------
-
-    /**
-     * Soft delete a drink (mark as inactive instead of removing from DB)
-     * @param id - the drink ID to delete
-     * @throws EntityNotFoundException if drink not found
-     */
-    public void deleteDrink(Integer id) {
-
-        // Step 1: Fetch the drink to delete
-        Drink drink = drinkRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(
-                        "Drink not found with id " + id,
-                        ErrorCodes.DRINK_NOT_FOUND
-                ));
-
-        if (!drink.isActive()) {
-            throw new BusinessException(
-                    "Drink already inactive",
-                    ErrorCodes.DRINK_ALREADY_INACTIVE
-            );
+        if (request.getActive() != null) {
+            drink.setActive(request.getActive());
         }
 
-        // Step 2: Mark as inactive (sets is_active = false)
-        drink.deactivate();
+        // save
+        Drink updated = drinkRepository.save(drink);
 
-        // Step 3: Save the change to database
+        // 5️⃣ Return DTO
+        return mapToAdminDetailResponse(updated);
+    }
+
+    /**
+     * deactivate a drink
+     * @param id current drink id
+     */
+    public void softDelete(Integer id) {
+        // find drink
+        Drink drink = drinkRepository.findById(id)
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Drink not found",
+                                ErrorCodes.DRINK_NOT_FOUND
+                        )
+                );
+
+        // deactivate
+        drink.deactivate();  // sets active = false
+
+        // save
         drinkRepository.save(drink);
     }
 
-    // -------------------- SEARCH --------------------
-    @Transactional(readOnly = true)
-    public List<DrinkResponse> searchDrinks(
-            String name,
-            Integer categoryId,
-            String tag
-    ) {
-        List<Drink> drinks = drinkRepository.findAll(); // admin sees all
-
-        return drinks.stream()
-                // name search (partial, case-insensitive)
-                .filter(d ->
-                        name == null ||
-                                d.getName().toLowerCase().contains(name.toLowerCase())
-                )
-                // category filter
-                .filter(d ->
-                        categoryId == null ||
-                                d.getCategory().getId().equals(categoryId)
-                )
-                // tag filter
-                .filter(d ->
-                        tag == null ||
-                                d.getTags().stream()
-                                        .anyMatch(t -> t.getName().equalsIgnoreCase(tag))
-                )
-                .map(this::toResponse)
-                .toList();
-    }
-
-
-    // -------------------- HELPERS --------------------
-
     /**
-     * Attach tags to a drink (creates new tags if they don't exist)
-     * Handles the many-to-many relationship between drinks and tags
-     * @param drink - the drink entity to attach tags to
-     * @param tagNames - list of tag names from the request
+     * Hard delete from the dataset
+     * @param id drink id
      */
-    private void attachTags(Drink drink, List<String> tagNames) {
-        // If no tags provided, do nothing
-        if (tagNames == null) return;
+    public void hardDelete(Integer id) {
 
-        // For each tag name, find existing tag or create new one
-        Set<Tag> tags = tagNames.stream()
-                .map(name ->
-                        // Try to find tag by name (case-insensitive)
-                        tagRepository.findByNameIgnoreCase(name)
-                                // If tag doesn't exist, create and save it
-                                .orElseGet(() -> tagRepository.save(new Tag(name)))
-                )
-                // Collect into a Set (no duplicates)
-                .collect(Collectors.toSet());
-
-        // Add all tags to the drink's tag collection
-        // This updates the drink_tags join table
-        drink.getTags().addAll(tags);
-    }
-
-    /**
-     * Attach images to a drink
-     * Handles the one-to-many relationship between drinks and images
-     * @param drink - the drink entity to attach images to
-     * @param imageUrls - list of image URLs from the request
-     */
-    private void attachImages(Drink drink, List<String> imageUrls) {
-        // If no images provided, do nothing
-        if (imageUrls == null) return;
-
-        // Loop through each image URL with index
-        for (int i = 0; i < imageUrls.size(); i++) {
-            // Create new DrinkImage entity
-            DrinkImage image = new DrinkImage();
-            image.setImageUrl(imageUrls.get(i)); // Set the URL
-            image.setPrimary(i == 0); // First image is primary, rest are not
-            image.setDrink(drink); // Set bidirectional relationship
-
-            // Add image to drink's collection
-            // This will be saved to drink_images table when drink is saved
-            drink.getImages().add(image);
+        // check existence first
+        if (!drinkRepository.existsById(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Drink not found"
+            );
         }
+
+        // permanently remove
+        drinkRepository.deleteById(id);
     }
 
+
+    // ============================ HELPER =====================================
+
     /**
-     * Convert Drink entity to DrinkResponse DTO
-     * Maps domain model to API response format
-     * @param drink - the entity to convert
-     * @return DrinkResponse DTO for API response
+     * Convert the drink to a DTO to send back
+     * @param drink drink entity
+     * @return public drink dto from drink entity
      */
-    private DrinkResponse toResponse(Drink drink) {
-        // Create new DTO object
-        DrinkResponse response = new DrinkResponse();
-
-        // Map basic fields directly
-        response.setId(drink.getId());
-        response.setName(drink.getName());
-        response.setDescription(drink.getDescription());
-        response.setPrice(drink.getPrice());
-
-        // Get category name (not the whole category object)
-        response.setCategory(drink.getCategory().getName());
-
-        // Extract tag names from Tag entities
-        response.setTags(
-                drink.getTags().stream()
-                        .map(Tag::getName) // Get just the name string
-                        .toList()
+    private PublicDrinkResponse mapToPublicDrinkResponse(Drink drink) {
+        return new PublicDrinkResponse(
+                drink.getId(),
+                drink.getName(),
+                drink.getDescription(),
+                drink.getPrice(),
+                drink.getImageUrl(),
+                drink.getCategory().getName()
         );
+    }
 
-        // Extract image URLs from DrinkImage entities
-        response.setImages(
-                drink.getImages().stream()
-                        .map(DrinkImage::getImageUrl) // Get just the URL string
-                        .toList()
+
+    /**
+     * Convert the drink to a admin DTO
+     * @param drink drink entity
+     * @return dto for admin to show on dashboard
+     */
+    private AdminDrinkListResponse mapToAdminListResponse(Drink drink) {
+        return new AdminDrinkListResponse(
+                drink.getId(),
+                drink.getName(),
+                drink.getCategory().getName(),
+                drink.getPrice(),
+                drink.isActive(),
+                drink.getUpdatedAt()
         );
+    }
 
-        return response;
+    private AdminDrinkDetailResponse mapToAdminDetailResponse(Drink drink) {
+        return new AdminDrinkDetailResponse(
+                drink.getId(),
+                drink.getName(),
+                drink.getDescription(),
+                drink.getPrice(),
+                drink.getCategory().getId(),
+                drink.getImageUrl(),
+                drink.isActive(),
+                drink.getCreatedAt(),
+                drink.getUpdatedAt()
+        );
     }
 }
 

@@ -27,16 +27,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request) {
-//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-//                request.username,
-//                request.password
-//        ));
-//
-//        String token = jwtUtil.generateToken(
-//                (UserDetails) authentication.getPrincipal()
-//        );
-//
-//        return new LoginResponse(token);
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.username,

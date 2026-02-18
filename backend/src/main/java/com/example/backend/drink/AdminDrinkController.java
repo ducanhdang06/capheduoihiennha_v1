@@ -1,10 +1,9 @@
 package com.example.backend.drink;
 
-import com.example.backend.dto.AdminDrinkListDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.backend.dto.AdminDrinkDetailResponse;
+import com.example.backend.dto.AdminDrinkListResponse;
+import com.example.backend.dto.AdminDrinkRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,27 +16,33 @@ public class AdminDrinkController {
     public AdminDrinkController(DrinkService drinkService) {
         this.drinkService = drinkService;
     }
-//
-//    @GetMapping
-//    public List<DrinkResponse> searchDrinks(
-//            @RequestParam(required = false) String name,
-//            @RequestParam(required = false) Integer categoryId,
-//            @RequestParam(required = false) String tag
-//    ) {
-//        return drinkService.searchDrinks(name, categoryId, tag);
-//    }
-
-//    @GetMapping
-//    public List<AdminDrinkListDTO> getAllDrinks() {
-//        return drinkService.getAllForAdmin();
-//    }
 
     @GetMapping
-    public List<AdminDrinkListDTO> getAllDrinks(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Boolean active
+    public List<AdminDrinkListResponse> getAll() {
+        return drinkService.getAllForAdmin();
+    }
+
+    @PostMapping
+    public AdminDrinkDetailResponse create(@RequestBody AdminDrinkRequest request) {
+        return drinkService.createDrink(request);
+    }
+
+    @PutMapping("/{id}")
+    public AdminDrinkDetailResponse update(
+            @PathVariable Integer id,
+            @RequestBody AdminDrinkRequest request
     ) {
-        return drinkService.getAllForAdmin(name, active);
+        return drinkService.updateDrink(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        drinkService.softDelete(id);
+    }
+
+    @DeleteMapping("/{id}/hard")
+    public void hardDelete(@PathVariable Integer id) {
+        drinkService.hardDelete(id);
     }
 }
 
