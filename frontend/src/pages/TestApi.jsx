@@ -1,13 +1,11 @@
 import { useEffect } from "react";
-import { getDrinks } from "../api/drink.api";
-import { getAllDrinks } from "../api/drink.api";
 
 export default function TestApi() {
-  useEffect(() => {
-    getAllDrinks ()
-      .then(res => console.log("BACKEND DATA:", res.data))
-      .catch(err => console.error("API ERROR:", err));
-  }, []);
+  // useEffect(() => {
+  //   getAllDrinks ()
+  //     .then(res => console.log("BACKEND DATA:", res.data))
+  //     .catch(err => console.error("API ERROR:", err));
+  // }, []);
 
   return <h1>Check console</h1>;
 }

@@ -14,15 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-// | Rule               | Meaning         |
-// | ------------------ | --------------- |
-// | `STATELESS`        | No sessions     |
-// | `/api/auth/**`     | Login is public |
-// | `/api/drinks/**`   | Public menu     |
-// | `/api/admin/**`    | ADMIN only      |
-// | `.authenticated()` | JWT required    |
-
-
 @Configuration
 public class SecurityConfig {
 
@@ -52,18 +43,16 @@ public class SecurityConfig {
                         ex.authenticationEntryPoint(entryPoint)
                 )
                 .authorizeHttpRequests(auth -> auth
+
+                        // Public APIs
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/drinks/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/menu/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/drinks/**")
-                        .hasAnyRole("ADMIN", "MANAGER")
-                        .requestMatchers(HttpMethod.PUT, "/api/drinks/**")
-                        .hasAnyRole("ADMIN", "MANAGER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/drinks/**")
+                        // Admin APIs (both ADMIN and MANAGER allowed)
+                        .requestMatchers("/api/admin/**")
                         .hasAnyRole("ADMIN", "MANAGER")
 
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

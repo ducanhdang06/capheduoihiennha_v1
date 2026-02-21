@@ -22,6 +22,11 @@ public class AdminDrinkController {
         return drinkService.getAllForAdmin();
     }
 
+    @GetMapping("/{id}")
+    public AdminDrinkDetailResponse getById(@PathVariable Integer id) {
+        return drinkService.getDrinkDetailForAdmin(id);
+    }
+
     @PostMapping
     public AdminDrinkDetailResponse create(@RequestBody AdminDrinkRequest request) {
         return drinkService.createDrink(request);

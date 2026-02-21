@@ -102,6 +102,23 @@ public class DrinkService {
     }
 
     /**
+     * Get the details for a specific drink
+     * @param id drink id
+     * @return a detail dto of the drink
+     */
+    public AdminDrinkDetailResponse getDrinkDetailForAdmin(Integer id) {
+        Drink drink = drinkRepository.findById(id)
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Drink not found",
+                                ErrorCodes.DRINK_NOT_FOUND
+                        )
+                );
+
+        return mapToAdminDetailResponse(drink);
+    }
+
+    /**
      * Create a new drink
      * @param request dto receives from frontend
      * @return the dto of the successful created object
