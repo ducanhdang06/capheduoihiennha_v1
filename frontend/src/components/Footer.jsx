@@ -36,13 +36,13 @@ export default function Footer() {
 
           {/* SOCIAL */}
           <div className="footer-social">
-            <a href="https://www.instagram.com/cafe_duoi_hiennha/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/cafe_duoi_hiennha/" target="_blank" rel="noopener noreferrer" aria-label="Instagram của Cà Phê Dưới Hiên Nhà">
               <FaInstagram />
             </a>
-            <a href="https://www.facebook.com/p/Ti%E1%BB%87m-C%C3%A0-Ph%C3%AA-D%C6%B0%E1%BB%9Bi-Hi%C3%AAn-Nh%C3%A0-61577960040967/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/p/Ti%E1%BB%87m-C%C3%A0-Ph%C3%AA-D%C6%B0%E1%BB%9Bi-Hi%C3%AAn-Nh%C3%A0-61577960040967/" target="_blank" rel="noopener noreferrer" aria-label="Facebook của Cà Phê Dưới Hiên Nhà">
               <FaFacebookF />
             </a>
-            <a href="https://www.tiktok.com/@cafeduoihiennha" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.tiktok.com/@cafeduoihiennha" target="_blank" rel="noopener noreferrer" aria-label="TikTok của Cà Phê Dưới Hiên Nhà">
               <FaTiktok />
             </a>
           </div>
