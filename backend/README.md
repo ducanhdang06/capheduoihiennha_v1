@@ -10,8 +10,9 @@ A **production-ready RESTful API** built with **Spring Boot** featuring JWT-base
 - [Tech Stack](#tech-stack)
 - [Authentication & Authorization](#authentication--authorization)
 - [API Endpoints](#api-endpoints)
+- [Database Schema](#database-schema)
+- [DTO Design](#dto-design)
 - [Security Architecture](#security-architecture)
-- [Database Setup](#database-setup)
 - [Configuration](#configuration)
 - [Production Readiness](#production-readiness)
 
@@ -23,8 +24,8 @@ This backend implements a secure, stateless authentication system designed for a
 
 - **JWT-based authentication** with role-based access control
 - **Admin-managed user accounts** (no public signup)
-- **Comprehensive drinks API** with categories, tags, and images
-- **Soft delete pattern** for data integrity
+- **Comprehensive drinks API** with categories and images
+- **Soft and hard delete** support for flexible data management
 - **Production-ready security** with externalized configuration
 
 ---
@@ -54,12 +55,12 @@ This backend implements a secure, stateless authentication system designed for a
 
 | Role | Capabilities |
 |------|-------------|
-| `ADMIN` | Full system access, user management, drinks management |
-| `MANAGER` | Drinks management only (create, update, delete drinks) |
+| `ADMIN` | Full system access, user management, drinks & category management |
+| `MANAGER` | Drinks & category management only |
 
 ### JWT Authentication Flow
 
-1. User submits credentials via `/api/auth/login`
+1. User submits credentials via `POST /api/auth/login`
 2. Server validates credentials using Spring Security
 3. JWT access token is generated and returned
 4. Client includes token in all subsequent requests:
@@ -89,44 +90,11 @@ This backend implements a secure, stateless authentication system designed for a
 
 ---
 
-### 🔑 Authentication
+### 🔓 Public Endpoints
 
-#### Login
-```http
-POST /api/auth/login
-```
-
-**Request:**
-```json
-{
-  "username": "admin",
-  "password": "admin123"
-}
-```
-
-**Response:**
-```json
-{
-  "accessToken": "eyJhbGciOiJIUzI1NiIs..."
-}
-```
-
----
-
-### ☕ Drinks API
-
-#### 🔓 Public Endpoints
-
-**Get all active drinks**
+**Get all active drinks** — returns drinks grouped by category for the menu page
 ```http
 GET /api/drinks
-```
-
-Optional query parameters:
-```http
-GET /api/drinks?categoryId=1
-GET /api/drinks?tag=hot
-GET /api/drinks?categoryId=1&tag=iced
 ```
 
 **Get single drink**
@@ -134,86 +102,111 @@ GET /api/drinks?categoryId=1&tag=iced
 GET /api/drinks/{id}
 ```
 
-#### 🔐 Protected Endpoints (ADMIN or MANAGER)
+---
 
-**Create drink**
+### 🔑 Authentication
+
+**Login**
 ```http
-POST /api/drinks
-Authorization: Bearer <JWT_TOKEN>
+POST /api/auth/login
 ```
 
-**Request body:**
+Request:
 ```json
 {
-  "name": "Latte",
-  "description": "Smooth espresso with milk",
-  "price": 450,
-  "categoryId": 1,
-  "tags": ["hot", "popular"],
-  "images": ["latte1.jpg", "latte2.jpg"]
+  "username": "admin",
+  "password": "admin123"
 }
 ```
 
-**Update drink**
+Response:
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIs..."
+}
+```
+
+**Get current user info**
 ```http
-PUT /api/drinks/{id}
+GET /api/auth/me
 Authorization: Bearer <JWT_TOKEN>
 ```
 
-**Soft delete drink**
-```http
-DELETE /api/drinks/{id}
-Authorization: Bearer <JWT_TOKEN>
+Response:
+```json
+{
+  "id": 1,
+  "userName": "admin",
+  "roleName": "ADMIN"
+}
 ```
-*Note: Sets `is_active = false`, preserving data integrity*
 
 ---
 
-### 🗂 Categories API
+### 🔐 Admin Endpoints (ADMIN or MANAGER)
 
-#### Get all categories
+> Sorting and searching are handled on the frontend since the menu has ~50 drinks.
+> All requests require `Authorization: Bearer <JWT_TOKEN>`.
+
+#### Drinks
+
+**Get all drinks for dashboard**
 ```http
-GET /api/categories
+GET /api/admin/drinks
 ```
 
-**Response:** All available drink categories
-
----
-
-### 🧑‍💼 Admin User Management (ADMIN only)
-
-**Create MANAGER account**
+**Get single drink detail**
 ```http
-POST /api/admin/users
-Authorization: Bearer <JWT_TOKEN>
+GET /api/admin/drinks/{id}
 ```
 
-**Request body:**
+**Create a drink**
+```http
+POST /api/admin/drinks
+```
+
 ```json
 {
-  "username": "manager1",
-  "password": "temp123",
-  "role": "MANAGER"
+  "name": "Matcha Latte",
+  "description": "Premium matcha...",
+  "price": 45000,
+  "categoryId": 2,
+  "imageUrl": "https://...",
+  "active": true
 }
 ```
 
-**Reset user password**
+**Update a drink**
 ```http
-PATCH /api/admin/users/{id}/password
-Authorization: Bearer <JWT_TOKEN>
+PUT /api/admin/drinks/{id}
+```
+*(Same request body as POST)*
+
+**Soft delete a drink** — sets `is_active = false`, preserves data
+```http
+DELETE /api/admin/drinks/{id}
 ```
 
-**Request body:**
-```json
-{
-  "newPassword": "newPassword123"
-}
+**Hard delete a drink** — permanently removes the record
+```http
+DELETE /api/admin/drinks/{id}/hard
 ```
 
-**Disable/enable user**
+#### Categories
+
+**Get all categories**
 ```http
-PATCH /api/admin/users/{id}/disable?disabled=true
-Authorization: Bearer <JWT_TOKEN>
+GET /api/admin/categories
+```
+
+**Create a category**
+```http
+POST /api/admin/categories
+```
+
+**Hard delete a category**
+```http
+DELETE /api/admin/categories/{id}
 ```
 
 ---
@@ -223,15 +216,165 @@ Authorization: Bearer <JWT_TOKEN>
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
 | `POST` | `/api/auth/login` | Public | User login |
-| `GET` | `/api/drinks` | Public | Get all active drinks |
+| `GET` | `/api/auth/me` | Authenticated | Get current user info |
+| `GET` | `/api/drinks` | Public | Get all active drinks (menu) |
 | `GET` | `/api/drinks/{id}` | Public | Get single drink |
-| `POST` | `/api/drinks` | ADMIN/MANAGER | Create new drink |
-| `PUT` | `/api/drinks/{id}` | ADMIN/MANAGER | Update drink |
-| `DELETE` | `/api/drinks/{id}` | ADMIN/MANAGER | Soft delete drink |
-| `GET` | `/api/categories` | Public | Get all categories |
-| `POST` | `/api/admin/users` | ADMIN | Create user |
-| `PATCH` | `/api/admin/users/{id}/password` | ADMIN | Reset password |
-| `PATCH` | `/api/admin/users/{id}/disable` | ADMIN | Disable/enable user |
+| `GET` | `/api/admin/drinks` | ADMIN/MANAGER | Get all drinks (dashboard) |
+| `GET` | `/api/admin/drinks/{id}` | ADMIN/MANAGER | Get drink detail |
+| `POST` | `/api/admin/drinks` | ADMIN/MANAGER | Create drink |
+| `PUT` | `/api/admin/drinks/{id}` | ADMIN/MANAGER | Update drink |
+| `DELETE` | `/api/admin/drinks/{id}` | ADMIN/MANAGER | Soft delete drink |
+| `DELETE` | `/api/admin/drinks/{id}/hard` | ADMIN/MANAGER | Hard delete drink |
+| `GET` | `/api/admin/categories` | ADMIN/MANAGER | Get all categories |
+| `POST` | `/api/admin/categories` | ADMIN/MANAGER | Create category |
+| `DELETE` | `/api/admin/categories/{id}` | ADMIN/MANAGER | Hard delete category |
+
+---
+
+## 🗃️ Database Schema
+
+> All table names are plural.
+
+### `drinks`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | Integer | Primary key |
+| `name` | String | |
+| `description` | String | |
+| `price` | Integer | |
+| `category_id` | Integer | FK → `categories.id` (Many to One) |
+| `image_url` | String | |
+| `is_active` | Boolean | Used for soft delete |
+| `created_at` | DateTime | |
+| `updated_at` | DateTime | |
+
+```java
+@ManyToOne
+@JoinColumn(name = "category_id")
+private Category category;
+```
+
+### `categories`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | Integer | Primary key |
+| `name` | String | |
+| `drinks` | List\<Drink\> | One to Many |
+
+```java
+@OneToMany(mappedBy = "category")
+private List<Drink> drinks;
+```
+
+### `users`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | Long | Primary key |
+| `username` | String | |
+| `password` | String | BCrypt hash |
+| `role` | Role | `ADMIN` or `MANAGER` |
+| `is_active` | Boolean | |
+
+---
+
+## 📦 DTO Design
+
+### `AdminDrinkRequest`
+Used for creating and updating drinks.
+
+```java
+public class AdminDrinkRequest {
+    @NotBlank
+    private String name;
+    private String description;
+    @Positive
+    private Integer price;
+    @NotNull
+    private Integer categoryId;
+    private String imageUrl;
+    private Boolean active;
+}
+```
+
+### `AdminDrinkListResponse`
+Used for the dashboard table — returns only the fields needed for the list view.
+
+```java
+public class AdminDrinkListResponse {
+    private Integer id;
+    private String name;
+    private String categoryName;
+    private Integer price;
+    private Boolean active;
+    private LocalDateTime updatedAt;
+}
+```
+
+### `AdminDrinkDetailResponse`
+Used when an admin views a specific drink's full detail.
+
+```java
+public class AdminDrinkDetailResponse {
+    private Integer id;
+    private String name;
+    private String description;
+    private Integer price;
+    private Integer categoryId;
+    private String imageUrl;
+    private Boolean active;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+}
+```
+
+### `PublicDrinkResponse`
+Used for the public menu page.
+
+```java
+public class PublicDrinkResponse {
+    private Integer id;
+    private String name;
+    private String description;
+    private Integer price;
+    private String imageUrl;
+    private String categoryName;
+}
+```
+
+### `CategoryMenuResponse`
+Returns a category with its drinks nested inside — used for building the menu grouped by category.
+
+```java
+public class CategoryMenuDTO {
+    private Integer id;
+    private String name;
+    private List<PublicDrinkResponse> drinks;
+}
+```
+
+### `AdminCategoryRequest`
+
+```java
+public class AdminCategoryRequest {
+    @NotBlank
+    private String name;
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+```
+
+### `AdminCategoryResponse`
+
+```java
+public record AdminCategoryResponse(
+    Integer id,
+    String name
+) {}
+```
 
 ---
 
@@ -252,11 +395,12 @@ Request
 
 | Endpoint Pattern | Access Level |
 |-----------------|--------------|
-| `/api/auth/**` | Public |
+| `/api/auth/login` | Public |
 | `GET /api/drinks/**` | Public |
-| `POST/PUT/DELETE /api/drinks/**` | ADMIN or MANAGER |
-| `/api/admin/**` | ADMIN only |
-| All others | Authenticated |
+| `/api/auth/me` | Authenticated |
+| `POST/PUT/DELETE /api/admin/drinks/**` | ADMIN or MANAGER |
+| `GET /api/admin/**` | ADMIN or MANAGER |
+| `/api/admin/users/**` | ADMIN only |
 
 ### HTTP Status Codes
 
@@ -270,27 +414,6 @@ Request
 | Validation error | `400 Bad Request` |
 | Resource not found | `404 Not Found` |
 | Success | `200 OK` / `201 Created` |
-
----
-
-## 🗃️ Database Setup
-
-### Initial Admin User
-
-The system does not auto-create users. An initial ADMIN must be created manually:
-
-```sql
-INSERT INTO users (username, password, role, active)
-VALUES ('admin', '$2a$10$...', 'ADMIN', true);
-```
-
-*Note: Password must be a BCrypt hash*
-
-### Database Hosting
-
-- Compatible with hosted PostgreSQL (e.g., Neon, AWS RDS)
-- Connection configured via environment variables
-- All user management after initial setup is via secure APIs
 
 ---
 
@@ -327,12 +450,12 @@ spring.datasource.password=${DATABASE_PASSWORD}
 - ✅ JWT authentication
 - ✅ Stateless security architecture
 - ✅ Role-based access control (RBAC)
-- ✅ Admin user lifecycle management
 - ✅ Secure password storage (BCrypt)
 - ✅ Externalized configuration
 - ✅ Proper HTTP status semantics
-- ✅ Soft delete pattern
-- ✅ DTO layer for clean separation
+- ✅ Soft delete + hard delete support
+- ✅ DTO layer for clean API/domain separation
+- ✅ Category management API
 
 ### 🔮 Future Enhancements
 
@@ -349,25 +472,19 @@ spring.datasource.password=${DATABASE_PASSWORD}
 
 ### API Design
 
-- **Drinks are the aggregate root** - all drink-related data accessed through `/api/drinks`
-- **Categories are reference data** - simple lookup resource
-- **Tags and images are sub-resources** - managed through drinks, no separate endpoints
-- **Soft deletes preserve data** - nothing is permanently removed
-- **DTOs throughout** - clear separation between API and domain models
+- **Drinks are the aggregate root** — all drink-related data accessed through `/api/drinks` and `/api/admin/drinks`
+- **Categories are managed resources** — admins can create and delete categories via `/api/admin/categories`
+- **Single image per drink** — `imageUrl` is a single string field, simplifying the data model
+- **Soft + hard delete** — soft delete preserves data integrity for active menu management; hard delete allows cleanup
+- **DTOs throughout** — clear separation between API and domain models
+- **Frontend handles sorting/search** — with ~50 drinks, this is simpler and avoids unnecessary backend complexity
 
 ### Security Design
 
-- **No hard delete** - maintains audit trail
-- **No role escalation** - users cannot change their own roles
-- **No self-service** - admins manage all accounts
-- **Stateless authentication** - JWT tokens contain all necessary information
-- **Defense in depth** - multiple layers of security validation
-
----
-
-## 📞 Support
-
-For issues or questions about this API, please contact the development team.
+- **No role escalation** — users cannot change their own roles
+- **No self-service** — admins manage all accounts
+- **Stateless authentication** — JWT tokens contain all necessary information
+- **Defense in depth** — multiple layers of security validation
 
 ---
 
