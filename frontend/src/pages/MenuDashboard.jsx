@@ -1,58 +1,82 @@
-import { useNavigate } from "react-router";
-import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getAdminDrinks } from "../api/admin.api";
-import { getDetailDrink } from "../api/admin.api";
-import { updateDrink } from "../api/admin.api";
+import { useState, useEffect } from "react";
+
+import {
+  getAdminDrinks,
+  getDetailDrink,
+  updateDrink,
+  createDrink,
+  getCategories,
+} from "../api/admin.api";
+
 import EditDrinkModal from "../components/MenuDashboard/EditDrinkModal";
+import CreateCategoryModal from "../components/MenuDashboard/CreateCategoryModal";
 import DrinksTable from "../components/MenuDashboard/DrinkTable";
-import "../styles/MenuDashboard.css"
+
+import useIsDesktop from "../hooks/useIsLaptop";
+import "../styles/MenuDashboard.css";
 
 export default function MenuDashboard() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+  const [categories, setCategories] = useState([]);
   const [drinks, setDrinks] = useState([]);
-  const [editingDrink, setEditingDrink] = useState(null);
+  const [selectedDrink, setSelectedDrink] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const isEditMode = Boolean(selectedDrink?.id);
+  const isDesktop = useIsDesktop();
 
-  const handleSave = async () => {
+  /**
+   * Handle when the user click submit
+   * 2 cases: editing a drink or creating a drink
+   */
+  const handleSubmit = async () => {
     try {
-      const updated = await updateDrink(editingDrink.id, editingDrink);
-
-      // update local UI state immediately
-      setDrinks((prev) =>
-        prev.map((d) => (d.id === editingDrink.id ? { ...d, ...updated } : d)),
-      );
-
-      setEditingDrink(null);
+      if (isEditMode) {
+        const updated = await updateDrink(selectedDrink.id, selectedDrink);
+        setDrinks((prev) =>
+          prev.map((d) =>
+            d.id === selectedDrink.id ? { ...d, ...updated } : d,
+          ),
+        );
+      } else {
+        const created = await createDrink(selectedDrink);
+        setDrinks((prev) => [...prev, created]);
+      }
+      setSelectedDrink(null);
     } catch (err) {
-      console.error("Update failed", err);
-    } 
+      console.error("Submit failed", err);
+    }
   };
 
+  /**
+   * When editing a drink -> needs to fetch the details about the drink
+   */
   const openEdit = async (drink) => {
+    if (!drink?.id) return; // if we are creating a drink
     try {
-      console.log("clicked");
       const detail = await getDetailDrink(drink.id);
-      setEditingDrink(detail);
+
+      setSelectedDrink({
+        ...detail,
+        categoryId: detail.category?.id ?? detail.categoryId,
+      });
     } catch (err) {
       console.error("Failed to load drink detail", err);
     }
   };
 
-  const closeEdit = () => {
-    setEditingDrink(null);
-  };
-
-  // this is a variable so you need the arrow functions
-
+  /**
+   * This is run first when the page is rendered first time
+   */
   useEffect(() => {
     async function loadDrinks() {
       try {
-        const data = await getAdminDrinks();
-        console.log("BACKEND DATA:", data);
-        setDrinks(data);
+        const [drinksData, categoriesData] = await Promise.all([
+          getAdminDrinks(),
+          getCategories(),
+        ]);
+
+        setDrinks(drinksData);
+        setCategories(categoriesData);
       } catch (err) {
         console.error("API ERROR:", err);
       } finally {
@@ -63,24 +87,70 @@ export default function MenuDashboard() {
     loadDrinks();
   }, []);
 
+  // if the screen is not big enough
+  if (!isDesktop) {
+    return (
+      <div className="mobile-warning">
+        <h2>Desktop Only</h2>
+        <p>Please switch to a larger screen to manage the menu.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h1 className="dashboard-title">Menu Dashboard</h1>
+        <h1 className="dashboard-title">Quản Lý Menu</h1>
       </div>
 
       {loading ? (
         <div className="dashboard-loading">Loading drinks...</div>
       ) : (
-        <DrinksTable drinks={drinks} onEdit={openEdit} />
+        <>
+          <div className="dashboard-actions">
+            <button
+              className="dashboard-btn primary"
+              onClick={() =>
+                setSelectedDrink({
+                  name: "",
+                  description: "",
+                  price: 0,
+                  imageUrl: "",
+                  categoryId: null,
+                  active: true,
+                })
+              }
+            >
+              + Thêm Đồ Uống
+            </button>
+
+            <button
+              className="dashboard-btn secondary"
+              onClick={() => setIsCategoryModalOpen(true)}
+            >
+              + Thêm Loại
+            </button>
+          </div>
+          <DrinksTable drinks={drinks} onEdit={openEdit} />
+        </>
       )}
 
-      {editingDrink && (
+      {selectedDrink && (
         <EditDrinkModal
-          editingDrink={editingDrink}
-          setEditingDrink={setEditingDrink}
-          onSave={handleSave}
-          onClose={closeEdit}
+          editingDrink={selectedDrink}
+          setEditingDrink={setSelectedDrink}
+          categories={categories}
+          onSave={handleSubmit}
+          onClose={() => setSelectedDrink(null)}
+        />
+      )}
+
+      {isCategoryModalOpen && (
+        <CreateCategoryModal
+          onClose={() => setIsCategoryModalOpen(false)}
+          onCreated={(newCategory) =>
+            setCategories((prev) => [...prev, newCategory])
+          }
         />
       )}
     </div>

@@ -9,9 +9,9 @@ export default function DrinksTable({ drinks, onEdit }) {
       <thead>
         <tr>
           <th>ID</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Price</th>
+          <th>Tên Đồ Uống</th>
+          <th>Loại Đồ Uống</th>
+          <th>Giá Tiền</th>
           <th>Status</th>
           <th>Updated</th>
           <th></th>

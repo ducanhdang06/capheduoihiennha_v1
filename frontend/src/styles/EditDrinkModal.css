@@ -72,3 +72,15 @@
   transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

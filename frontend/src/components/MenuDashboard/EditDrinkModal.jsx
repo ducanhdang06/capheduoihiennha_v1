@@ -1,20 +1,56 @@
-import "../../styles/EditDrinkModal.css"
+import { useState } from "react";
+import "../../styles/EditDrinkModal.css";
 
 export default function EditDrinkModal({
   editingDrink,
   setEditingDrink,
+  categories,
   onSave,
   onClose,
 }) {
+  const [errors, setErrors] = useState({});
+
+  const isEditMode = Boolean(editingDrink?.id);
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!editingDrink.name?.trim()) {
+      newErrors.name = "Name phải được set";
+    }
+
+    if (!editingDrink.imageUrl?.trim()) {
+      newErrors.imageUrl = "Image link phải được set";
+    }
+
+    if (!editingDrink.price || editingDrink.price <= 0) {
+      newErrors.price = "Giá tiền phải được set";
+    }
+
+    if (!editingDrink.categoryId) {
+      newErrors.categoryId = "Loại đồ uống phải được set";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = () => {
+    if (!validate()) return;
+    onSave();
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-card">
-        <h2>Edit Drink</h2>
+        <h2>{isEditMode ? "Sửa Drink" : "Thêm Drink"}</h2>
 
-        <label>Name</label>
+        {/* NAME */}
+        <label>Tên Drink</label>
         <input
           type="text"
-          value={editingDrink.name}
+          value={editingDrink.name || ""}
           onChange={(e) =>
             setEditingDrink({
               ...editingDrink,
@@ -22,11 +58,13 @@ export default function EditDrinkModal({
             })
           }
         />
+        {errors.name && <p className="error">{errors.name}</p>}
 
-        <label>Description</label>
+        {/* DESCRIPTION */}
+        <label>Mô Tả</label>
         <input
           type="text"
-          value={editingDrink.description}
+          value={editingDrink.description || ""}
           onChange={(e) =>
             setEditingDrink({
               ...editingDrink,
@@ -35,10 +73,11 @@ export default function EditDrinkModal({
           }
         />
 
+        {/* IMAGE */}
         <label>Image Link</label>
         <input
           type="text"
-          value={editingDrink.imageUrl}
+          value={editingDrink.imageUrl || ""}
           onChange={(e) =>
             setEditingDrink({
               ...editingDrink,
@@ -46,11 +85,13 @@ export default function EditDrinkModal({
             })
           }
         />
+        {errors.imageUrl && <p className="error">{errors.imageUrl}</p>}
 
-        <label>Price</label>
+        {/* PRICE */}
+        <label>Giá Tiền</label>
         <input
           type="number"
-          value={editingDrink.price}
+          value={editingDrink.price ?? ""}
           onChange={(e) =>
             setEditingDrink({
               ...editingDrink,
@@ -58,23 +99,33 @@ export default function EditDrinkModal({
             })
           }
         />
+        {errors.price && <p className="error">{errors.price}</p>}
 
-        <label>Category</label>
-        <input
-          type="text"
-          value={editingDrink.categoryId}
+        {/* CATEGORY */}
+        <label>Loại Đồ Uống</label>
+        <select
+          value={editingDrink.categoryId ?? ""}
           onChange={(e) =>
             setEditingDrink({
               ...editingDrink,
               categoryId: Number(e.target.value),
             })
           }
-        />
+        >
+          <option value="">Select Category</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+        {errors.categoryId && <p className="error">{errors.categoryId}</p>}
 
-        <label>
+        {/* ACTIVE */}
+        <label className="checkbox-row">
           <input
             type="checkbox"
-            checked={editingDrink.active}
+            checked={editingDrink.active ?? true}
             onChange={(e) =>
               setEditingDrink({
                 ...editingDrink,
@@ -86,8 +137,10 @@ export default function EditDrinkModal({
         </label>
 
         <div className="modal-actions">
-          <button onClick={onClose}>Cancel</button>
-          <button onClick={onSave}>Save</button>
+          <button onClick={onClose}>Huỷ</button>
+          <button onClick={handleSubmit}>
+            {isEditMode ? "Lưu Thay Đổi" : "Tạo Đồ Uống"}
+          </button>
         </div>
       </div>
     </div>

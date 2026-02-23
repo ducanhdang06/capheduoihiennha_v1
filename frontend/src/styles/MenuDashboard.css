@@ -19,3 +19,42 @@
   color: #6b4f3b;
   font-size: 16px;
 }
+
+/* Button container */
+.dashboard-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+/* Base button style */
+.dashboard-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+}
+
+/* Primary button */
+.dashboard-btn.primary {
+  background-color: #6b4f3b;
+  color: white;
+}
+
+.dashboard-btn.primary:hover {
+  background-color: #5a4231;
+}
+
+/* Secondary button */
+.dashboard-btn.secondary {
+  background-color: #e9ded2;
+  color: #4b4038;
+}
+
+.dashboard-btn.secondary:hover {
+  background-color: #d9cbbd;
+}
