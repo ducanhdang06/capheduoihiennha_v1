@@ -1,5 +1,3 @@
-import React from "react";
-import testImg from "../../assets/drinkTestImg.png";
 import "../../styles/MenuPage.css";
 
 export default function DrinkCard({ data }) {

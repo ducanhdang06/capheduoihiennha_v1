@@ -1,5 +1,3 @@
-import React from "react";
-import testImg from "../../assets/drinkTestImg.png";
 import "../../styles/MenuHero.css";
 
 export default function MenuHero() {

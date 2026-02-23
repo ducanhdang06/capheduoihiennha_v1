@@ -5,7 +5,7 @@
 .menu-hero {
   position: relative;
   height: 80vh; /* smaller than homepage hero */
-  background-image: url("../assets/hero_menu.jpg");
+  background-image: url("../assets/hero_menu.webp");
   background-size: cover;
   background-position: center 40%;
   width: 100%;
@@ -18,7 +18,7 @@
 /* Mobile image switch */
 @media (max-width: 768px) {
   .menu-hero {
-    background-image: url("../assets/hero_menu.jpg");
+    background-image: url("../assets/hero_menu.webp");
     height: 45vh;
     padding: 0 6%;
     background-position: center 40%;

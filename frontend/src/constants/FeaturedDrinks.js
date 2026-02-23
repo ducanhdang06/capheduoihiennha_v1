@@ -1,6 +1,6 @@
-import drink1 from "../assets/feat-drink-1-small.jpg"
-import drink2 from "../assets/feat-drink-2.jpg"
-import drink3 from "../assets/feat-drink-3.png"
+import drink1 from "../assets/feat-drink-1-small.webp"
+import drink2 from "../assets/feat-drink-2.webp"
+import drink3 from "../assets/feat-drink-3.webp"
 
 
 export const featuredDrinks = [
