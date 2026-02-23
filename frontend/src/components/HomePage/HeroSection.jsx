@@ -1,9 +1,22 @@
 import { Link } from "react-router-dom";
 import "../../styles/HeroSection.css";
+import heroBig from "../../assets/hero-big.webp";
+import heroSmall from "../../assets/hero-small.webp";
 
 export default function HeroSection() {
   return (
     <section className="hero">
+      <picture>
+        <source media="(max-width: 768px)" srcSet={heroSmall} />
+        <img
+          src={heroBig}
+          alt=""
+          className="hero-bg"
+          fetchPriority="high"
+          decoding="async"
+        />
+      </picture>
+
       <div className="hero-overlay" />
 
       <div className="hero-content">
@@ -13,10 +26,7 @@ export default function HeroSection() {
         </p>
 
         <div className="hero-actions">
-          <a
-            href="#location"
-            className="btn-primary"
-          >
+          <a href="#location" className="btn-primary">
             Ghé Quán
           </a>
 

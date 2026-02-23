@@ -1,5 +1,3 @@
-import React from "react";
-import testImg from "../../assets/drinkTestImg.png";
 import DrinkCard from "./DrinkCard";
 
 export default function CategoryCard({ data }) {
