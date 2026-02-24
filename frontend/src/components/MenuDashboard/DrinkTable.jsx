@@ -20,7 +20,7 @@ export default function DrinksTable({ drinks, onEdit }) {
 
       <tbody>
         {[...drinks]
-          .sort((a, b) => a.id - b.id)
+          // .sort((a, b) => a.id - b.id)
           .map((drink) => (
             <tr key={drink.id}>
               <td>{drink.id}</td>

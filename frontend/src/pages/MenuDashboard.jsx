@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 import {
   getAdminDrinks,
@@ -8,9 +8,12 @@ import {
   getCategories,
 } from "../api/admin.api";
 
+import { applyDrinkFilters } from "../utils/drinkFilter";
+
 import EditDrinkModal from "../components/MenuDashboard/EditDrinkModal";
 import CreateCategoryModal from "../components/MenuDashboard/CreateCategoryModal";
 import DrinksTable from "../components/MenuDashboard/DrinkTable";
+import DrinkFilters from "../components/MenuDashboard/DrinkFilters";
 
 import useIsDesktop from "../hooks/useIsLaptop";
 import "../styles/MenuDashboard.css";
@@ -23,6 +26,15 @@ export default function MenuDashboard() {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const isEditMode = Boolean(selectedDrink?.id);
   const isDesktop = useIsDesktop();
+  const [filters, setFilters] = useState({
+    search: "",
+    categoryId: "all",
+    status: "all",
+    sort: "none",
+  });
+  const filteredDrinks = useMemo(() => {
+    return applyDrinkFilters(drinks, filters);
+  }, [drinks, filters]);
 
   /**
    * Handle when the user click submit
@@ -108,6 +120,11 @@ export default function MenuDashboard() {
       ) : (
         <>
           <div className="dashboard-actions">
+            <DrinkFilters
+              filters={filters}
+              setFilters={setFilters}
+              categories={categories}
+            />
             <button
               className="dashboard-btn primary"
               onClick={() =>
@@ -131,7 +148,7 @@ export default function MenuDashboard() {
               + Thêm Loại
             </button>
           </div>
-          <DrinksTable drinks={drinks} onEdit={openEdit} />
+          <DrinksTable drinks={filteredDrinks} onEdit={openEdit} />
         </>
       )}
 
