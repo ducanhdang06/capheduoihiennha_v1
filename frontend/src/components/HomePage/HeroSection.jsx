@@ -7,13 +7,14 @@ export default function HeroSection() {
   return (
     <section className="hero">
       <picture>
-        <source media="(max-width: 768px)" srcSet={heroSmall} />
+        <source media="(max-width: 768px)" srcSet={heroSmall} width="768" height="1660" />
         <img
           src={heroBig}
           alt=""
           className="hero-bg"
           fetchPriority="high"
-          decoding="async"
+          width="1512" 
+          height="615"
         />
       </picture>
 
