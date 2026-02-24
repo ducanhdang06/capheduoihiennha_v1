@@ -1,5 +1,3 @@
-import { Routes } from "react-router";
-import TestApi from "./pages/TestApi";
 import { BrowserRouter } from "react-router";
 import AppRoutes from "./routes/AppRoutes";
 import "./App.css";
@@ -8,6 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/Footer";
 import ScrollToTop from "./routes/ScrollToTop";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 export default function App() {
   return (
@@ -22,6 +21,7 @@ export default function App() {
       </AuthProvider>
 
       <Analytics />
+      <SpeedInsights />
     </BrowserRouter>
   );
 }
