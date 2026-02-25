@@ -43,8 +43,8 @@ export default function CreateCategoryModal({
         {error && <p className="error">{error}</p>}
 
         <div className="modal-actions">
-          <button onClick={onClose}>Cancel</button>
-          <button onClick={handleSubmit}>Create</button>
+          <button onClick={onClose}>Huỷ</button>
+          <button onClick={handleSubmit}>Tạo</button>
         </div>
       </div>
     </div>

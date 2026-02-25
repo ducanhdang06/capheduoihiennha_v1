@@ -52,3 +52,20 @@
   background-color: #5a3f2e;
   transform: translateY(-1px);
 }
+
+.delete-button {
+  background-color: #fbeaea;
+  color: #b02a37;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 8px;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.delete-button:hover {
+  background-color: #f5c2c7;
+  transform: translateY(-1px);
+}

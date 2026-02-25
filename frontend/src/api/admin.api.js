@@ -44,6 +44,12 @@ export const createDrink = async (drink) => {
   return response.data;
 }
 
+// Hard delete a drink
+export const hardDeleteDrink = async(id) => {
+  const response = await api.delete(`/admin/drinks/${id}/hard`);
+  return response.data
+}
+
 // Get all the categories
 export const getCategories = async () => {
   const response = await api.get("/admin/categories");

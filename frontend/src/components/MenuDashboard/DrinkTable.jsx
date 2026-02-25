@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/DrinksTable.css"
 
-export default function DrinksTable({ drinks, onEdit }) {
+export default function DrinksTable({ drinks, onEdit, onDelete }) {
 
   return (
     <div className="table-wrapper">
@@ -39,6 +39,14 @@ export default function DrinksTable({ drinks, onEdit }) {
                   onClick={() => onEdit(drink)}
                 >
                   Edit
+                </button>
+
+
+                <button
+                  className="delete-button"
+                  onClick={() => onDelete(drink)}
+                >
+                  Xoá
                 </button>
               </td>
             </tr>

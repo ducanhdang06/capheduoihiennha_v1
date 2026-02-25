@@ -12,6 +12,7 @@ import { applyDrinkFilters } from "../utils/drinkFilter";
 
 import EditDrinkModal from "../components/MenuDashboard/EditDrinkModal";
 import CreateCategoryModal from "../components/MenuDashboard/CreateCategoryModal";
+import ConfirmationModal from "../components/MenuDashboard/ConfirmationModal";
 import DrinksTable from "../components/MenuDashboard/DrinkTable";
 import DrinkFilters from "../components/MenuDashboard/DrinkFilters";
 
@@ -24,6 +25,7 @@ export default function MenuDashboard() {
   const [selectedDrink, setSelectedDrink] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isDeleteConfirmation, setIsDeleteConfirmation] = useState(null);
   const isEditMode = Boolean(selectedDrink?.id);
   const isDesktop = useIsDesktop();
   const [filters, setFilters] = useState({
@@ -148,7 +150,7 @@ export default function MenuDashboard() {
               + Thêm Loại
             </button>
           </div>
-          <DrinksTable drinks={filteredDrinks} onEdit={openEdit} />
+          <DrinksTable drinks={filteredDrinks} onEdit={openEdit} onDelete={setIsDeleteConfirmation}/>
         </>
       )}
 
@@ -167,6 +169,16 @@ export default function MenuDashboard() {
           onClose={() => setIsCategoryModalOpen(false)}
           onCreated={(newCategory) =>
             setCategories((prev) => [...prev, newCategory])
+          }
+        />
+      )}
+
+      {isDeleteConfirmation && (
+        <ConfirmationModal 
+          deletingDrink={isDeleteConfirmation}
+          onClose={() => setIsDeleteConfirmation(null)}
+          onDelete={(deletedDrink) =>
+            setDrinks((prev) => prev.filter((drink) => drink.id !== deletedDrink.id))
           }
         />
       )}
