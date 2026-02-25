@@ -32,3 +32,20 @@ Cafe Duoi Hien Nha is a modern, responsive coffee shop website built for a local
 ### Home Page
 
 ![Home Page Demo](./images/home_page-2.gif)
+
+### Menu Page
+
+![Menu Page Demo](./images/menu_demo.gif)
+
+### Dashboard
+
+![DashBoard Page Demo](./images/dashboard.png)
+
+### Sorting and Searching Features
+
+![Sorting/Searching DashBoard Page Demo](./images/sort-search.gif)
+
+### Adding/Editing Drinks
+
+![Adding/Editing DashBoard Page Demo](./images/adding-drinks.gif)
+
