@@ -1,6 +1,7 @@
 # Cafe Duoi Hien Nha 
 
 Live Website: https://cafeduoihiennha.com
+![Landing Demo](./images/landing_demo.png)
 
 ## About
 
@@ -28,5 +29,6 @@ Cafe Duoi Hien Nha is a modern, responsive coffee shop website built for a local
 
 ## Images
 
-Home Page
+### Home Page
+![Home Page Demo](./images/home_page_demo.gif)
 
