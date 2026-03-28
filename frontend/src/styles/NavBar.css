@@ -1,11 +1,13 @@
+@import './variables.css';
+
 /* Navbar Container */
 .navbar {
-  background-color: #fef7e1;
+  background-color: var(--color-hero-btn-bg);
   padding: 0.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 10px rgba(111, 78, 55, 0.08);
+  box-shadow: 0 2px 10px rgba(var(--color-coffee-brown-rgb), 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -47,7 +49,7 @@
 .navbar__hamburger span {
   width: 100%;
   height: 3px;
-  background-color: #6f4e37;
+  background-color: var(--color-coffee-brown);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -89,13 +91,13 @@
 
 /* Hover Effect for Links */
 .navbar__links a:hover {
-  color: #6f4e37;
-  background-color: rgba(111, 78, 55, 0.08);
+  color: var(--color-coffee-brown);
+  background-color: rgba(var(--color-coffee-brown-rgb), 0.08);
 }
 
 /* Special Styling for Login Button */
 .navbar__links a[href="/login"] {
-  background-color: #6f4e37;
+  background-color: var(--color-coffee-brown);
   color: #ffffff;
   padding: 0.55rem 1.3rem;
   border-radius: 6px;
@@ -104,9 +106,9 @@
 }
 
 .navbar__links a[href="/login"]:hover {
-  background-color: #5a3d2b;
+  background-color: var(--color-coffee-brown-hover);
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(111, 78, 55, 0.25);
+  box-shadow: 0 3px 8px rgba(var(--color-coffee-brown-rgb), 0.25);
 }
 
 /* Logout Button Styling */
@@ -116,7 +118,7 @@
   font-size: 0.95rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border: 2px solid #6f4e37;
+  border: 2px solid var(--color-coffee-brown);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -125,10 +127,10 @@
 }
 
 .navbar__logout:hover {
-  background-color: #6f4e37;
+  background-color: var(--color-coffee-brown);
   color: #ffffff;
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(111, 78, 55, 0.25);
+  box-shadow: 0 3px 8px rgba(var(--color-coffee-brown-rgb), 0.25);
 }
 
 /* Tablet Screens (768px - 1024px) */
@@ -177,14 +179,14 @@
     left: -100%;
     top: 0;
     flex-direction: column;
-    background-color: #fef7e1;
+    background-color: var(--color-hero-btn-bg);
     width: 75%;
     max-width: 320px;
     height: 100vh;
     padding: 5rem 0 2rem 0;
     gap: 0;
     transition: left 0.3s ease;
-    box-shadow: 3px 0 15px rgba(111, 78, 55, 0.15);
+    box-shadow: 3px 0 15px rgba(var(--color-coffee-brown-rgb), 0.15);
     z-index: 1001;
     overflow-y: auto;
   }
@@ -206,20 +208,20 @@
     padding: 1.1rem 2rem;
     border-radius: 0;
     font-size: 1rem;
-    border-bottom: 1px solid rgba(111, 78, 55, 0.1);
+    border-bottom: 1px solid rgba(var(--color-coffee-brown-rgb), 0.1);
     margin: 0;
     text-align: left;
     box-sizing: border-box;
   }
 
   .navbar__links a:hover {
-    background-color: rgba(111, 78, 55, 0.12);
-    color: #6f4e37;
+    background-color: rgba(var(--color-coffee-brown-rgb), 0.12);
+    color: var(--color-coffee-brown);
   }
 
   /* Login Button Mobile Styling */
   .navbar__links a[href="/login"] {
-    background-color: #6f4e37;
+    background-color: var(--color-coffee-brown);
     color: #ffffff;
     margin: 1.5rem 1.5rem 0.5rem 1.5rem;
     width: calc(100% - 3rem);
@@ -232,7 +234,7 @@
 
   .navbar__links a[href="/login"]:hover {
     transform: none;
-    background-color: #5a3d2b;
+    background-color: var(--color-coffee-brown-hover);
   }
 
   /* Logout Button Mobile Styling */

@@ -5,8 +5,12 @@
 ========================= */
 
 :root {
+  /* ── Section layout ── */
+  --section-padding-v: clamp(3rem, 8vw, 2rem); /* Shared vertical padding for all homepage sections */
+
   /* ── Backgrounds ── */
   --color-bg-warm: #f7f4ef; /* Warm cream — main section background */
+  --color-admin-card-bg: #fffdf9; /* Near-white warm — admin table / modal card backgrounds */
 
   /* ── Text ── */
   --color-text-primary: #2a2420; /* Near-black espresso — headings, labels */
@@ -19,10 +23,22 @@
   --color-btn-dark-bg: #2a2420; /* Button background */
   --color-btn-dark-text: #f9f7f4; /* Button label (near-white cream) */
 
+  /* ── Public interactive / coffee-brown accent ── */
+  --color-coffee-brown: #6f4e37;      /* Primary interactive brown — nav, login, public CTAs */
+  --color-coffee-brown-rgb: 111, 78, 55; /* For rgba() — same hue as --color-coffee-brown */
+  --color-coffee-brown-hover: #5a3d2b; /* Hover state for coffee-brown elements */
+  --color-footer-bg: #5a3d2b;         /* Footer background (same hue, distinct role) */
+
+  /* ── Admin UI ── */
+  --color-admin-primary: #6b4f3b;     /* Admin action color — table headers, buttons */
+  --color-admin-primary-rgb: 107, 79, 59; /* For rgba() — same hue as --color-admin-primary */
+  --color-admin-primary-hover: #5a3f2e; /* Hover state for admin primary elements */
+  --color-admin-text: #4b4038;        /* Admin UI body text — dashboard, tables, modals */
+
   /* ── Hero buttons ── */
   --color-hero-btn-bg: #fef7e1; /* Warm latte — primary hero button fill */
   --color-hero-btn-text: #2c1e12; /* Dark espresso — primary hero button label */
-  --color-hero-btn-hover-bg: #6f4e37; /* Coffee brown — primary hero button hover fill */
+  --color-hero-btn-hover-bg: var(--color-coffee-brown); /* Coffee brown — reuses coffee-brown token */
 
   /* ── Star ratings ── */
   --color-star-filled: #d6b48a; /* Latte tone — filled star */

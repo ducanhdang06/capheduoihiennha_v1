@@ -1,5 +1,53 @@
 # CHANGELOG
 
+## 2026-03-27 (5)
+
+### Fixed
+
+**`GallerySection` title inconsistency with other HomePage section headers.**
+
+- `frontend/src/components/HomePage/GallerySection.jsx` — added `className="gallery__title"` to `<h2>`; it previously had no class and was targeted via the element selector `.gallery__header h2`
+- `frontend/src/styles/shared.css` — added `.gallery__title` to the shared section title selector group (alongside `.featured__title`, `.about__title`, `.reviews__title`, `.location__title`); aligns font-weight (400) and max font-size (3.5rem) with all other section titles
+- `frontend/src/styles/GallerySection.css` — removed the now-superseded `.gallery__header h2` block (was using `font-weight: 600` and `font-size: clamp(2rem, 5vw, 3rem)`, both inconsistent with the shared title style); replaced with tombstone comment
+
+---
+
+## 2026-03-27 (4)
+
+### Added
+
+**`frontend/src/styles/variables.css`** — expanded with 9 new tokens:
+- Layout: `--section-padding-v` (`clamp(3rem, 8vw, 2rem)`) — shared vertical padding across all 5 homepage sections
+- Admin UI: `--color-admin-card-bg` (`#fffdf9`), `--color-admin-primary` (`#6b4f3b`), `--color-admin-primary-rgb`, `--color-admin-primary-hover` (`#5a3f2e`), `--color-admin-text` (`#4b4038`)
+- Public accent: `--color-coffee-brown` (`#6f4e37`), `--color-coffee-brown-rgb`, `--color-coffee-brown-hover` (`#5a3d2b`)
+- Footer: `--color-footer-bg` (`#5a3d2b`)
+- `--color-hero-btn-hover-bg` now resolves to `var(--color-coffee-brown)` instead of a hardcoded hex
+
+### Changed
+
+**`frontend/src/styles/shared.css`** — added two new consolidated container blocks:
+- `.reviews, .gallery` — identical `background`, `padding: var(--section-padding-v) 0`, `overflow: hidden`
+- `.featured, .location` — identical `padding: var(--section-padding-v) clamp(1rem, 4vw, 2rem)`
+
+**Section CSS files** — padding removed from individual files (now in shared.css):
+- `FeaturedSection.css` — removed `padding` from `.featured`
+- `LocationSection.css` — removed `padding` from `.location`
+- `ReviewSection.css` — removed `.reviews` container block entirely
+- `GallerySection.css` — removed `.gallery` container block; changed import to `shared.css`
+- `AboutSection.css` — `clamp(3rem, 8vw, 2rem)` in padding replaced with `var(--section-padding-v)` (horizontal padding unique, not consolidated)
+
+**Admin CSS files** — all receive `@import './variables.css'` + color token substitutions:
+- `DrinksTable.css`: `#fffdf9` → `--color-admin-card-bg`; `#6b4f3b` → `--color-admin-primary`; `#5a3f2e` → `--color-admin-primary-hover`; `#4b4038` → `--color-admin-text`
+- `EditDrinkModal.css`: same substitutions as above
+- `MenuDashboard.css`: same substitutions; `#5a4231` (inconsistent hover) standardized to `--color-admin-primary-hover` (`#5a3f2e`)
+
+**Public UI files** — coffee-brown token substitutions:
+- `NavBar.css`: `@import './variables.css'` added; all `#fef7e1`/`#6f4e37`/`#5a3d2b`/`rgba(111,78,55,…)` replaced with variables
+- `LoginPage.css`: all `#6f4e37`/`#5a3d2b`/`rgba(111,78,55,…)` replaced with variables
+- `Footer.css`: `@import './variables.css'` added; `#5a3d2b` → `--color-footer-bg`; `#f7f4ef` → `--color-bg-warm`
+
+---
+
 ## 2026-03-27 (3)
 
 ### Added

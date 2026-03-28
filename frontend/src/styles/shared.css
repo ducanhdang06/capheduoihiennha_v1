@@ -8,6 +8,24 @@
 ================================================================ */
 
 /* ──────────────────────────────────────────────────────────────
+   HOMEPAGE SECTION CONTAINERS
+   .reviews and .gallery share identical base styles.
+   .featured and .location share identical padding.
+   ────────────────────────────────────────────────────────────── */
+
+.reviews,
+.gallery {
+  background: var(--color-bg-warm);
+  padding: var(--section-padding-v) 0;
+  overflow: hidden;
+}
+
+.featured,
+.location {
+  padding: var(--section-padding-v) clamp(1rem, 4vw, 2rem);
+}
+
+/* ──────────────────────────────────────────────────────────────
    SECTION TITLE
    Used by: .featured__title · .about__title
           · .reviews__title · .location__title
@@ -16,6 +34,7 @@
 .featured__title,
 .about__title,
 .reviews__title,
+.gallery__title,
 .location__title {
   font-family: var(--font-display);
   font-weight: 400;

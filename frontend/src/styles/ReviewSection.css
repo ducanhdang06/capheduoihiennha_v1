@@ -4,12 +4,7 @@
    SECTION
 ========================= */
 
-.reviews {
-  padding: clamp(3rem, 8vw, 2rem) 0;
-  background: var(--color-bg-warm);
-  overflow: hidden;
-}
-
+/* .reviews (base container) — defined in shared.css */
 /* .reviews__title — defined in shared.css */
 
 /* =========================

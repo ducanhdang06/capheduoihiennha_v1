@@ -90,7 +90,7 @@ export default function GallerySection() {
   return (
     <section className="gallery">
       <div className="gallery__header">
-        <h2>Our Space</h2>
+        <h2 className="gallery__title">Our Space</h2>
         <p>A glimpse into our daily craft</p>
       </div>
 

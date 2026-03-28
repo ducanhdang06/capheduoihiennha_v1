@@ -1,7 +1,9 @@
+@import './variables.css';
+
 /* Drinks Admin Table */
 
 .drinks-table {
-  background: #fffdf9;
+  background: var(--color-admin-card-bg);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   overflow: hidden;
@@ -13,7 +15,7 @@
 }
 
 .drinks-table__table thead {
-  background-color: #6b4f3b;
+  background-color: var(--color-admin-primary);
   color: white;
 }
 
@@ -26,7 +28,7 @@
 .drinks-table__table td {
   padding: 16px;
   border-bottom: 1px solid #f0e6dc;
-  color: #4b4038;
+  color: var(--color-admin-text);
 }
 
 .drinks-table__table tbody tr {
@@ -38,7 +40,7 @@
 }
 
 .drinks-table__edit-btn {
-  background-color: #6b4f3b;
+  background-color: var(--color-admin-primary);
   color: white;
   border: none;
   padding: 6px 12px;
@@ -49,7 +51,7 @@
 }
 
 .drinks-table__edit-btn:hover {
-  background-color: #5a3f2e;
+  background-color: var(--color-admin-primary-hover);
   transform: translateY(-1px);
 }
 

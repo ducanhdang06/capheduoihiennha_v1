@@ -1,10 +1,6 @@
-@import './variables.css';
+@import './shared.css';
 
-.gallery {
-  background: var(--color-bg-warm);
-  padding: clamp(3rem, 8vw, 2rem) 0;
-  overflow: hidden;
-}
+/* .gallery (base container) — defined in shared.css */
 
 .gallery__header {
   text-align: center;
@@ -12,13 +8,7 @@
   padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
-.gallery__header h2 {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3rem);
-  color: var(--color-text-primary);
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
+/* .gallery__title — defined in shared.css */
 
 .gallery__header p {
   color: var(--color-text-secondary);

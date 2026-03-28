@@ -4,7 +4,7 @@
   font-family: var(--font-body);
   background: var(--color-bg-warm);
   color: var(--color-text-primary);
-  padding: clamp(3rem, 8vw, 2rem) clamp(3rem, 15vw, 24rem);
+  padding: var(--section-padding-v) clamp(3rem, 15vw, 24rem);
 }
 
 /* .about__title — defined in shared.css */

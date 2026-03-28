@@ -1,3 +1,5 @@
+@import './variables.css';
+
 .modal__overlay {
   position: fixed;
   top: 0;
@@ -15,7 +17,7 @@
 }
 
 .modal__card {
-  background: #fffdf9;
+  background: var(--color-admin-card-bg);
   padding: 2rem;
   border-radius: 16px;
   width: 420px;
@@ -54,7 +56,7 @@
 /* Cancel Button */
 .modal__actions button:first-child {
   background: #e8ded2;
-  color: #4b4038;
+  color: var(--color-admin-text);
 }
 
 .modal__actions button:first-child:hover {
@@ -63,12 +65,12 @@
 
 /* Save / Confirm Button */
 .modal__actions button:last-child {
-  background: #6b4f3b;
+  background: var(--color-admin-primary);
   color: white;
 }
 
 .modal__actions button:last-child:hover {
-  background: #5a3f2e;
+  background: var(--color-admin-primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
