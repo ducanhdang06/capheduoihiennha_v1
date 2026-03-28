@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 2026-03-28 (6)
+
+### Fixed
+- `frontend/src/components/NavBar.jsx` — public links (Home, Menu, Giới Thiệu) now always visible regardless of auth state; admin links append after when logged in. Fixes inability to navigate to public pages while logged in.
+- `frontend/src/components/Footer.jsx` — "Admin" footer link now hidden when user is already logged in (`{!user && ...}`); imported `useAuth` to check auth state. Fixes redirect loop to login page when authenticated.
+
+## 2026-03-28 (5)
+
+### Changed
+- `frontend/src/components/NavBar.jsx` — public links (Home, Menu, Giới Thiệu) now only render when logged out; Login button removed entirely from nav. Admin link labels renamed: "Edit Menu" → "Menu Dashboard", "Edit Manager" → "Manager Dashboard". Logged-in state shows only admin links + Logout.
+- `frontend/src/components/Footer.jsx` — added a muted `<Link to="/login">Admin</Link>` in `.footer__bottom` as the sole entry point to the login page for unauthenticated admins. Imported `Link` from `react-router`.
+- `frontend/src/styles/Footer.css` — added `.footer__admin-link` (0.7rem, rgba white 25% opacity, absolute right-aligned) and hover state (55% opacity). Added `position: relative` to `.footer__bottom` to anchor the absolute link.
+
 ## 2026-03-28 (4)
 
 ### Added
