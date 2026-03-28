@@ -8,6 +8,13 @@
   /* ── Section layout ── */
   --section-padding-v: clamp(3rem, 8vw, 2rem); /* Shared vertical padding for all homepage sections */
 
+  /* ── Navbar height ──
+     Matches the actual rendered height of .navbar at each breakpoint
+     (logo height + top/bottom padding). Used by sticky children so
+     they position flush below the navbar without overlapping it.
+     Desktop/laptop: 45px logo + 2×0.75rem padding = 69px ≈ 4.375rem */
+  --navbar-height: 4.375rem;
+
   /* ── Backgrounds ── */
   --color-bg-warm: #f7f4ef; /* Warm cream — main section background */
   --color-admin-card-bg: #fffdf9; /* Near-white warm — admin table / modal card backgrounds */
@@ -50,4 +57,23 @@
   /* ── RGB triplet for rgba() compositing ── */
   /* Usage: rgba(var(--color-espresso-rgb), 0.7) */
   --color-espresso-rgb: 42, 36, 32; /* Matches #2a2420 */
+}
+
+/* ── Responsive navbar height overrides ──
+   Must be outside :root so media queries apply.
+   Each breakpoint matches the logo height change in NavBar.css. */
+
+/* Mobile: logo shrinks to 40px, padding stays 0.75rem → 40 + 24 = 64px = 4rem */
+@media (max-width: 768px) {
+  :root { --navbar-height: 4rem; }
+}
+
+/* Small mobile: logo 36px, padding 0.65rem → 36 + 20.8 ≈ 57px ≈ 3.5625rem */
+@media (max-width: 480px) {
+  :root { --navbar-height: 3.5625rem; }
+}
+
+/* Extra small: logo 34px, padding 0.6rem → 34 + 19.2 ≈ 53px ≈ 3.3125rem */
+@media (max-width: 375px) {
+  :root { --navbar-height: 3.3125rem; }
 }

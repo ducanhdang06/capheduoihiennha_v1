@@ -1,5 +1,43 @@
 # CHANGELOG
 
+## 2026-03-28 (4)
+
+### Added
+- `frontend/src/components/MenuPage/DrinkCardSkeleton.jsx` — new skeleton component that mirrors `DrinkCard`'s exact DOM structure (4:5 image area + info row) so placeholder cards occupy identical dimensions to real cards, eliminating layout shift.
+- `frontend/src/styles/animations.css` — added `@keyframes shimmer` (diagonal left-to-right light sweep) used by skeleton blocks.
+- Skeleton styles in `frontend/src/styles/MenuPage.css` — `.skeleton-block` (warm-cream shimmer gradient), `.skeleton-name` (0.9rem height, 70% width), `.skeleton-price` (0.8rem height, 25% width), `.menu__card--skeleton` (disables hover effects), `.menu__card-info--skeleton` (stacks name/price vertically). Respects `prefers-reduced-motion` by replacing animation with a flat colour.
+
+### Changed
+- `frontend/src/pages/MenuPage.jsx` — added `isLoading` state (default `true`, cleared after `getMenu()` resolves). While loading, renders a flat `.menu__category-grid` of 8 `DrinkCardSkeleton` components; after load, renders the normal `CategoryCard` sections.
+- `frontend/src/styles/MenuPage.css` — added `@import './animations.css'` to pull in the shimmer keyframe.
+
+## 2026-03-28 (3)
+
+### Fixed
+- `frontend/src/components/MenuPage/MenuNav.jsx` — added `navInnerRef` on the scrollable container. When `activeId` changes, calculates `btnLeft - containerWidth/2 + btnWidth/2` and calls `container.scrollTo()` to center the active button. Added `scrolledLeft` state toggled by a scroll event listener to conditionally apply `.scrolled-left` on the nav wrapper (reveals the left-edge fade).
+- `frontend/src/styles/MenuNav.css` — added `::after` right-edge fade gradient (always visible) and `::before` left-edge fade (only visible when `.scrolled-left` is applied) to signal to phone users that the nav is horizontally scrollable. Added `overflow: hidden` to `.menu-nav` to contain the pseudo-elements.
+
+## 2026-03-28 (2)
+
+### Fixed
+- `frontend/src/styles/variables.css` — added `--navbar-height` CSS custom property (`4.375rem` default) with responsive overrides at `768px` (4rem), `480px` (3.5625rem), and `375px` (3.3125rem). Values derived from the actual logo height + padding at each breakpoint in `NavBar.css`.
+- `frontend/src/styles/MenuNav.css` — replaced hardcoded `top: 3.5rem` with `top: var(--navbar-height)` so the sticky category nav always sits flush below the navbar across all screen sizes.
+- `frontend/src/styles/MenuPage.css` — updated `scroll-margin-top` from static `8rem` to `calc(var(--navbar-height) + 3.5rem)` so category anchor scroll targets account for the correct sticky header height at every breakpoint.
+- `frontend/src/styles/MenuHero.css` — added missing `@import './variables.css'` so `--color-bg-warm` resolves correctly in the hero fade `::after`.
+
+## 2026-03-28
+
+### Added
+- `frontend/src/components/MenuPage/MenuNav.jsx` — new sticky horizontal category navigation bar. Uses `IntersectionObserver` to highlight the active category while scrolling. Clicking a category smooth-scrolls to its section. Renders only once API data is loaded.
+- `frontend/src/styles/MenuNav.css` — styles for the sticky category nav. Positioned at `top: 3.5rem` to sit flush below the main navbar. Includes animated underline indicator for active/hover states.
+
+### Changed
+- `frontend/src/styles/MenuPage.css` — replaced `--gradient-warm-page` body background with `--color-bg-warm` to match homepage section backgrounds. Replaced hardcoded `#111827`/`#ffffff`/`#673212` with design tokens (`--color-text-primary`, `--color-admin-card-bg`, `--color-coffee-brown`). Added warm border to cards. Changed card image aspect ratio from `1/1` to `4/5` (taller portrait) to match the editorial style of the homepage Featured section. Added description overlay on hover (dark espresso gradient with clamped text). Added `.menu__category-header` with `.menu__category-rule` (thin decorative divider extending from category title). Changed card font to `--font-display`.
+- `frontend/src/styles/MenuHero.css` — added `::after` pseudo-element that fades the bottom of the hero into `--color-bg-warm`, creating a smooth transition into the menu content instead of a hard cut.
+- `frontend/src/components/MenuPage/Category.jsx` — added `id="category-{id}"` to each section for scroll-anchor and `IntersectionObserver` targeting. Added `.menu__category-header` wrapper with decorative rule span.
+- `frontend/src/components/MenuPage/DrinkCard.jsx` — added description overlay markup (`.menu__card-overlay` + `.menu__card-desc`) rendered conditionally when `data.description` exists.
+- `frontend/src/pages/MenuPage.jsx` — imported and rendered `MenuNav` between the hero and the main content.
+
 ## 2026-03-27 (6)
 
 ### Added
