@@ -69,6 +69,17 @@
   }
 }
 
+/* ================================================
+   SHIMMER — skeleton loading animation
+   A diagonal light sweep that plays on skeleton placeholder blocks.
+   Used by .skeleton-block in MenuPage.css.
+================================================ */
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
 /* ── Accessibility: honour prefers-reduced-motion ──
    Users who have requested reduced motion see elements at their final
    visible state immediately, with no opacity or transform transitions. ── */
