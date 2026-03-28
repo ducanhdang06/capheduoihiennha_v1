@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
 import "../../styles/HeroSection.css";
+import "../../styles/animations.css";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import heroBig from "../../assets/hero-big.webp";
 import heroSmall from "../../assets/hero-small.webp";
 
+/**
+ * Full-bleed hero section with background image, overlay, and CTA buttons.
+ * The text content fades in upward on mount via IntersectionObserver.
+ */
 export default function HeroSection() {
+  // Hero content is above the fold — observer fires immediately on page load,
+  // giving the heading and buttons a subtle entrance animation.
+  const contentRef = useScrollAnimation({ threshold: 0.1 });
+
   return (
     <section className="hero">
       <picture>
@@ -20,7 +30,7 @@ export default function HeroSection() {
 
       <div className="hero__overlay" />
 
-      <div className="hero__content">
+      <div className="hero__content fade-in-up" ref={contentRef}>
         <h1>Tiệm Cà Phê Dưới Hiên Nhà</h1>
         <p className="hero__tagline">
           Một góc <span>Đà Lạt</span> giữa lòng <span>Cửa Lò</span>

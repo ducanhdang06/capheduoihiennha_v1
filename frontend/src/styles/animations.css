@@ -1,0 +1,82 @@
+@import "./variables.css";
+
+/* ================================================
+   SCROLL ANIMATIONS
+   Subtle fade-in-up entrance animations for homepage sections.
+   Triggered by IntersectionObserver via useScrollAnimation hook —
+   which adds the 'visible' class when an element enters the viewport.
+
+   Two usage patterns:
+     1. Single element  → add class "fade-in-up" + ref from useScrollAnimation()
+     2. Staggered grid  → add class "stagger-children" + ref; direct children
+                          animate in sequence via nth-child transition-delay.
+
+   All animations respect the user's prefers-reduced-motion setting.
+================================================ */
+
+/* ── Single element: fade in + slide up ── */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  /* Duration and easing intentionally kept short for a subtle, non-distracting feel. */
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Stagger grid: each direct child fades in with an offset delay ── */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
+}
+
+/* All children reach their final state once the parent gets 'visible'. */
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay — 80 ms per step, supports up to 8 children. */
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0ms; }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 80ms; }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 160ms; }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 240ms; }
+.stagger-children.visible > *:nth-child(5) { transition-delay: 320ms; }
+.stagger-children.visible > *:nth-child(6) { transition-delay: 400ms; }
+.stagger-children.visible > *:nth-child(7) { transition-delay: 480ms; }
+.stagger-children.visible > *:nth-child(8) { transition-delay: 560ms; }
+
+/* ── Mobile (< 768 px): faster transitions, no stagger ──
+   Stagger delay removed on small screens — rapid-fire stagger feels jarring
+   on a single-column layout where all cards are in the visible viewport
+   at the same time. ── */
+@media (max-width: 767px) {
+  .fade-in-up {
+    transition-duration: 250ms;
+  }
+
+  .stagger-children > * {
+    transition-duration: 250ms;
+  }
+
+  /* Override all nth-child delays to 0 on mobile. */
+  .stagger-children.visible > *:nth-child(n) {
+    transition-delay: 0ms;
+  }
+}
+
+/* ── Accessibility: honour prefers-reduced-motion ──
+   Users who have requested reduced motion see elements at their final
+   visible state immediately, with no opacity or transform transitions. ── */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up,
+  .stagger-children > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

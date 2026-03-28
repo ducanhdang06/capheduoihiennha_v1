@@ -8,9 +8,16 @@ import gallery6 from "../../assets/gallery/gallery-6.webp";
 import gallery7 from "../../assets/gallery/gallery-7.webp";
 import gallery8 from "../../assets/gallery/gallery-8.webp";
 import "../../styles/GallerySection.css";
+import "../../styles/animations.css";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
+/**
+ * Horizontally scrollable photo gallery with drag-to-scroll on touch/mid-size screens.
+ * The header fades in on scroll; gallery items stagger in via 'stagger-children'.
+ * galleryRef is shared between drag logic and the scroll animation observer.
+ */
 export default function GallerySection() {
-  // Reference to the gallery container (used for scrolling)
+  // Reference to the gallery container (used for drag-scroll AND scroll animation)
   const galleryRef = useRef(null);
   // check if the user is dragging or not
   const [isDragging, setIsDragging] = useState(false);
@@ -18,6 +25,11 @@ export default function GallerySection() {
   const [startX, setStartX] = useState(0);
   // Store the scroll position of the container before dragging
   const [scrollLeft, setScrollLeft] = useState(0);
+
+  // Scroll animation: header fades in independently; grid uses the shared galleryRef
+  // so the IntersectionObserver coexists with the drag logic on the same element.
+  const headerRef = useScrollAnimation();
+  useScrollAnimation({ threshold: 0.1, ref: galleryRef });
 
   // Array of your gallery images
   const images = [
@@ -89,13 +101,13 @@ export default function GallerySection() {
 
   return (
     <section className="gallery">
-      <div className="gallery__header">
+      <div className="gallery__header fade-in-up" ref={headerRef}>
         <h2 className="gallery__title">Our Space</h2>
         <p>A glimpse into our daily craft</p>
       </div>
 
       <div
-        className="gallery__grid"
+        className="gallery__grid stagger-children"
         ref={galleryRef}
         onMouseDown={handleMouseDown}
       >

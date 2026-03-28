@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## 2026-03-27 (6)
+
+### Added
+
+**Scroll-triggered fade-in-up animations for all homepage sections.**
+
+- `frontend/src/hooks/useScrollAnimation.js` — new reusable hook using `IntersectionObserver`. Accepts optional `threshold` (default `0.15`) and `ref` options. When the observed element enters the viewport, adds the CSS class `visible` once and stops observing. The `ref` option allows sharing an existing ref (e.g. a drag-scroll ref) rather than creating a new one.
+
+- `frontend/src/styles/animations.css` — single animation stylesheet with two composable patterns:
+  - `.fade-in-up` — single element fades in and rises 30 px; `transition: 400ms ease-out`
+  - `.stagger-children` — direct children each fade-in-up with 80 ms staggered `transition-delay` (up to 8 children)
+  - Mobile override (`max-width: 767px`): duration shortened to 250 ms and all stagger delays set to 0 ms for a snappier feel on single-column layouts
+  - `prefers-reduced-motion: reduce` block disables all opacity/transform transitions entirely for accessibility
+
+### Changed
+
+**Applied animations to each homepage section component.** No layout or visual-style changes — only `className` additions and hook calls.
+
+- `frontend/src/components/HomePage/HeroSection.jsx` — `hero__content` gets `fade-in-up` (fires on mount since hero is above the fold)
+- `frontend/src/components/HomePage/FeaturedSection.jsx` — `featured__header` gets `fade-in-up`; `featured__grid` gets `stagger-children` (3 drink cards stagger at 0 / 80 / 160 ms)
+- `frontend/src/components/HomePage/AboutSection.jsx` — `about__container` gets `fade-in-up`
+- `frontend/src/components/HomePage/GallerySection.jsx` — `gallery__header` gets `fade-in-up` via its own ref; `gallery__grid` gets `stagger-children` with the existing `galleryRef` passed as `ref` option to `useScrollAnimation` so the observer coexists with drag-scroll logic
+- `frontend/src/components/HomePage/LocationSection.jsx` — `location__title` gets `fade-in-up`; `location__grid` gets `stagger-children` (info column + map column stagger at 0 / 80 ms)
+- `frontend/src/components/HomePage/ReviewSection.jsx` — `reviews__title` gets `fade-in-up`; marquee is left untouched (it has its own `@keyframes` animation)
+
+---
+
 ## 2026-03-27 (5)
 
 ### Fixed

@@ -1,12 +1,21 @@
 import { reviews } from "../../constants/Reviews";
 import "../../styles/ReviewSection.css";
+import "../../styles/animations.css";
 import { useState } from "react";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
+/**
+ * Scrolling marquee of customer reviews.
+ * The section title fades in on scroll; the marquee runs its own CSS animation
+ * and is left untouched.
+ */
 export default function ReviewSection() {
   const [isPaused, setIsPaused] = useState(false);
+  const titleRef = useScrollAnimation();
+
   return (
     <section className="reviews">
-      <h2 className="reviews__title">Reviews</h2>
+      <h2 className="reviews__title fade-in-up" ref={titleRef}>Reviews</h2>
 
       <div
         className={`reviews__marquee ${isPaused ? "paused" : ""}`}

@@ -1,16 +1,26 @@
 import "../../styles/LocationSection.css";
+import "../../styles/animations.css";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
+/**
+ * Location section with address, opening hours, phone, and embedded Google Map.
+ * The info and map columns stagger in when the grid enters the viewport.
+ */
 export default function LocationSection() {
+  const titleRef = useScrollAnimation();
+  // Lower threshold so the grid triggers before both columns are fully visible.
+  const gridRef = useScrollAnimation({ threshold: 0.1 });
+
   return (
     <section className="location" id="location">
       {/* Section Title */}
-      <h2 className="location__title">Địa Chỉ & Giờ Mở Cửa</h2>
+      <h2 className="location__title fade-in-up" ref={titleRef}>Địa Chỉ & Giờ Mở Cửa</h2>
 
       {/* Tagline */}
       <p className="location__tagline">Stop by for your morning brew.</p>
 
-      {/* Content Grid */}
-      <div className="location__grid">
+      {/* Content Grid — two columns (info + map) stagger in */}
+      <div className="location__grid stagger-children" ref={gridRef}>
         {/* Left Column - Info */}
         <div className="location__info">
           <div className="location__block">

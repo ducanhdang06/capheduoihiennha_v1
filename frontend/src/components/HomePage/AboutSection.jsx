@@ -1,10 +1,18 @@
 import "../../styles/AboutSection.css";
+import "../../styles/animations.css";
 import { Link } from "react-router";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
+/**
+ * "About Us" section — short brand story and CTA to the full about page.
+ * The container fades in upward when it scrolls into view.
+ */
 export default function AboutSection() {
+  const containerRef = useScrollAnimation();
+
   return (
     <section className="about">
-      <div className="about__container">
+      <div className="about__container fade-in-up" ref={containerRef}>
         <div>
           <h2 className="about__title">Về Chúng Tôi</h2>
           <p className="about__body">
