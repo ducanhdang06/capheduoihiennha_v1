@@ -53,6 +53,40 @@ public class CategoryService {
         );
     }
 
+    /**
+     * Renames an existing category.
+     * Throws NotFoundException if the category does not exist.
+     * Throws BusinessException if the new name is already taken (case-insensitive).
+     *
+     * @param id   the ID of the category to rename
+     * @param name the new name to assign
+     * @return the updated category as an AdminCategoryResponse
+     */
+    public AdminCategoryResponse renameCategory(Integer id, String name) {
+
+        // Verify the category exists before attempting a rename
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new NotFoundException(
+                                "Category not found",
+                                ErrorCodes.CATEGORY_NOT_FOUND
+                        )
+                );
+
+        // Guard against collisions with an existing category name
+        if (categoryRepository.existsByNameIgnoreCase(name)) {
+            throw new BusinessException(
+                    "Category already exists",
+                    ErrorCodes.CATEGORY_DUPLICATE
+            );
+        }
+
+        category.setName(name);
+        Category saved = categoryRepository.save(category);
+
+        return new AdminCategoryResponse(saved.getId(), saved.getName());
+    }
+
     // DELETE (hard delete)
     public void deleteCategory(Integer id) {
 

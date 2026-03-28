@@ -63,3 +63,15 @@ export const createCategory = async(category) => {
   });
   return response.data;
 }
+
+// Rename an existing category
+export const updateCategory = async (id, name) => {
+  const response = await api.patch(`/admin/categories/${id}`, { name });
+  return response.data;
+}
+
+// Hard-delete a category (only safe when it has 0 drinks)
+export const deleteCategory = async (id) => {
+  const response = await api.delete(`/admin/categories/${id}`);
+  return response.data;
+}

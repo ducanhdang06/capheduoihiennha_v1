@@ -34,6 +34,49 @@
   padding: 2rem;
 }
 
+/* ── Stats bar ── */
+.dashboard__stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard__stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--color-admin-card-bg);
+  border-radius: 12px;
+  padding: 14px 20px;
+  min-width: 110px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #a08070;
+}
+
+.dashboard__stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-admin-text);
+  line-height: 1;
+}
+
+/* Active count — green tint */
+.dashboard__stat-value--active {
+  color: #065f46;
+}
+
+/* Inactive count — red tint */
+.dashboard__stat-value--inactive {
+  color: #991b1b;
+}
+
 /* Button container */
 .dashboard__actions {
   display: flex;
@@ -65,14 +108,15 @@
   background-color: var(--color-admin-primary-hover);
 }
 
-/* Secondary button */
+/* Secondary button — ghost/outlined to visually defer to primary */
 .dashboard__btn--secondary {
-  background-color: #e9ded2;
-  color: var(--color-admin-text);
+  background-color: transparent;
+  color: var(--color-admin-primary);
+  border: 1.5px solid var(--color-admin-primary);
 }
 
 .dashboard__btn--secondary:hover {
-  background-color: #d9cbbd;
+  background-color: #f3ede7;
 }
 
 .dashboard__filters {

@@ -11,12 +11,14 @@ import {
 import { applyDrinkFilters } from "../utils/drinkFilter";
 
 import EditDrinkModal from "../components/MenuDashboard/EditDrinkModal";
-import CreateCategoryModal from "../components/MenuDashboard/CreateCategoryModal";
+import CategoryManagementModal from "../components/MenuDashboard/CategoryManagementModal";
 import ConfirmationModal from "../components/MenuDashboard/ConfirmationModal";
 import DrinksTable from "../components/MenuDashboard/DrinkTable";
 import DrinkFilters from "../components/MenuDashboard/DrinkFilters";
+import Toast from "../components/Toast";
 
 import useIsDesktop from "../hooks/useIsLaptop";
+import useToast from "../hooks/useToast";
 import "../styles/MenuDashboard.css";
 
 export default function MenuDashboard() {
@@ -24,19 +26,46 @@ export default function MenuDashboard() {
   const [drinks, setDrinks] = useState([]);
   const [selectedDrink, setSelectedDrink] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isCategoryMgmtOpen, setIsCategoryMgmtOpen] = useState(false);
   const [isDeleteConfirmation, setIsDeleteConfirmation] = useState(null);
   const isEditMode = Boolean(selectedDrink?.id);
   const isDesktop = useIsDesktop();
+  const { toasts, showToast } = useToast();
   const [filters, setFilters] = useState({
     search: "",
     categoryId: "all",
     status: "all",
     sort: "none",
   });
+
   const filteredDrinks = useMemo(() => {
     return applyDrinkFilters(drinks, filters);
   }, [drinks, filters]);
+
+  /**
+   * Maps each categoryName to its drink count.
+   * Used by CategoryManagementModal to disable delete on non-empty categories.
+   */
+  const drinkCountByCategory = useMemo(() => {
+    return drinks.reduce((acc, d) => {
+      acc[d.categoryName] = (acc[d.categoryName] || 0) + 1;
+      return acc;
+    }, {});
+  }, [drinks]);
+
+  /**
+   * Stats derived from current drinks/categories state — no extra API calls needed.
+   * Recomputes whenever drinks or categories change.
+   */
+  const stats = useMemo(() => {
+    const active = drinks.filter((d) => d.active).length;
+    return {
+      total: drinks.length,
+      active,
+      inactive: drinks.length - active,
+      categories: categories.length,
+    };
+  }, [drinks, categories]);
 
   /**
    * Handle when the user click submit
@@ -51,13 +80,16 @@ export default function MenuDashboard() {
             d.id === selectedDrink.id ? { ...d, ...updated } : d,
           ),
         );
+        showToast("Update Thành Công", "success");
       } else {
         const created = await createDrink(selectedDrink);
         setDrinks((prev) => [...prev, created]);
+        showToast("Tạo Thành Công", "success");
       }
       setSelectedDrink(null);
     } catch (err) {
       console.error("Submit failed", err);
+      showToast("Lỗi Đã Xảy Ra", "error");
     }
   };
 
@@ -76,6 +108,57 @@ export default function MenuDashboard() {
     } catch (err) {
       console.error("Failed to load drink detail", err);
     }
+  };
+
+  /**
+   * Called after the ConfirmationModal completes a soft-delete.
+   * Removes the drink from local state and shows a toast.
+   * @param {Object} deletedDrink - The drink that was deleted.
+   */
+  const handleDeleted = (deletedDrink) => {
+    setDrinks((prev) => prev.filter((drink) => drink.id !== deletedDrink.id));
+    showToast("Drink deleted", "success");
+  };
+
+  /**
+   * Called after a new category is created.
+   * Appends it to local state and shows a toast.
+   * @param {Object} newCategory - The newly created category.
+   */
+  const handleCategoryCreated = (newCategory) => {
+    setCategories((prev) => [...prev, newCategory]);
+    showToast("Tạo loại thành công", "success");
+  };
+
+  /**
+   * Called after a category is renamed.
+   * Updates the category list and also patches any drinks that referenced the old name,
+   * so the filter dropdown and table category column stay in sync.
+   *
+   * @param {Object} param0 - { id, oldName, newName }
+   */
+  const handleCategoryRenamed = ({ id, oldName, newName }) => {
+    // Update the category list entry
+    setCategories((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, name: newName } : c))
+    );
+    // Patch drinks that still carry the old category name
+    setDrinks((prev) =>
+      prev.map((d) =>
+        d.categoryName === oldName ? { ...d, categoryName: newName } : d
+      )
+    );
+    showToast("Đổi tên thành công", "success");
+  };
+
+  /**
+   * Called after a category is deleted.
+   * Removes it from local state and shows a toast.
+   * @param {Object} deletedCategory - The category that was deleted.
+   */
+  const handleCategoryDeleted = (deletedCategory) => {
+    setCategories((prev) => prev.filter((c) => c.id !== deletedCategory.id));
+    showToast("Xoá loại thành công", "success");
   };
 
   /**
@@ -121,12 +204,37 @@ export default function MenuDashboard() {
         <div className="dashboard__loading">Loading drinks...</div>
       ) : (
         <>
+          {/* Stats bar — derived from state, no extra API calls */}
+          <div className="dashboard__stats">
+            <div className="dashboard__stat-card">
+              <span className="dashboard__stat-label">Tất Cả</span>
+              <span className="dashboard__stat-value">{stats.total}</span>
+            </div>
+            <div className="dashboard__stat-card">
+              <span className="dashboard__stat-label">Active</span>
+              <span className="dashboard__stat-value dashboard__stat-value--active">
+                {stats.active}
+              </span>
+            </div>
+            <div className="dashboard__stat-card">
+              <span className="dashboard__stat-label">Inactive</span>
+              <span className="dashboard__stat-value dashboard__stat-value--inactive">
+                {stats.inactive}
+              </span>
+            </div>
+            <div className="dashboard__stat-card">
+              <span className="dashboard__stat-label">Số Loại</span>
+              <span className="dashboard__stat-value">{stats.categories}</span>
+            </div>
+          </div>
+
           <div className="dashboard__actions">
             <DrinkFilters
               filters={filters}
               setFilters={setFilters}
               categories={categories}
             />
+            {/* Primary action — higher visual weight */}
             <button
               className="dashboard__btn dashboard__btn--primary"
               onClick={() =>
@@ -143,14 +251,20 @@ export default function MenuDashboard() {
               + Thêm Đồ Uống
             </button>
 
+            {/* Secondary action — opens full category management modal */}
             <button
               className="dashboard__btn dashboard__btn--secondary"
-              onClick={() => setIsCategoryModalOpen(true)}
+              onClick={() => setIsCategoryMgmtOpen(true)}
             >
-              + Thêm Loại
+              Quản Lý Loại
             </button>
           </div>
-          <DrinksTable drinks={filteredDrinks} onEdit={openEdit} onDelete={setIsDeleteConfirmation}/>
+
+          <DrinksTable
+            drinks={filteredDrinks}
+            onEdit={openEdit}
+            onDelete={setIsDeleteConfirmation}
+          />
         </>
       )}
 
@@ -164,12 +278,14 @@ export default function MenuDashboard() {
         />
       )}
 
-      {isCategoryModalOpen && (
-        <CreateCategoryModal
-          onClose={() => setIsCategoryModalOpen(false)}
-          onCreated={(newCategory) =>
-            setCategories((prev) => [...prev, newCategory])
-          }
+      {isCategoryMgmtOpen && (
+        <CategoryManagementModal
+          categories={categories}
+          drinkCountByCategory={drinkCountByCategory}
+          onClose={() => setIsCategoryMgmtOpen(false)}
+          onCreated={handleCategoryCreated}
+          onRenamed={handleCategoryRenamed}
+          onDeleted={handleCategoryDeleted}
         />
       )}
 
@@ -177,11 +293,12 @@ export default function MenuDashboard() {
         <ConfirmationModal
           deletingDrink={isDeleteConfirmation}
           onClose={() => setIsDeleteConfirmation(null)}
-          onDelete={(deletedDrink) =>
-            setDrinks((prev) => prev.filter((drink) => drink.id !== deletedDrink.id))
-          }
+          onDelete={handleDeleted}
         />
       )}
+
+      {/* Toast notifications — rendered outside table flow, fixed position */}
+      <Toast toasts={toasts} />
     </div>
   );
 }

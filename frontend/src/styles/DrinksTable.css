@@ -71,3 +71,70 @@
   background-color: #f5c2c7;
   transform: translateY(-1px);
 }
+
+/* ── Thumbnail column ── */
+.drinks-table__th--img {
+  width: 64px;
+}
+
+.drinks-table__td--img {
+  width: 64px;
+  text-align: center;
+}
+
+/* 48×48 rounded thumbnail image */
+.drinks-table__thumbnail {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Fallback placeholder when no imageUrl is set */
+.drinks-table__thumbnail-placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: #ede5d8;
+  margin: 0 auto;
+}
+
+/* ── Status badge ── */
+.drinks-table__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.drinks-table__badge--active {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.drinks-table__badge--inactive {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* ── Empty state ── */
+.drinks-table__empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #a08070;
+}
+
+.drinks-table__empty-icon {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.drinks-table__empty p {
+  margin: 0;
+  font-size: 14px;
+}

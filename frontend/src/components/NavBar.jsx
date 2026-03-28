@@ -61,18 +61,10 @@ export default function NavBar() {
           </Link>
         </li>
 
-        {!user && (
-          <li>
-            <Link to="/login" onClick={closeMenu}>
-              Login
-            </Link>
-          </li>
-        )}
-
         {user && hasMinRole(user, ROLES.MANAGER) && (
           <li>
             <Link to="/menu-dashboard" onClick={closeMenu}>
-              Edit Menu
+              Menu Dashboard
             </Link>
           </li>
         )}
@@ -80,7 +72,7 @@ export default function NavBar() {
         {user && isAdmin(user) && (
           <li>
             <Link to="/manager-dashboard" onClick={closeMenu}>
-              Edit Manager
+              Manager Dashboard
             </Link>
           </li>
         )}

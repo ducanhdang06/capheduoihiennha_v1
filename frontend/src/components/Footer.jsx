@@ -1,7 +1,10 @@
 import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
+import { Link } from "react-router";
+import { useAuth } from "../context/AuthContext";
 import "../styles/Footer.css"
 
 export default function Footer() {
+  const { user } = useAuth();
   return (
     <footer className="footer">
       <div className="footer__grid">
@@ -52,6 +55,7 @@ export default function Footer() {
 
       <div className="footer__bottom">
         © {new Date().getFullYear()} Tiệm Cà Phê Dưới Hiên Nhà
+        {!user && <Link to="/login" className="footer__admin-link">Admin</Link>}
       </div>
     </footer>
   );
