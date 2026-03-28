@@ -1,5 +1,7 @@
 @import './variables.css';
 
+/* ── Overlay ──────────────────────────────────────────────── */
+
 .modal__overlay {
   position: fixed;
   top: 0;
@@ -16,33 +18,314 @@
   z-index: 9999;
 }
 
+/* ── Card ─────────────────────────────────────────────────── */
+
 .modal__card {
   background: var(--color-admin-card-bg);
-  padding: 2rem;
+  /* Explicit color so text is always legible regardless of page body color */
+  color: var(--color-admin-text);
+  padding: 1.75rem 2rem 1.5rem;
   border-radius: 16px;
-  width: 420px;
+  width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
 
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 
   display: flex;
   flex-direction: column;
+  gap: 0;
+}
+
+/* Narrower variant for simple confirmation dialogs */
+.modal__card--confirm {
+  width: 400px;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.modal__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-admin-text);
+  margin: 0;
+}
+
+/* × dismiss button — top-right corner */
+.modal__close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #a08070;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.modal__close:hover {
+  color: var(--color-admin-text);
+  background: #f0e6dc;
+}
+
+/* ── Sections ─────────────────────────────────────────────── */
+
+.modal__section {
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0e6dc;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Last section (status) doesn't need a bottom divider */
+.modal__section--last {
+  border-bottom: none;
+}
+
+/* All-caps section heading — visually distinct from field labels via
+   a left accent bar and slightly larger size */
+.modal__section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #a08070;
+  padding-left: 8px;
+  border-left: 3px solid #e8ded2;
+  margin-bottom: 0.1rem;
+}
+
+/* ── Labels ───────────────────────────────────────────────── */
+
+.modal__section label,
+.modal__card > label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #7a6655;
+  margin-bottom: 0;
+}
+
+/* ── Shared input + select styles ─────────────────────────── */
+
+.modal__card input[type="text"],
+.modal__card input[type="number"],
+.modal__card select {
+  width: 100%;
+  /* Explicit height ensures the select and inputs are the same size
+     regardless of browser-native select rendering differences */
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #e8ded2;
+  background: #fdfaf7;
+  font-size: 0.875rem;
+  color: var(--color-admin-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.modal__card input[type="text"]:hover,
+.modal__card input[type="number"]:hover,
+.modal__card select:hover {
+  border-color: #c9b99a;
+}
+
+.modal__card input[type="text"]:focus,
+.modal__card input[type="number"]:focus,
+.modal__card select:focus {
+  border-color: var(--color-admin-primary);
+  box-shadow: 0 0 0 3px rgba(107, 79, 59, 0.12);
+}
+
+/* ── Media preview row ────────────────────────────────────── */
+
+.modal__preview-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+/* 80×80 thumbnail container */
+.modal__preview-box {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  border: 1px solid #e8ded2;
+  background: #f5ede4;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder shown when no URL is provided */
+.modal__preview-placeholder {
+  font-size: 1.75rem;
+  opacity: 0.5;
+}
+
+/* Input column next to the preview box */
+.modal__preview-input-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* ── 2-col price + category row ───────────────────────────── */
+
+.modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
 }
 
-.modal__card input {
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #e8ded2;
+.modal__row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
+
+/* Re-add dropdown arrow after appearance: none strips it */
+.modal__row > div:last-child {
+  position: relative;
+}
+
+.modal__row > div:last-child::after {
+  content: "▾";
+  position: absolute;
+  right: 10px;
+  /* Align with the input bottom edge — label height ≈ 1rem + 0.35rem gap */
+  bottom: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #a08070;
+  pointer-events: none;
+}
+
+/* ── Price field with đ suffix ────────────────────────────── */
+
+.modal__input-wrap {
+  position: relative;
+}
+
+.modal__input-wrap input {
+  /* Leave room for the đ suffix label on the right */
+  padding-right: 28px;
+}
+
+.modal__input-suffix {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  color: #a08070;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── CSS pill toggle switch ───────────────────────────────── */
+
+.modal__toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Outer label is the clickable hit area */
+.modal__toggle {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* Hide the real checkbox — the pill is the visual */
+.modal__toggle input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Pill track */
+.modal__toggle-slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: #c9b99a;
+  transition: background 0.2s ease;
+}
+
+/* Thumb dot */
+.modal__toggle-slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Checked state — green pill, thumb slides right */
+.modal__toggle input:checked + .modal__toggle-slider {
+  background: #059669;
+}
+
+.modal__toggle input:checked + .modal__toggle-slider::before {
+  transform: translateX(18px);
+}
+
+.modal__toggle-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-admin-text);
+}
+
+/* ── Error messages ───────────────────────────────────────── */
+
+.modal__error {
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+/* ── Footer actions ───────────────────────────────────────── */
 
 .modal__actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
-
-/* Buttons inside modal */
 
 .modal__actions button {
   padding: 8px 16px;
@@ -53,7 +336,7 @@
   border: none;
 }
 
-/* Cancel Button */
+/* Cancel */
 .modal__actions button:first-child {
   background: #e8ded2;
   color: var(--color-admin-text);
@@ -63,7 +346,7 @@
   background: #d8c9b9;
 }
 
-/* Save / Confirm Button */
+/* Save / Confirm */
 .modal__actions button:last-child {
   background: var(--color-admin-primary);
   color: white;
@@ -75,14 +358,282 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.modal__error {
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 4px;
+/* Danger variant — overrides the last-child primary color for destructive actions */
+.modal__actions .modal__btn--danger {
+  background: #dc2626;
 }
 
-.modal__checkbox-row {
+.modal__actions .modal__btn--danger:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(185, 28, 28, 0.25);
+}
+
+/* ── Confirmation modal body ──────────────────────────────── */
+
+.modal__confirm-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.25rem 0 0.75rem;
+  gap: 0.5rem;
+}
+
+.modal__confirm-icon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.modal__confirm-primary {
+  font-size: 0.9rem;
+  color: var(--color-admin-text);
+  margin: 0;
+}
+
+.modal__confirm-secondary {
+  font-size: 0.8rem;
+  color: #a08070;
+  margin: 0;
+}
+
+/* ── Category Management Modal ────────────────────────────── */
+
+/* Unstyled list of category rows */
+.cat-modal__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* Each category row — flex, vertically centered */
+.cat-modal__row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.6rem;
+  padding: 7px 10px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.cat-modal__row:hover {
+  background: #f7f0e8;
+}
+
+/* Category name — grows to fill available space */
+.cat-modal__name {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--color-admin-text);
+}
+
+/* Pill badge showing drink count */
+.cat-modal__badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #a08070;
+  background: #f0e6dc;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* Inline rename input — inherits modal input sizing */
+.cat-modal__edit-input {
+  flex: 1;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-admin-primary);
+  background: #fdfaf7;
+  font-size: 0.875rem;
+  color: var(--color-admin-text);
+  box-shadow: 0 0 0 3px rgba(107, 79, 59, 0.1);
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Small square icon button (edit ✎ / confirm ✓ / cancel ✕) */
+.cat-modal__icon-btn {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e8ded2;
+  border-radius: 7px;
+  background: transparent;
+  color: #7a6655;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  padding: 0;
+}
+
+.cat-modal__icon-btn:hover {
+  background: #e8ded2;
+  color: var(--color-admin-text);
+}
+
+/* Green tint for the save/confirm button */
+.cat-modal__icon-btn--confirm {
+  color: #059669;
+  border-color: #059669;
+}
+
+.cat-modal__icon-btn--confirm:hover {
+  background: #d1fae5;
+  color: #047857;
+}
+
+/* Muted tint for the cancel button */
+.cat-modal__icon-btn--cancel:hover {
+  background: #f5ede4;
+}
+
+/* Red delete button */
+.cat-modal__delete-btn {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.cat-modal__delete-btn:hover:not(.cat-modal__delete-btn--disabled) {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Disabled state — visually muted, not interactive */
+.cat-modal__delete-btn--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: #e8ded2;
+  color: #a08070;
+}
+
+/* Add-new row: input grows, button stays fixed width */
+.cat-modal__add-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.cat-modal__add-row input {
+  flex: 1;
+}
+
+/* Keep the Tạo button compact */
+.cat-modal__create-btn {
+  white-space: nowrap;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+}
+
+/* ── Image upload area ────────────────────────────────────── */
+
+/*
+  Replaces .modal__preview-input-wrap — flex column containing the
+  "Chọn Ảnh" button, optional error, divider label, and URL fallback input.
+*/
+.modal__upload-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/*
+  Clickable variant of the preview box — pointer cursor + camera-icon
+  hover overlay signal that clicking opens the file picker.
+*/
+.modal__preview-box--clickable {
+  cursor: pointer;
+  position: relative;
+}
+
+/* Dim + camera icon overlay on hover */
+.modal__preview-box--clickable::after {
+  content: "📷";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.modal__preview-box--clickable:hover::after {
+  opacity: 1;
+}
+
+/* While uploading, show a persistent dim (no hover needed) */
+.modal__preview-box--uploading::after {
+  opacity: 1;
+  content: "";
+}
+
+/* Primary upload button — beige style, consistent border-radius */
+.modal__upload-btn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #e8ded2;
+  background: #f5ede4;
+  color: var(--color-admin-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  align-self: flex-start;
+}
+
+.modal__upload-btn:hover:not(:disabled) {
+  background: #ecdfd3;
+  border-color: #c9b99a;
+}
+
+.modal__upload-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/*
+  Small muted divider label between the upload button and URL fallback.
+  Uses a top border to create the horizontal rule effect.
+*/
+.modal__url-fallback-label {
+  font-size: 0.72rem;
+  color: #a08070;
+  font-weight: 500;
+  padding-top: 0.3rem;
+  border-top: 1px solid #f0e6dc;
+  margin-top: 0.1rem;
+}
+
+/* ── Upload spinner ───────────────────────────────────────── */
+
+@keyframes modal-spin {
+  to { transform: rotate(360deg); }
+}
+
+/*
+  Pure-CSS spinner — a border element with one colored side rotating.
+  No external icon library required.
+*/
+.modal__upload-spinner {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: modal-spin 0.7s linear infinite;
 }

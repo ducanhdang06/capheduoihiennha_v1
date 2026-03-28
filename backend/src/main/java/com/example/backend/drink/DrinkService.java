@@ -267,7 +267,8 @@ public class DrinkService {
                 drink.getCategory().getName(),
                 drink.getPrice(),
                 drink.isActive(),
-                drink.getUpdatedAt()
+                drink.getUpdatedAt(),
+                drink.getImageUrl()
         );
     }
 

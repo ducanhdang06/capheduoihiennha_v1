@@ -1,5 +1,69 @@
 # CHANGELOG
 
+## 2026-03-28 (13)
+
+### Added
+- `frontend/src/api/upload.api.js` — new `uploadImage(file)` utility that POSTs directly to Cloudinary's unsigned upload REST API using `FormData`; returns `secure_url`. No backend changes required.
+- `frontend/.env` — added `VITE_CLOUDINARY_CLOUD_NAME` and `VITE_CLOUDINARY_UPLOAD_PRESET` placeholders for Cloudinary config.
+
+### Changed
+- `frontend/src/components/MenuDashboard/EditDrinkModal.jsx` — replaced the plain URL text input with a file-picker–based upload flow. Preview box is now clickable (hover overlay signals it); "📷 Chọn Ảnh" button triggers a hidden `<input type="file">`; shows "Đang tải..." + spinner during upload; URL text input retained as a secondary fallback below a "hoặc nhập URL" divider. Save button disabled while uploading. Imports `useRef` and `uploadImage`.
+- `frontend/src/styles/EditDrinkModal.css` — appended `.modal__upload-area`, `.modal__preview-box--clickable` (hover overlay via `::after`), `.modal__preview-box--uploading`, `.modal__upload-btn`, `.modal__url-fallback-label`, `.modal__upload-spinner` (CSS keyframe spin, no external library).
+
+## 2026-03-28 (12)
+
+### Added
+- `backend/.../category/CategoryService.java` — added `renameCategory(Integer id, String name)` method: loads the entity, guards against duplicate names, sets the new name, saves, and returns the updated DTO.
+- `backend/.../category/AdminCategoryController.java` — added `PATCH /api/admin/categories/{id}` endpoint that delegates to `renameCategory`. Reuses the existing `AdminCategoryRequest` for validation (`@NotBlank`).
+- `frontend/src/api/admin.api.js` — added `updateCategory(id, name)` (PATCH) and `deleteCategory(id)` (DELETE) API helpers.
+- `frontend/src/components/MenuDashboard/CategoryManagementModal.jsx` — new full-CRUD category management modal. Shows all categories with their drink counts; supports inline rename (✎ → input + ✓/✕), hard-delete (disabled with tooltip when category has drinks), and an "Add New" form. Replaces the now-deleted `CreateCategoryModal`.
+- `frontend/src/styles/EditDrinkModal.css` — appended `.cat-modal__*` classes for the category management modal (list, row, badge, edit input, icon buttons, delete variant, add-row).
+
+### Changed
+- `frontend/src/pages/MenuDashboard.jsx` — replaced `CreateCategoryModal` import/state/render with `CategoryManagementModal`; added `drinkCountByCategory` memo; added `handleCategoryRenamed` (updates both `categories` and any `drinks` carrying the old name) and `handleCategoryDeleted` handlers; button label changed from "+ Thêm Loại" to "Quản Lý Loại".
+
+### Removed
+- `frontend/src/components/MenuDashboard/CreateCategoryModal.jsx` — logic absorbed into `CategoryManagementModal`; the file is superseded but left on disk for the branch diff.
+
+## 2026-03-28 (11)
+
+### Fixed
+- `frontend/src/styles/EditDrinkModal.css` — added explicit `color: var(--color-admin-text)` to `.modal__card` so text is always legible regardless of page body color (root cause of invisible text in ConfirmationModal).
+
+### Changed
+- `frontend/src/components/MenuDashboard/ConfirmationModal.jsx` — redesigned to match EditDrinkModal theme: added × close button in header, centered warning icon + body copy layout, and a red `.modal__btn--danger` class on the delete button.
+- `frontend/src/styles/EditDrinkModal.css` — added `.modal__card--confirm` (400px narrow variant), `.modal__btn--danger` (red button override), and `.modal__confirm-body / -icon / -primary / -secondary` styles for the confirmation dialog layout.
+
+## 2026-03-28 (10)
+
+### Fixed
+- `frontend/src/styles/EditDrinkModal.css` — `.modal__section-label` now has a 3px left accent border and slightly larger font (11px, 1.2px letter-spacing) so it reads as a heading above field labels rather than peer text. All inputs and selects unified to `height: 40px` + `appearance: none` so the category dropdown matches the price input height across browsers; a custom `▾` arrow is re-added via CSS pseudo-element on the select column.
+
+## 2026-03-28 (9)
+
+### Changed
+- `frontend/src/components/MenuDashboard/EditDrinkModal.jsx` — redesigned visual layout: added × close button in header, live image preview thumbnail (80×80 with ☕ placeholder), three labeled sections (Media / Chi Tiết / Trạng Thái) separated by dividers, Price + Category in a 2-col grid, and a CSS pill toggle for the Active field. All validation logic and `onChange` handlers are unchanged.
+- `frontend/src/styles/EditDrinkModal.css` — widened modal to 520px; added `.modal__header`, `.modal__close`, `.modal__section`, `.modal__section-label`, `.modal__preview-row`, `.modal__preview-box`, `.modal__preview-img`, `.modal__preview-placeholder`, `.modal__preview-input-wrap`, `.modal__row`, `.modal__input-wrap`, `.modal__input-suffix`, `.modal__toggle`, `.modal__toggle-slider`, `.modal__toggle-wrap`, `.modal__toggle-label`; added hover (`border-color: #c9b99a`) and focus (`border-color: var(--color-admin-primary)` + soft box-shadow) states for all inputs and selects.
+
+## 2026-03-28 (8)
+
+### Fixed
+- `backend/.../dto/AdminDrinkListResponse.java` — added `imageUrl` field to the admin list DTO; it was missing so thumbnails in the admin table always fell back to the placeholder.
+- `backend/.../drink/DrinkService.java` — `mapToAdminListResponse()` now passes `drink.getImageUrl()` to populate the new field.
+
+## 2026-03-28 (7)
+
+### Added
+- `frontend/src/hooks/useToast.js` — new lightweight toast hook; manages a list of auto-dismissing toasts (3s timeout) without external libraries.
+- `frontend/src/components/Toast.jsx` — presentational toast stack rendered fixed top-right; success (green) and error (red) variants.
+- `frontend/src/styles/Toast.css` — slide-in animation and color styles for toast pills.
+
+### Changed
+- `frontend/src/components/MenuDashboard/DrinkTable.jsx` — replaced ID column with 48×48 rounded thumbnail (fallback beige placeholder when no imageUrl); replaced plain Active/Inactive text with green/red pill badges; added empty-state row when filtered list is empty.
+- `frontend/src/styles/DrinksTable.css` — added thumbnail, thumbnail-placeholder, badge, and empty-state styles.
+- `frontend/src/pages/MenuDashboard.jsx` — added stats bar (Total / Active / Inactive / Categories) derived from existing state; wired `useToast` to show success toasts after create, update, delete, and category creation; refactored delete/category-created callbacks into named handlers.
+- `frontend/src/styles/MenuDashboard.css` — added stats bar card styles; changed secondary button from filled muted beige to outlined/ghost to visually differentiate it from the primary "New Drink" action.
+
 ## 2026-03-28 (6)
 
 ### Fixed

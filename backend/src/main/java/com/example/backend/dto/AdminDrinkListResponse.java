@@ -8,5 +8,6 @@ public record AdminDrinkListResponse(
         String categoryName,
         Integer price,
         Boolean active,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        String imageUrl
 ) { }
