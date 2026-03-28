@@ -42,8 +42,8 @@ export default function EditDrinkModal({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-card">
+    <div className="modal__overlay">
+      <div className="modal__card">
         <h2>{isEditMode ? "Sửa Drink" : "Thêm Drink"}</h2>
 
         {/* NAME */}
@@ -58,7 +58,7 @@ export default function EditDrinkModal({
             })
           }
         />
-        {errors.name && <p className="error">{errors.name}</p>}
+        {errors.name && <p className="modal__error">{errors.name}</p>}
 
         {/* DESCRIPTION */}
         <label>Mô Tả</label>
@@ -85,7 +85,7 @@ export default function EditDrinkModal({
             })
           }
         />
-        {errors.imageUrl && <p className="error">{errors.imageUrl}</p>}
+        {errors.imageUrl && <p className="modal__error">{errors.imageUrl}</p>}
 
         {/* PRICE */}
         <label>Giá Tiền</label>
@@ -99,7 +99,7 @@ export default function EditDrinkModal({
             })
           }
         />
-        {errors.price && <p className="error">{errors.price}</p>}
+        {errors.price && <p className="modal__error">{errors.price}</p>}
 
         {/* CATEGORY */}
         <label>Loại Đồ Uống</label>
@@ -119,10 +119,10 @@ export default function EditDrinkModal({
             </option>
           ))}
         </select>
-        {errors.categoryId && <p className="error">{errors.categoryId}</p>}
+        {errors.categoryId && <p className="modal__error">{errors.categoryId}</p>}
 
         {/* ACTIVE */}
-        <label className="checkbox-row">
+        <label className="modal__checkbox-row">
           <input
             type="checkbox"
             checked={editingDrink.active ?? true}
@@ -136,7 +136,7 @@ export default function EditDrinkModal({
           Active
         </label>
 
-        <div className="modal-actions">
+        <div className="modal__actions">
           <button onClick={onClose}>Huỷ</button>
           <button onClick={handleSubmit}>
             {isEditMode ? "Lưu Thay Đổi" : "Tạo Đồ Uống"}

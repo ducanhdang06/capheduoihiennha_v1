@@ -1,30 +1,32 @@
-.gallery-section {
-  background: #f7f4ef;
+@import './variables.css';
+
+.gallery {
+  background: var(--color-bg-warm);
   padding: clamp(3rem, 8vw, 2rem) 0;
   overflow: hidden;
 }
 
-.gallery-header {
+.gallery__header {
   text-align: center;
   margin-bottom: 2rem;
   padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
-.gallery-header h2 {
+.gallery__header h2 {
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
-  color: #2a2420;
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
-.gallery-header p {
-  color: #6b5d52;
+.gallery__header p {
+  color: var(--color-text-secondary);
   font-size: clamp(1rem, 2vw, 1.125rem);
 }
 
 /* Mobile: Swipeable carousel */
-.gallery-container {
+.gallery__grid {
   display: flex;
   gap: 1rem;
   overflow-x: auto;
@@ -35,21 +37,21 @@
   cursor: grab;
 }
 
-.gallery-container:active {
+.gallery__grid:active {
   cursor: grabbing;
 }
 
 /* Hide scrollbar but keep functionality */
-.gallery-container::-webkit-scrollbar {
+.gallery__grid::-webkit-scrollbar {
   display: none;
 }
 
-.gallery-container {
+.gallery__grid {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.gallery-item {
+.gallery__item {
   flex: 0 0 85vw;
   scroll-snap-align: center;
   border-radius: 6px;
@@ -58,12 +60,12 @@
   transition: transform 0.3s ease;
 }
 
-.gallery-item:hover {
+.gallery__item:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.gallery-item img {
+.gallery__item img {
   width: 100%;
   height: 600px;
   object-fit: cover;
@@ -74,19 +76,19 @@
 
 /* Tablet: Show 2 images, still swipeable */
 @media (min-width: 768px) {
-  .gallery-item {
+  .gallery__item {
     flex: 0 0 45vw;
     height: 450px;
   }
 
-  .gallery-item img {
+  .gallery__item img {
     height: 100%;
   }
 }
 
 /* Desktop: Grid layout (no scroll) */
 @media (min-width: 1024px) {
-  .gallery-container {
+  .gallery__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
@@ -95,13 +97,13 @@
     padding: 0 clamp(2rem, 5vw, 4rem);
   }
 
-  .gallery-item {
+  .gallery__item {
     flex: none;
     width: 100%;
     scroll-snap-align: none;
   }
 
-  .gallery-item img {
+  .gallery__item img {
     width: 100%;
     height: 100%;
     aspect-ratio: 4 / 5;
@@ -111,7 +113,7 @@
 
 /* Large desktop: 4 columns with better spacing */
 @media (min-width: 1440px) {
-  .gallery-container {
+  .gallery__grid {
     max-width: 1400px;
     margin: 0 auto;
     gap: 2rem;

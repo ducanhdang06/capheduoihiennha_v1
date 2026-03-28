@@ -2,13 +2,13 @@ import "../../styles/MenuPage.css";
 
 export default function DrinkCard({ data }) {
   return (
-    <div className="menu-drink-card">
-      <div className="drink-card__img-container">
-        <img src={data.imageUrl} alt="Cappuccino" className="drink-card__img"/>
+    <div className="menu__card">
+      <div className="menu__card-img-wrap">
+        <img src={data.imageUrl} alt="Cappuccino" className="menu__card-img"/>
       </div>
-      <div className="drink-card__info">
-        <h3 className="drink-card__name">{data.name}</h3>
-        <p className="drink-card__price">{data.price}đ</p>
+      <div className="menu__card-info">
+        <h3 className="menu__card-name">{data.name}</h3>
+        <p className="menu__card-price">{data.price}đ</p>
       </div>
     </div>
   );

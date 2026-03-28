@@ -1,3 +1,5 @@
+@import './variables.css';
+
 /* =========================
    HERO SECTION
 ========================= */
@@ -12,7 +14,7 @@
   overflow: hidden;
 }
 
-.hero-bg {
+.hero__bg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -24,7 +26,6 @@
 /* Mobile image switch */
 @media (max-width: 768px) {
   .hero {
-    /* background-image: url("../assets/hero-small.webp"); */
     height: 90vh;
     background-position: center 40%;
     padding: 0 6%;
@@ -35,7 +36,7 @@
    OVERLAY
 ========================= */
 
-.hero-overlay {
+.hero__overlay {
   position: absolute;
   inset: 0;
 
@@ -51,7 +52,7 @@
    CONTENT
 ========================= */
 
-.hero-content {
+.hero__content {
   position: relative;
   z-index: 2;
   max-width: 600px;
@@ -60,7 +61,7 @@
   transform: translateY(-5%);
 }
 
-.hero-content h1 {
+.hero__content h1 {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 4vw, 4.2rem);
   font-weight: 600;
@@ -71,7 +72,7 @@
   text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
-.hero-content p {
+.hero__content p {
   font-family: var(--font-body);
   font-size: clamp(1rem, 1.5vw, 1.2rem);
   font-weight: 300;
@@ -85,19 +86,19 @@
    BUTTONS
 ========================= */
 
-.hero-actions {
+.hero__actions {
   display: flex;
   gap: 18px;
   flex-wrap: wrap;
 }
 
 /* Primary CTA */
-.btn-primary {
+.hero__btn--primary {
   font-family: var(--font-body);
   padding: 12px 28px;
 
-  background: #fef7e1; /* warm latte tone */
-  color: #2c1e12;
+  background: var(--color-hero-btn-bg); /* warm latte tone */
+  color: var(--color-hero-btn-text);
 
   border-radius: 2px;
   text-decoration: none;
@@ -107,14 +108,13 @@
   transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
-  background: #6f4e37;
+.hero__btn--primary:hover {
+  background: var(--color-hero-btn-hover-bg);
   color: white;
-  /* transform: translateY(-2px); */
 }
 
 /* Secondary CTA */
-.btn-secondary {
+.hero__btn--secondary {
   font-family: var(--font-body);
   padding: 12px 28px;
 
@@ -127,20 +127,20 @@
   transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
+.hero__btn--secondary:hover {
   background: white;
-  color: #2c1e12;
+  color: var(--color-hero-btn-text);
 }
 
 /* Mobile button stacking */
 @media (max-width: 768px) {
-  .hero-actions {
+  .hero__actions {
     flex-direction: column;
     align-items: flex-start;
   }
 }
 
-.hero-tagline {
+.hero__tagline {
   font-family: var(--font-display);
   font-size: clamp(1.3rem, 2vw, 1.8rem);
   font-style: italic;
@@ -148,6 +148,6 @@
   opacity: 0.95;
 }
 
-.hero-tagline span {
+.hero__tagline span {
   font-weight: 600;
 }

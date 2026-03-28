@@ -4,8 +4,8 @@ import "../../styles/DrinksTable.css"
 export default function DrinksTable({ drinks, onEdit, onDelete }) {
 
   return (
-    <div className="table-wrapper">
-    <table className="coffee-table">
+    <div className="drinks-table">
+    <table className="drinks-table__table">
       <thead>
         <tr>
           <th>ID</th>
@@ -20,7 +20,6 @@ export default function DrinksTable({ drinks, onEdit, onDelete }) {
 
       <tbody>
         {[...drinks]
-          // .sort((a, b) => a.id - b.id)
           .map((drink) => (
             <tr key={drink.id}>
               <td>{drink.id}</td>
@@ -35,15 +34,14 @@ export default function DrinksTable({ drinks, onEdit, onDelete }) {
               </td>
               <td>
                 <button
-                  className="edit-button"
+                  className="drinks-table__edit-btn"
                   onClick={() => onEdit(drink)}
                 >
                   Edit
                 </button>
 
-
                 <button
-                  className="delete-button"
+                  className="drinks-table__delete-btn"
                   onClick={() => onDelete(drink)}
                 >
                   Xoá

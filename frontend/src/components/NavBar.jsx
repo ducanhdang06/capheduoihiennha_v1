@@ -24,11 +24,11 @@ export default function NavBar() {
   return (
     <div className="navbar">
       <Link to="/">
-        <img src={logo} alt="Logo" className="logo" />
+        <img src={logo} alt="Logo" className="navbar__logo" />
       </Link>
 
       <button
-        className={`hamburger ${isMenuOpen ? "active" : ""}`}
+        className={`navbar__hamburger ${isMenuOpen ? "active" : ""}`}
         onClick={toggleMenu}
         aria-label="Toggle menu"
       >
@@ -38,11 +38,11 @@ export default function NavBar() {
       </button>
 
       <div
-        className={`menu-overlay ${isMenuOpen ? "active" : ""}`}
+        className={`navbar__overlay ${isMenuOpen ? "active" : ""}`}
         onClick={closeMenu}
       />
 
-      <ul className={`nav-links ${isMenuOpen ? "active" : ""}`}>
+      <ul className={`navbar__links ${isMenuOpen ? "active" : ""}`}>
         <li>
           <Link to="/" onClick={closeMenu}>
             Home
@@ -87,7 +87,7 @@ export default function NavBar() {
 
         {user && (
           <li>
-            <button onClick={logout} className="logout-btn">
+            <button onClick={logout} className="navbar__logout">
               Logout
             </button>
           </li>

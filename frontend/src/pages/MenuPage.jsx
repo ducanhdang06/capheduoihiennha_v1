@@ -22,7 +22,7 @@ export default function MenuPage() {
     <>
       <MenuHero />
       <main className="menu">
-        <div className="menu__category-list">
+        <div className="menu__categories">
           {categories.map((category) => (
             <CategoryCard key={category.id} data={category} />
           ))}

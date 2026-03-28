@@ -88,19 +88,19 @@ export default function GallerySection() {
   // Re-run effect when dragging state or positions change
 
   return (
-    <section className="gallery-section">
-      <div className="gallery-header">
+    <section className="gallery">
+      <div className="gallery__header">
         <h2>Our Space</h2>
         <p>A glimpse into our daily craft</p>
       </div>
 
       <div
-        className="gallery-container"
+        className="gallery__grid"
         ref={galleryRef}
         onMouseDown={handleMouseDown}
       >
         {images.map((image, index) => (
-          <div key={index} className="gallery-item">
+          <div key={index} className="gallery__item">
             <img
               src={image.src}
               alt={image.alt}

@@ -11,7 +11,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear any previous errors
-    
+
     try {
       await login(username, password);
     } catch (err) {
@@ -20,16 +20,16 @@ export default function Login() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-form-container">
-        <h1 className="login-title">Admin Login</h1>
-        <p className="login-subtitle">Sign in to your account</p>
+    <div className="login">
+      <div className="login__card">
+        <h1 className="login__title">Admin Login</h1>
+        <p className="login__subtitle">Sign in to your account</p>
 
-        <form onSubmit={handleSubmit} className="login-form">
-          {error && <div className="error-message">{error}</div>}
-          
-          <div className="input-group">
-            <label htmlFor="username" className="input-label">
+        <form onSubmit={handleSubmit} className="login__form">
+          {error && <div className="login__error">{error}</div>}
+
+          <div className="login__field">
+            <label htmlFor="username" className="login__label">
               Username
             </label>
             <input
@@ -42,8 +42,8 @@ export default function Login() {
             />
           </div>
 
-          <div className="input-group">
-            <label htmlFor="password" className="input-label">
+          <div className="login__field">
+            <label htmlFor="password" className="login__label">
               Password
             </label>
             <input
@@ -62,4 +62,3 @@ export default function Login() {
     </div>
   );
 }
-

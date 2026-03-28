@@ -1,44 +1,40 @@
+@import './shared.css';
+
 /* =========================
    SECTION
 ========================= */
 
 .reviews {
   padding: clamp(3rem, 8vw, 2rem) 0;
-  background: #f7f4ef;
+  background: var(--color-bg-warm);
   overflow: hidden;
 }
 
-.reviews-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 50px;
-  color: #2c1e12;
-}
+/* .reviews__title — defined in shared.css */
 
 /* =========================
    MARQUEE
 ========================= */
 
-.marquee {
+.reviews__marquee {
   overflow: hidden;
   position: relative;
 }
 
-.marquee-track {
+.reviews__marquee-track {
   display: flex;
   gap: 30px;
   width: max-content;
   animation: scroll 75s linear infinite;
 }
 
-.marquee.paused .marquee-track {
+.reviews__marquee.paused .reviews__marquee-track {
   animation-play-state: paused;
 }
 
 /* Pause on hover */
 @media (hover: hover) {
-  .marquee:hover .marquee-track {
+  .reviews__marquee:hover .reviews__marquee-track {
     animation-play-state: paused;
   }
 }
@@ -57,7 +53,7 @@
    REVIEW CARD
 ========================= */
 
-.review-card {
+.reviews__card {
   background: white;
   padding: 24px;
   border-radius: 6px;
@@ -67,36 +63,36 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
-.stars {
+.reviews__stars {
   margin-bottom: 12px;
 }
 
-.star {
+.reviews__star {
   font-size: 1rem;
   margin-right: 3px;
 }
 
-.star.filled {
-  color: #d6b48a; /* latte tone */
+.reviews__star.filled {
+  color: var(--color-star-filled); /* latte tone */
 }
 
-.star.empty {
-  color: #e0d8cf; /* soft neutral beige-gray */
+.reviews__star.empty {
+  color: var(--color-star-empty); /* soft neutral beige-gray */
 }
 
-.review-text {
+.reviews__card-text {
   font-family: var(--font-body);
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 16px;
-  color: #3a2a1d;
+  color: var(--color-text-body);
 }
 
-.review-name {
+.reviews__card-name {
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 500;
-  color: #6a5a4c;
+  color: var(--color-text-muted);
 }
 
 /* =========================
@@ -104,11 +100,11 @@
 ========================= */
 
 @media (max-width: 768px) {
-  .review-card {
+  .reviews__card {
     width: 260px;
   }
 
-  .marquee-track {
+  .reviews__marquee-track {
     animation: scroll 95s linear infinite;
   }
 }

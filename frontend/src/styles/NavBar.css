@@ -16,7 +16,7 @@
 }
 
 /* Logo Styling */
-.navbar .logo {
+.navbar__logo {
   height: 45px;
   width: auto;
   cursor: pointer;
@@ -25,12 +25,12 @@
   z-index: 999;
 }
 
-.navbar .logo:hover {
+.navbar__logo:hover {
   transform: scale(1.05);
 }
 
 /* Hamburger Menu Button - Hidden on Desktop */
-.hamburger {
+.navbar__hamburger {
   display: none;
   flex-direction: column;
   justify-content: space-between;
@@ -44,7 +44,7 @@
   position: relative;
 }
 
-.hamburger span {
+.navbar__hamburger span {
   width: 100%;
   height: 3px;
   background-color: #6f4e37;
@@ -53,20 +53,20 @@
 }
 
 /* Hamburger Animation when Active */
-.hamburger.active span:nth-child(1) {
+.navbar__hamburger.active span:nth-child(1) {
   transform: translateY(9.5px) rotate(45deg);
 }
 
-.hamburger.active span:nth-child(2) {
+.navbar__hamburger.active span:nth-child(2) {
   opacity: 0;
 }
 
-.hamburger.active span:nth-child(3) {
+.navbar__hamburger.active span:nth-child(3) {
   transform: translateY(-9.5px) rotate(-45deg);
 }
 
 /* Navigation Links Container */
-.nav-links {
+.navbar__links {
   display: flex;
   list-style: none;
   gap: 0.5rem;
@@ -76,7 +76,7 @@
 }
 
 /* Navigation Links */
-.nav-links a {
+.navbar__links a {
   text-decoration: none;
   color: #4a4a4a;
   font-size: 0.95rem;
@@ -88,13 +88,13 @@
 }
 
 /* Hover Effect for Links */
-.nav-links a:hover {
+.navbar__links a:hover {
   color: #6f4e37;
   background-color: rgba(111, 78, 55, 0.08);
 }
 
 /* Special Styling for Login Button */
-.nav-links a[href="/login"] {
+.navbar__links a[href="/login"] {
   background-color: #6f4e37;
   color: #ffffff;
   padding: 0.55rem 1.3rem;
@@ -103,14 +103,14 @@
   margin-left: 0.5rem;
 }
 
-.nav-links a[href="/login"]:hover {
+.navbar__links a[href="/login"]:hover {
   background-color: #5a3d2b;
   transform: translateY(-1px);
   box-shadow: 0 3px 8px rgba(111, 78, 55, 0.25);
 }
 
 /* Logout Button Styling */
-.logout-btn {
+.navbar__logout {
   background-color: transparent;
   color: #4a4a4a;
   font-size: 0.95rem;
@@ -124,7 +124,7 @@
   margin-left: 0.5rem;
 }
 
-.logout-btn:hover {
+.navbar__logout:hover {
   background-color: #6f4e37;
   color: #ffffff;
   transform: translateY(-1px);
@@ -137,20 +137,20 @@
     padding: 0.75rem 1.5rem;
   }
 
-  .nav-links {
+  .navbar__links {
     gap: 0.3rem;
   }
 
-  .nav-links a {
+  .navbar__links a {
     font-size: 0.9rem;
     padding: 0.45rem 0.85rem;
   }
 
-  .nav-links a[href="/login"] {
+  .navbar__links a[href="/login"] {
     padding: 0.5rem 1.1rem;
   }
 
-  .logout-btn {
+  .navbar__logout {
     font-size: 0.9rem;
     padding: 0.45rem 0.9rem;
   }
@@ -162,17 +162,17 @@
     padding: 0.75rem 1.25rem;
   }
 
-  .navbar .logo {
+  .navbar__logo {
     height: 40px;
   }
 
   /* Show Hamburger Menu */
-  .hamburger {
+  .navbar__hamburger {
     display: flex;
   }
 
   /* Hide Navigation Links by Default on Mobile */
-  .nav-links {
+  .navbar__links {
     position: fixed;
     left: -100%;
     top: 0;
@@ -190,17 +190,17 @@
   }
 
   /* Show Navigation Links when Active */
-  .nav-links.active {
+  .navbar__links.active {
     left: 0;
   }
 
   /* Mobile Navigation Links Styling */
-  .nav-links li {
+  .navbar__links li {
     width: 100%;
     padding: 0;
   }
 
-  .nav-links a {
+  .navbar__links a {
     display: block;
     width: 100%;
     padding: 1.1rem 2rem;
@@ -212,13 +212,13 @@
     box-sizing: border-box;
   }
 
-  .nav-links a:hover {
+  .navbar__links a:hover {
     background-color: rgba(111, 78, 55, 0.12);
     color: #6f4e37;
   }
 
   /* Login Button Mobile Styling */
-  .nav-links a[href="/login"] {
+  .navbar__links a[href="/login"] {
     background-color: #6f4e37;
     color: #ffffff;
     margin: 1.5rem 1.5rem 0.5rem 1.5rem;
@@ -230,13 +230,13 @@
     box-sizing: border-box;
   }
 
-  .nav-links a[href="/login"]:hover {
+  .navbar__links a[href="/login"]:hover {
     transform: none;
     background-color: #5a3d2b;
   }
 
   /* Logout Button Mobile Styling */
-  .logout-btn {
+  .navbar__logout {
     width: calc(100% - 3rem);
     padding: 1rem 1.5rem;
     margin: 0.5rem 1.5rem 1rem 1.5rem;
@@ -246,13 +246,13 @@
     box-sizing: border-box;
   }
 
-  .logout-btn:hover {
+  .navbar__logout:hover {
     transform: none;
   }
 }
 
 /* Overlay when Menu is Open on Mobile */
-.menu-overlay {
+.navbar__overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -264,7 +264,7 @@
   transition: opacity 0.3s ease;
 }
 
-.menu-overlay.active {
+.navbar__overlay.active {
   display: block;
 }
 
@@ -274,11 +274,11 @@
     padding: 0.65rem 1rem;
   }
 
-  .navbar .logo {
+  .navbar__logo {
     height: 36px;
   }
 
-  .nav-links {
+  .navbar__links {
     width: 85%;
     max-width: 280px;
   }
@@ -290,11 +290,11 @@
     padding: 0.6rem 0.85rem;
   }
 
-  .navbar .logo {
+  .navbar__logo {
     height: 34px;
   }
 
-  .nav-links {
+  .navbar__links {
     width: 90%;
   }
 }

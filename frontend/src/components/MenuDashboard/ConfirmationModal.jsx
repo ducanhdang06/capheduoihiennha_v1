@@ -18,19 +18,19 @@ export default function ConfirmationModal({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-card">
+    <div className="modal__overlay">
+      <div className="modal__card">
         <h2>Bạn Có Chắc Chắn Xoá?</h2>
-        
+
         <p>Bạn đang xoá: {deletingDrink.name}.</p>
         <p>Đồ uống sẽ bị xoá vĩnh viễn và không thể khôi phục.</p>
 
-        <div className="modal-actions">
-          <button className="cancel-btn" onClick={onClose}>
+        <div className="modal__actions">
+          <button onClick={onClose}>
             Huỷ
           </button>
 
-          <button className="delete-btn" onClick={handleSubmit}>
+          <button onClick={handleSubmit}>
             Xoá Vĩnh Viễn
           </button>
         </div>

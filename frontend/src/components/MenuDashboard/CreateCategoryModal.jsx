@@ -26,8 +26,8 @@ export default function CreateCategoryModal({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-card">
+    <div className="modal__overlay">
+      <div className="modal__card">
         <h2>Thêm Loại Đồ Uống</h2>
 
         <label>Name</label>
@@ -40,9 +40,9 @@ export default function CreateCategoryModal({
           }}
         />
 
-        {error && <p className="error">{error}</p>}
+        {error && <p className="modal__error">{error}</p>}
 
-        <div className="modal-actions">
+        <div className="modal__actions">
           <button onClick={onClose}>Huỷ</button>
           <button onClick={handleSubmit}>Tạo</button>
         </div>

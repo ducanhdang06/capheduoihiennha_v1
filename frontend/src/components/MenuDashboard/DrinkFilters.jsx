@@ -1,6 +1,6 @@
 export default function DrinkFilters({ filters, setFilters, categories }) {
   return (
-    <div className="dashboard-filters">
+    <div className="dashboard__filters">
       {/* 🔎 Search */}
       <input
         type="text"

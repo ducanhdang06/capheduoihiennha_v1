@@ -11,27 +11,27 @@ export default function HeroSection() {
         <img
           src={heroBig}
           alt=""
-          className="hero-bg"
+          className="hero__bg"
           fetchPriority="high"
-          width="1512" 
+          width="1512"
           height="615"
         />
       </picture>
 
-      <div className="hero-overlay" />
+      <div className="hero__overlay" />
 
-      <div className="hero-content">
+      <div className="hero__content">
         <h1>Tiệm Cà Phê Dưới Hiên Nhà</h1>
-        <p className="hero-tagline">
+        <p className="hero__tagline">
           Một góc <span>Đà Lạt</span> giữa lòng <span>Cửa Lò</span>
         </p>
 
-        <div className="hero-actions">
-          <a href="#location" className="btn-primary">
+        <div className="hero__actions">
+          <a href="#location" className="hero__btn--primary">
             Ghé Quán
           </a>
 
-          <Link to="/menu" className="btn-secondary">
+          <Link to="/menu" className="hero__btn--secondary">
             Xem Menu
           </Link>
         </div>

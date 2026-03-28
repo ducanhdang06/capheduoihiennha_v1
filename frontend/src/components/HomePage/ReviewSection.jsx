@@ -6,32 +6,32 @@ export default function ReviewSection() {
   const [isPaused, setIsPaused] = useState(false);
   return (
     <section className="reviews">
-      <h2 className="home-section-title">Reviews</h2>
+      <h2 className="reviews__title">Reviews</h2>
 
       <div
-        className={`marquee ${isPaused ? "paused" : ""}`}
+        className={`reviews__marquee ${isPaused ? "paused" : ""}`}
         onTouchStart={() => setIsPaused(true)}
         onTouchEnd={() => setIsPaused(false)}
         onTouchCancel={() => setIsPaused(false)}
       >
-        <div className="marquee-track">
+        <div className="reviews__marquee-track">
           {/* Duplicate reviews for seamless loop */}
           {[...reviews, ...reviews].map((review, index) => (
-            <div className="review-card" key={index}>
-              <div className="stars">
+            <div className="reviews__card" key={index}>
+              <div className="reviews__stars">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
                     className={
-                      star <= review.rating ? "star filled" : "star empty"
+                      star <= review.rating ? "reviews__star filled" : "reviews__star empty"
                     }
                   >
                     ★
                   </span>
                 ))}
               </div>
-              <p className="review-text">“{review.text}”</p>
-              <p className="review-name">— {review.name}</p>
+              <p className="reviews__card-text">"{review.text}"</p>
+              <p className="reviews__card-name">— {review.name}</p>
             </div>
           ))}
         </div>
