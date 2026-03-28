@@ -1,4 +1,6 @@
-.modal-overlay {
+@import './variables.css';
+
+.modal__overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,8 +16,8 @@
   z-index: 9999;
 }
 
-.modal-card {
-  background: #fffdf9;
+.modal__card {
+  background: var(--color-admin-card-bg);
   padding: 2rem;
   border-radius: 16px;
   width: 420px;
@@ -27,13 +29,13 @@
   gap: 0.75rem;
 }
 
-.modal-card input {
+.modal__card input {
   padding: 8px;
   border-radius: 8px;
   border: 1px solid #e8ded2;
 }
 
-.modal-actions {
+.modal__actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
@@ -42,7 +44,7 @@
 
 /* Buttons inside modal */
 
-.modal-actions button {
+.modal__actions button {
   padding: 8px 16px;
   border-radius: 10px;
   font-size: 14px;
@@ -52,34 +54,34 @@
 }
 
 /* Cancel Button */
-.modal-actions button:first-child {
+.modal__actions button:first-child {
   background: #e8ded2;
-  color: #4b4038;
+  color: var(--color-admin-text);
 }
 
-.modal-actions button:first-child:hover {
+.modal__actions button:first-child:hover {
   background: #d8c9b9;
 }
 
-/* Save Button */
-.modal-actions button:last-child {
-  background: #6b4f3b;
+/* Save / Confirm Button */
+.modal__actions button:last-child {
+  background: var(--color-admin-primary);
   color: white;
 }
 
-.modal-actions button:last-child:hover {
-  background: #5a3f2e;
+.modal__actions button:last-child:hover {
+  background: var(--color-admin-primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.error {
+.modal__error {
   color: red;
   font-size: 0.8rem;
   margin-top: 4px;
 }
 
-.checkbox-row {
+.modal__checkbox-row {
   display: flex;
   align-items: center;
   gap: 8px;

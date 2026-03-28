@@ -1,0 +1,53 @@
+/* =========================
+   DESIGN TOKENS — COLORS
+   Shared across all HomePage section styles.
+   Import this file at the top of any section CSS that needs these tokens.
+========================= */
+
+:root {
+  /* ── Section layout ── */
+  --section-padding-v: clamp(3rem, 8vw, 2rem); /* Shared vertical padding for all homepage sections */
+
+  /* ── Backgrounds ── */
+  --color-bg-warm: #f7f4ef; /* Warm cream — main section background */
+  --color-admin-card-bg: #fffdf9; /* Near-white warm — admin table / modal card backgrounds */
+
+  /* ── Text ── */
+  --color-text-primary: #2a2420; /* Near-black espresso — headings, labels */
+  --color-text-body: #3a2a1d; /* Dark brown — body paragraphs */
+  --color-text-secondary: #6b5d52; /* Medium warm brown — supporting text */
+  --color-text-muted: #6a5a4c; /* Slightly lighter brown — reviewer names */
+  --color-text-subtle: #4a4038; /* Mid-dark brown — location info */
+
+  /* ── Buttons (dark CTA) ── */
+  --color-btn-dark-bg: #2a2420; /* Button background */
+  --color-btn-dark-text: #f9f7f4; /* Button label (near-white cream) */
+
+  /* ── Public interactive / coffee-brown accent ── */
+  --color-coffee-brown: #6f4e37;      /* Primary interactive brown — nav, login, public CTAs */
+  --color-coffee-brown-rgb: 111, 78, 55; /* For rgba() — same hue as --color-coffee-brown */
+  --color-coffee-brown-hover: #5a3d2b; /* Hover state for coffee-brown elements */
+  --color-footer-bg: #5a3d2b;         /* Footer background (same hue, distinct role) */
+
+  /* ── Admin UI ── */
+  --color-admin-primary: #6b4f3b;     /* Admin action color — table headers, buttons */
+  --color-admin-primary-rgb: 107, 79, 59; /* For rgba() — same hue as --color-admin-primary */
+  --color-admin-primary-hover: #5a3f2e; /* Hover state for admin primary elements */
+  --color-admin-text: #4b4038;        /* Admin UI body text — dashboard, tables, modals */
+
+  /* ── Hero buttons ── */
+  --color-hero-btn-bg: #fef7e1; /* Warm latte — primary hero button fill */
+  --color-hero-btn-text: #2c1e12; /* Dark espresso — primary hero button label */
+  --color-hero-btn-hover-bg: var(--color-coffee-brown); /* Coffee brown — reuses coffee-brown token */
+
+  /* ── Star ratings ── */
+  --color-star-filled: #d6b48a; /* Latte tone — filled star */
+  --color-star-empty: #e0d8cf; /* Soft beige-gray — empty star */
+
+  /* ── Page backgrounds ── */
+  --gradient-warm-page: linear-gradient(135deg, #fef7e1 0%, #f5e6c3 100%); /* LoginPage + MenuPage */
+
+  /* ── RGB triplet for rgba() compositing ── */
+  /* Usage: rgba(var(--color-espresso-rgb), 0.7) */
+  --color-espresso-rgb: 42, 36, 32; /* Matches #2a2420 */
+}

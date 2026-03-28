@@ -104,7 +104,7 @@ export default function MenuDashboard() {
   // if the screen is not big enough
   if (!isDesktop) {
     return (
-      <div className="mobile-warning">
+      <div className="dashboard__mobile-warning">
         <h2>Desktop Only</h2>
         <p>Please switch to a larger screen to manage the menu.</p>
       </div>
@@ -112,23 +112,23 @@ export default function MenuDashboard() {
   }
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1 className="dashboard-title">Quản Lý Menu</h1>
+    <div className="dashboard">
+      <div className="dashboard__header">
+        <h1 className="dashboard__title">Quản Lý Menu</h1>
       </div>
 
       {loading ? (
-        <div className="dashboard-loading">Loading drinks...</div>
+        <div className="dashboard__loading">Loading drinks...</div>
       ) : (
         <>
-          <div className="dashboard-actions">
+          <div className="dashboard__actions">
             <DrinkFilters
               filters={filters}
               setFilters={setFilters}
               categories={categories}
             />
             <button
-              className="dashboard-btn primary"
+              className="dashboard__btn dashboard__btn--primary"
               onClick={() =>
                 setSelectedDrink({
                   name: "",
@@ -144,7 +144,7 @@ export default function MenuDashboard() {
             </button>
 
             <button
-              className="dashboard-btn secondary"
+              className="dashboard__btn dashboard__btn--secondary"
               onClick={() => setIsCategoryModalOpen(true)}
             >
               + Thêm Loại
@@ -174,7 +174,7 @@ export default function MenuDashboard() {
       )}
 
       {isDeleteConfirmation && (
-        <ConfirmationModal 
+        <ConfirmationModal
           deletingDrink={isDeleteConfirmation}
           onClose={() => setIsDeleteConfirmation(null)}
           onDelete={(deletedDrink) =>

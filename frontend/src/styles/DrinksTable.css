@@ -1,44 +1,46 @@
-/* Coffee Admin Table */
+@import './variables.css';
 
-.table-wrapper {
-  background: #fffdf9;
+/* Drinks Admin Table */
+
+.drinks-table {
+  background: var(--color-admin-card-bg);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
-.coffee-table {
+.drinks-table__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.coffee-table thead {
-  background-color: #6b4f3b;
+.drinks-table__table thead {
+  background-color: var(--color-admin-primary);
   color: white;
 }
 
-.coffee-table th {
+.drinks-table__table th {
   padding: 16px;
   font-size: 14px;
   letter-spacing: 0.5px;
 }
 
-.coffee-table td {
+.drinks-table__table td {
   padding: 16px;
   border-bottom: 1px solid #f0e6dc;
-  color: #4b4038;
+  color: var(--color-admin-text);
 }
 
-.coffee-table tbody tr {
+.drinks-table__table tbody tr {
   transition: background 0.2s ease;
 }
 
-.coffee-table tbody tr:hover {
+.drinks-table__table tbody tr:hover {
   background-color: #faf6f1;
 }
 
-.edit-button {
-  background-color: #6b4f3b;
+.drinks-table__edit-btn {
+  background-color: var(--color-admin-primary);
   color: white;
   border: none;
   padding: 6px 12px;
@@ -48,12 +50,12 @@
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.edit-button:hover {
-  background-color: #5a3f2e;
+.drinks-table__edit-btn:hover {
+  background-color: var(--color-admin-primary-hover);
   transform: translateY(-1px);
 }
 
-.delete-button {
+.drinks-table__delete-btn {
   background-color: #fbeaea;
   color: #b02a37;
   border: none;
@@ -65,7 +67,7 @@
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.delete-button:hover {
+.drinks-table__delete-btn:hover {
   background-color: #f5c2c7;
   transform: translateY(-1px);
 }

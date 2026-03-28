@@ -1,0 +1,102 @@
+@import './variables.css';
+
+/* ================================================================
+   SHARED PATTERNS
+   Consolidated rules that appear identically across multiple files.
+   Import this file instead of variables.css wherever these patterns
+   are needed — variables.css is already included here.
+================================================================ */
+
+/* ──────────────────────────────────────────────────────────────
+   HOMEPAGE SECTION CONTAINERS
+   .reviews and .gallery share identical base styles.
+   .featured and .location share identical padding.
+   ────────────────────────────────────────────────────────────── */
+
+.reviews,
+.gallery {
+  background: var(--color-bg-warm);
+  padding: var(--section-padding-v) 0;
+  overflow: hidden;
+}
+
+.featured,
+.location {
+  padding: var(--section-padding-v) clamp(1rem, 4vw, 2rem);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   SECTION TITLE
+   Used by: .featured__title · .about__title
+          · .reviews__title · .location__title
+   ────────────────────────────────────────────────────────────── */
+
+.featured__title,
+.about__title,
+.reviews__title,
+.gallery__title,
+.location__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  text-align: center;
+  color: var(--color-text-primary);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   DARK CTA BUTTON
+   Used by: .featured__cta-btn · .about__cta-btn
+   Dark espresso fill, shimmer ::before on hover, ghost on hover.
+   ────────────────────────────────────────────────────────────── */
+
+.featured__cta-btn,
+.about__cta-btn {
+  display: inline-block;
+  margin-top: 3rem;
+  padding: 1.2rem 3rem;
+  background: var(--color-btn-dark-bg);
+  color: var(--color-btn-dark-text);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid var(--color-btn-dark-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep overlay */
+.featured__cta-btn::before,
+.about__cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.featured__cta-btn:hover::before,
+.about__cta-btn:hover::before {
+  left: 100%;
+}
+
+/* Ghost state on hover */
+.featured__cta-btn:hover,
+.about__cta-btn:hover {
+  background: transparent;
+  color: var(--color-text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(var(--color-espresso-rgb), 0.15);
+}
